@@ -14,10 +14,20 @@ export class ApiError extends Error {
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const url = `${API_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-    ...init,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: { "Content-Type": "application/json" },
+      ...init,
+    });
+  } catch (cause) {
+    // Error de red: backend no disponible, ECONNREFUSED, timeout, etc.
+    throw new ApiError(
+      503,
+      `No se pudo conectar al backend (${url}). Verifica que el servidor esté corriendo.`,
+      "NETWORK_ERROR"
+    );
+  }
 
   if (!res.ok) {
     let message = `HTTP ${res.status}`;
