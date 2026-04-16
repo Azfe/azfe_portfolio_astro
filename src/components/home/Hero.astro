@@ -1,0 +1,18 @@
+---
+import Button from "@/components/ui/Button.astro";
+import { SITE } from "@/config/site";
+import { ROUTES } from "@/config/constants";
+---
+
+<section class="mx-auto max-w-5xl px-6 py-24 text-center">
+  <h1 class="text-5xl font-extrabold tracking-tight text-slate-900">
+    {SITE.author}
+  </h1>
+  <p class="mx-auto mt-4 max-w-xl text-xl text-slate-500">
+    {SITE.description}
+  </p>
+  <div class="mt-8 flex flex-wrap justify-center gap-4">
+    <Button href={ROUTES.cv}>Ver CV</Button>
+    <Button href="#contacto" variant="secondary">Contacto</Button>
+  </div>
+</section>

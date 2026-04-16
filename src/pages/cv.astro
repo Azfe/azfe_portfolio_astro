@@ -1,0 +1,55 @@
+---
+export const prerender = false;
+
+import MainLayout from "@/layouts/MainLayout.astro";
+import { getCVComplete } from "@/services/api/cv.service";
+import { ApiError } from "@/services/api/base.service";
+import ProfileCard from "@/components/cv/ProfileCard.astro";
+import ExperienceList from "@/components/cv/ExperienceList.astro";
+import SkillList from "@/components/cv/SkillList.astro";
+
+let cv;
+let apiError: string | null = null;
+
+try {
+  cv = await getCVComplete();
+  if (!cv?.profile) {
+    apiError = "No se encontraron datos del CV en el servidor.";
+  }
+} catch (err) {
+  if (err instanceof ApiError) {
+    if (err.code === "NETWORK_ERROR") {
+      // Backend no disponible: ECONNREFUSED, timeout, etc.
+      apiError = "El servidor no está disponible en este momento. Inténtalo de nuevo más tarde.";
+    } else if (err.status === 404) {
+      // La ruta existe pero no hay datos todavía (perfil no creado, etc.)
+      apiError = "No se encontraron datos del CV en el servidor.";
+    } else {
+      apiError = `Error al cargar el CV (${err.status}): ${err.message}`;
+    }
+  } else {
+    apiError = "Ocurrió un error inesperado al cargar el CV.";
+  }
+}
+---
+
+<MainLayout title="CV">
+  <div class="mx-auto max-w-5xl space-y-8 px-6 py-12">
+    {apiError ? (
+      <div class="rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
+        <p class="font-medium">No se pudo cargar el CV</p>
+        <p class="mt-1 text-sm">{apiError}</p>
+      </div>
+    ) : (
+      <>
+        <ProfileCard profile={cv!.profile} contactInfo={cv!.contact_info} />
+        {cv!.work_experiences.length > 0 && (
+          <ExperienceList experiences={cv!.work_experiences} />
+        )}
+        {cv!.skills.length > 0 && (
+          <SkillList skills={cv!.skills} />
+        )}
+      </>
+    )}
+  </div>
+</MainLayout>

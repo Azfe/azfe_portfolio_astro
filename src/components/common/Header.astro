@@ -1,0 +1,13 @@
+---
+import Navigation from "./Navigation.astro";
+import { SITE } from "@/config/site";
+---
+
+<header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+    <a href="/" class="text-lg font-bold text-slate-900">
+      {SITE.name}
+    </a>
+    <Navigation />
+  </div>
+</header>

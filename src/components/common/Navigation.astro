@@ -1,0 +1,31 @@
+---
+import { ROUTES } from "@/config/constants";
+
+const links = [
+  { label: "Inicio", href: ROUTES.home },
+  { label: "CV", href: ROUTES.cv },
+];
+
+const current = Astro.url.pathname;
+---
+
+<nav aria-label="Navegación principal">
+  <ul class="flex gap-6">
+    {
+      links.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            aria-current={current === href ? "page" : undefined}
+            class:list={[
+              "text-sm font-medium transition-colors hover:text-slate-900",
+              current === href ? "text-slate-900" : "text-slate-500",
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,35 @@
+---
+import type { Skill } from "@/types/cv.types";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Badge from "@/components/ui/Badge.astro";
+
+interface Props {
+  skills: Skill[];
+}
+const { skills } = Astro.props;
+
+const grouped = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
+  (acc[skill.category] ??= []).push(skill);
+  return acc;
+}, {});
+---
+
+<section>
+  <SectionTitle title="Habilidades" />
+  <div class="space-y-4">
+    {
+      Object.entries(grouped).map(([category, items]) => (
+        <div>
+          <h3 class="mb-2 text-sm font-medium uppercase tracking-wide text-slate-500">
+            {category}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {items.map((skill) => (
+              <Badge label={skill.name} />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
