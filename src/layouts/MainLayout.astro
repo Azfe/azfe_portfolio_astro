@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Header from "@/components/common/Header.astro";
+import Footer from "@/components/common/Footer.astro";
 
 interface Props {
   title?: string;
@@ -10,13 +12,9 @@ const { title, description } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Header — se añadirá en paso 4 -->
-  <header></header>
-
+  <Header />
   <main>
     <slot />
   </main>
-
-  <!-- Footer — se añadirá en paso 4 -->
-  <footer></footer>
+  <Footer />
 </BaseLayout>
