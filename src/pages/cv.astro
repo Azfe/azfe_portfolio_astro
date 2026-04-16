@@ -13,15 +13,20 @@ let apiError: string | null = null;
 
 try {
   cv = await getCVComplete();
+  if (!cv?.profile) {
+    apiError = "No se encontraron datos del CV en el servidor.";
+  }
 } catch (err) {
   if (err instanceof ApiError) {
-    if (err.status === 404) {
-      return Astro.redirect("/404");
+    if (err.code === "NETWORK_ERROR") {
+      // Backend no disponible: ECONNREFUSED, timeout, etc.
+      apiError = "El servidor no está disponible en este momento. Inténtalo de nuevo más tarde.";
+    } else if (err.status === 404) {
+      // La ruta existe pero no hay datos todavía (perfil no creado, etc.)
+      apiError = "No se encontraron datos del CV en el servidor.";
+    } else {
+      apiError = `Error al cargar el CV (${err.status}): ${err.message}`;
     }
-    // Error de red (503/NETWORK_ERROR) u otro error del servidor
-    apiError = err.code === "NETWORK_ERROR"
-      ? "El servidor no está disponible en este momento. Inténtalo de nuevo más tarde."
-      : `Error al cargar el CV (${err.status}): ${err.message}`;
   } else {
     apiError = "Ocurrió un error inesperado al cargar el CV.";
   }
