@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import MainLayout from "@/layouts/MainLayout.astro";
+import { getCVComplete } from "@/services/api/cv.service";
+import { ApiError } from "@/services/api/base.service";
+
+let cv;
+try {
+  cv = await getCVComplete();
+} catch (err) {
+  if (err instanceof ApiError && err.status === 404) {
+    return Astro.redirect("/404");
+  }
+  throw err;
+}
+---
+
+<MainLayout title="CV">
+  <!-- Componentes cv/ — se añadirán en paso 4 -->
+  <pre>{JSON.stringify(cv.profile, null, 2)}</pre>
+</MainLayout>
