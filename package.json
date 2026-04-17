@@ -11,7 +11,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@types/react": "^19.2.14",
@@ -25,14 +31,19 @@
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "astro-eslint-parser": "^1.4.0",
     "eslint": "^10.2.0",
     "eslint-plugin-astro": "^1.7.0",
     "globals": "^17.5.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.58.2"
+    "typescript-eslint": "^8.58.2",
+    "vitest": "^4.1.4"
   }
 }
