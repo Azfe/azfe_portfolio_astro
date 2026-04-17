@@ -1,4 +1,4 @@
-import type { ApiResponse, ApiSuccess } from "@/types/api.types";
+import type { ApiResponse } from "@/types/api.types";
 import { API_URL } from "@/config/constants";
 
 export class ApiError extends Error {
@@ -20,7 +20,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
       headers: { "Content-Type": "application/json" },
       ...init,
     });
-  } catch (cause) {
+  } catch {
     // Error de red: backend no disponible, ECONNREFUSED, timeout, etc.
     throw new ApiError(
       503,
