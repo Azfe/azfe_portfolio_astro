@@ -2,16 +2,13 @@ name: Frontend — Lint & Type Check
 
 on:
   push:
-    branches: ["**"]
-    paths:
-      - "portfolio_frontend/**"
+    branches:
+      - main
+      - develop
   pull_request:
-    paths:
-      - "portfolio_frontend/**"
-
-defaults:
-  run:
-    working-directory: portfolio_frontend
+    branches:
+      - main
+      - develop
 
 jobs:
   lint:
@@ -30,8 +27,8 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: portfolio_frontend/node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node-modules-${{ runner.os }}-
 

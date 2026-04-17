@@ -4,17 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "portfolio_frontend/**"
   pull_request:
     branches:
       - main
-    paths:
-      - "portfolio_frontend/**"
-
-defaults:
-  run:
-    working-directory: portfolio_frontend
+      - develop
 
 jobs:
   build:
@@ -33,18 +26,18 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: portfolio_frontend/node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node-modules-${{ runner.os }}-
 
       - name: Cache Astro build cache
         uses: actions/cache@v4
         with:
-          path: portfolio_frontend/.astro
-          key: astro-cache-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}-${{ hashFiles('portfolio_frontend/src/**') }}
+          path: .astro
+          key: astro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
           restore-keys: |
-            astro-cache-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}-
+            astro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
             astro-cache-${{ runner.os }}-
 
       - name: Install dependencies
@@ -61,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: astro-dist-e2e
-          path: portfolio_frontend/dist/
+          path: dist/
           retention-days: 1
 
   e2e:
@@ -81,8 +74,8 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: portfolio_frontend/node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node-modules-${{ runner.os }}-
 
@@ -96,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: astro-dist-e2e
-          path: portfolio_frontend/dist/
+          path: dist/
 
       - name: Run Playwright tests
         run: npm run test:e2e
@@ -109,5 +102,5 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: portfolio_frontend/playwright-report/
+          path: playwright-report/
           retention-days: 7

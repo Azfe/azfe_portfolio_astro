@@ -2,16 +2,13 @@ name: Frontend — Unit Tests
 
 on:
   push:
-    branches: ["**"]
-    paths:
-      - "portfolio_frontend/**"
+    branches:
+      - main
+      - develop
   pull_request:
-    paths:
-      - "portfolio_frontend/**"
-
-defaults:
-  run:
-    working-directory: portfolio_frontend
+    branches:
+      - main
+      - develop
 
 jobs:
   unit-tests:
@@ -30,8 +27,8 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: portfolio_frontend/node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('portfolio_frontend/package-lock.json') }}
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node-modules-${{ runner.os }}-
 
@@ -46,5 +43,5 @@ jobs:
         if: always()
         with:
           name: coverage-report
-          path: portfolio_frontend/coverage/
+          path: coverage/
           retention-days: 7
