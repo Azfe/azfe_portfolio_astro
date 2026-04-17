@@ -1,43 +1,87 @@
-# Astro Starter Kit: Minimal
+# azfe.dev — Frontend
 
-```sh
-npm create astro@latest -- --template minimal
+Portfolio profesional de Alex Zapata. Construido con Astro 6, Tailwind CSS v4 y TypeScript strict.
+
+## Requisitos
+
+- Node.js >= 22.12.0
+- npm
+
+## Instalacion
+
+```bash
+npm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Variables de entorno
 
-## 🚀 Project Structure
+Copia `.env.example` a `.env.local` y ajusta los valores:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+cp .env.example .env.local
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+| Variable | Descripcion | Ejemplo |
+|---|---|---|
+| `PUBLIC_API_URL` | URL base de la API del backend | `http://localhost:8000/api/v1` |
+| `PUBLIC_SITE_URL` | URL del sitio (sin barra final) | `http://localhost:4321` |
+| `PUBLIC_SITE_NAME` | Nombre del sitio | `Azfe.dev` |
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Comandos
 
-Any static assets, like images, can be placed in the `public/` directory.
+Ejecutar desde la raiz del proyecto (`portfolio_frontend/`):
 
-## 🧞 Commands
+| Comando | Accion |
+|---|---|
+| `npm run dev` | Servidor de desarrollo en `http://localhost:4321` |
+| `npm run build` | Build de produccion en `./dist/` |
+| `npm run preview` | Vista previa del build en local |
+| `npm run astro check` | Verificacion de tipos TypeScript |
 
-All commands are run from the root of the project, from a terminal:
+## Estructura
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```
+src/
+├── pages/                  # Rutas del sitio
+│   ├── index.astro         # Landing page (SSG)
+│   ├── cv.astro            # Pagina del CV (SSR, consume la API)
+│   └── 404.astro           # Pagina de error
+├── layouts/                # Plantillas base
+│   ├── BaseLayout.astro    # HTML base, head, meta
+│   └── MainLayout.astro    # BaseLayout + Header + Footer
+├── components/
+│   ├── common/             # Header, Footer, Navigation
+│   ├── home/               # Hero
+│   ├── cv/                 # ProfileCard, ExperienceList, SkillList
+│   └── ui/                 # Button, Card, Badge, SectionTitle
+├── components-islands/     # Componentes React con hidratacion en cliente
+├── services/api/           # Cliente HTTP y servicios por recurso
+├── types/                  # Tipos TypeScript (fuente de verdad)
+├── config/                 # Constantes, SEO, datos del sitio
+├── utils/                  # Formateadores, manejo de errores, fechas
+├── styles/                 # CSS global, variables, animaciones
+└── lib/                    # Utilidades compartidas de bajo nivel
+```
 
-## 👀 Want to learn more?
+## Arquitectura de islas
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Astro elimina JavaScript del cliente por defecto. Solo los componentes en `src/components-islands/` se hidratan:
+
+```astro
+<ContactForm client:visible />
+<DownloadButton client:load />
+```
+
+Los componentes `.astro` en `src/components/` no generan JS en cliente.
+
+## Stack
+
+- **Astro 6** — framework principal, SSG por defecto
+- **Tailwind CSS v4** — integrado via `@tailwindcss/vite`
+- **TypeScript** — strict mode
+- **React** — solo para componentes isla interactivos
+
+## Despliegue
+
+- Frontend: Vercel o Netlify
+- Backend: Railway (`PUBLIC_API_URL` apunta a la URL de Railway en produccion)
