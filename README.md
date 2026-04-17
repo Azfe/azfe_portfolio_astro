@@ -81,6 +81,41 @@ Los componentes `.astro` en `src/components/` no generan JS en cliente.
 - **TypeScript** — strict mode
 - **React** — solo para componentes isla interactivos
 
+## Hooks de calidad (Husky + lint-staged)
+
+El proyecto usa **Husky** y **lint-staged** para ejecutar comprobaciones automaticas antes de cada commit.
+
+### Activar los hooks en local
+
+Los hooks se instalan automaticamente al ejecutar `npm install` (via el script `prepare`). No requieren ningun paso adicional.
+
+Si los hooks no estan activos (por ejemplo, despues de clonar el repo sin ejecutar `npm install`), ejecucion manual:
+
+```bash
+npm install
+```
+
+### Que ejecuta el hook `pre-commit`
+
+Sobre los archivos incluidos en el commit (staged):
+
+| Archivos                  | Accion                              |
+| ------------------------- | ----------------------------------- |
+| `*.js`, `*.jsx`           | Prettier (formato) + ESLint (--fix) |
+| `*.ts`, `*.tsx`           | Prettier (formato) + ESLint (--fix) |
+| `*.astro`                 | Prettier (formato) + ESLint (--fix) |
+| `*.json`, `*.css`, `*.md` | Prettier (formato)                  |
+
+Si alguna comprobacion falla, el commit queda bloqueado. Corrige los errores reportados y vuelve a hacer `git commit`.
+
+### Saltarse los hooks puntualmente (no recomendado)
+
+Solo en casos excepcionales y justificados:
+
+```bash
+git commit --no-verify -m "mensaje"
+```
+
 ## Despliegue
 
 - Frontend: Vercel o Netlify
