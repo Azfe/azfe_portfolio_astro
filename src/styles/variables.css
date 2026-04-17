@@ -2,19 +2,19 @@
 
 @theme {
   /* Colores de la paleta principal */
-  --color-brand: #0f172a;        /* slate-900 */
-  --color-brand-muted: #475569;  /* slate-600 */
+  --color-brand: #0f172a; /* slate-900 */
+  --color-brand-muted: #475569; /* slate-600 */
   --color-surface: #ffffff;
   --color-surface-subtle: #f8fafc; /* slate-50 */
-  --color-border: #e2e8f0;       /* slate-200 */
+  --color-border: #e2e8f0; /* slate-200 */
 
   /* Tipografía */
   --font-sans: ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
   /* Radios */
-  --radius-card: 0.75rem;  /* rounded-xl */
-  --radius-badge: 9999px;  /* rounded-full */
+  --radius-card: 0.75rem; /* rounded-xl */
+  --radius-badge: 9999px; /* rounded-full */
 
   /* Sombras */
   --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);

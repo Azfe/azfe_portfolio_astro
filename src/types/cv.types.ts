@@ -7,11 +7,7 @@ export type SkillLevel = "basic" | "intermediate" | "advanced" | "expert";
 /** CEFR */
 export type LanguageProficiency = "a1" | "a2" | "b1" | "b2" | "c1" | "c2";
 
-export type ProgrammingLanguageLevel =
-  | "basic"
-  | "intermediate"
-  | "advanced"
-  | "expert";
+export type ProgrammingLanguageLevel = "basic" | "intermediate" | "advanced" | "expert";
 
 // ---------------------------------------------------------------------------
 // Recursos individuales

@@ -21,22 +21,22 @@ Copia `.env.example` a `.env.local` y ajusta los valores:
 cp .env.example .env.local
 ```
 
-| Variable | Descripcion | Ejemplo |
-|---|---|---|
-| `PUBLIC_API_URL` | URL base de la API del backend | `http://localhost:8000/api/v1` |
-| `PUBLIC_SITE_URL` | URL del sitio (sin barra final) | `http://localhost:4321` |
-| `PUBLIC_SITE_NAME` | Nombre del sitio | `Azfe.dev` |
+| Variable           | Descripcion                     | Ejemplo                        |
+| ------------------ | ------------------------------- | ------------------------------ |
+| `PUBLIC_API_URL`   | URL base de la API del backend  | `http://localhost:8000/api/v1` |
+| `PUBLIC_SITE_URL`  | URL del sitio (sin barra final) | `http://localhost:4321`        |
+| `PUBLIC_SITE_NAME` | Nombre del sitio                | `Azfe.dev`                     |
 
 ## Comandos
 
 Ejecutar desde la raiz del proyecto (`portfolio_frontend/`):
 
-| Comando | Accion |
-|---|---|
-| `npm run dev` | Servidor de desarrollo en `http://localhost:4321` |
-| `npm run build` | Build de produccion en `./dist/` |
-| `npm run preview` | Vista previa del build en local |
-| `npm run astro check` | Verificacion de tipos TypeScript |
+| Comando               | Accion                                            |
+| --------------------- | ------------------------------------------------- |
+| `npm run dev`         | Servidor de desarrollo en `http://localhost:4321` |
+| `npm run build`       | Build de produccion en `./dist/`                  |
+| `npm run preview`     | Vista previa del build en local                   |
+| `npm run astro check` | Verificacion de tipos TypeScript                  |
 
 ## Estructura
 

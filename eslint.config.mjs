@@ -49,5 +49,5 @@ export default tseslint.config(
       // Las variables de Astro frontmatter pueden usarse solo en el template
       "@typescript-eslint/no-unused-vars": "off",
     },
-  },
+  }
 );

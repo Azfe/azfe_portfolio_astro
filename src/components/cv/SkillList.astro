@@ -20,7 +20,7 @@ const grouped = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
     {
       Object.entries(grouped).map(([category, items]) => (
         <div>
-          <h3 class="mb-2 text-sm font-medium uppercase tracking-wide text-slate-500">
+          <h3 class="mb-2 text-sm font-medium tracking-wide text-slate-500 uppercase">
             {category}
           </h3>
           <div class="flex flex-wrap gap-2">

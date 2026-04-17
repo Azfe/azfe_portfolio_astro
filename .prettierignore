@@ -1,0 +1,12 @@
+# Artefactos generados
+dist/
+.astro/
+
+# Dependencias
+node_modules/
+
+# Archivos de entorno
+.env*
+
+# Archivos de lock — gestionados por npm
+package-lock.json

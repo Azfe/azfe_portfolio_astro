@@ -6,13 +6,7 @@ interface Props {
   download?: string | boolean;
   class?: string;
 }
-const {
-  href,
-  variant = "primary",
-  type = "button",
-  download,
-  class: className,
-} = Astro.props;
+const { href, variant = "primary", type = "button", download, class: className } = Astro.props;
 
 const base =
   "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900";
@@ -26,11 +20,7 @@ const variants: Record<string, string> = {
 
 {
   href ? (
-    <a
-      href={href}
-      download={download}
-      class:list={[base, variants[variant], className]}
-    >
+    <a href={href} download={download} class:list={[base, variants[variant], className]}>
       <slot />
     </a>
   ) : (
