@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import MainLayout from "@/layouts/MainLayout.astro";
+import CVLayout from "@/layouts/CVLayout.astro";
 import { getCVComplete } from "@/services/api/cv.service";
 import { ApiError } from "@/services/api/base.service";
 import ProfileCard from "@/components/cv/ProfileCard.astro";
@@ -33,21 +33,19 @@ try {
 }
 ---
 
-<MainLayout title="CV">
-  <div class="mx-auto max-w-5xl space-y-8 px-6 py-12">
-    {
-      apiError ? (
-        <div class="rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
-          <p class="font-medium">No se pudo cargar el CV</p>
-          <p class="mt-1 text-sm">{apiError}</p>
-        </div>
-      ) : (
-        <>
-          <ProfileCard profile={cv!.profile} contactInfo={cv!.contact_info} />
-          {cv!.work_experiences.length > 0 && <ExperienceList experiences={cv!.work_experiences} />}
-          {cv!.skills.length > 0 && <SkillList skills={cv!.skills} />}
-        </>
-      )
-    }
-  </div>
-</MainLayout>
+<CVLayout title="CV">
+  {
+    apiError ? (
+      <div class="rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
+        <p class="font-medium">No se pudo cargar el CV</p>
+        <p class="mt-1 text-sm">{apiError}</p>
+      </div>
+    ) : (
+      <>
+        <ProfileCard profile={cv!.profile} contactInfo={cv!.contact_info} />
+        {cv!.work_experiences.length > 0 && <ExperienceList experiences={cv!.work_experiences} />}
+        {cv!.skills.length > 0 && <SkillList skills={cv!.skills} />}
+      </>
+    )
+  }
+</CVLayout>
