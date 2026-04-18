@@ -9,12 +9,15 @@ interface Props {
 const { href, variant = "primary", type = "button", download, class: className } = Astro.props;
 
 const base =
-  "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900";
+  "inline-flex items-center justify-center gap-2 rounded-[var(--radius-interactive)] px-[var(--space-inline-lg)] py-[var(--space-inline-sm)] text-sm font-medium tracking-wide transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-page)]";
 
 const variants: Record<string, string> = {
-  primary: "bg-slate-900 text-white hover:bg-slate-700",
-  secondary: "bg-slate-100 text-slate-900 hover:bg-slate-200",
-  ghost: "text-slate-700 hover:bg-slate-100",
+  primary:
+    "bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] border border-[var(--button-primary-border)] hover:bg-[var(--button-primary-bg-hover)] active:bg-[var(--button-primary-bg-active)]",
+  secondary:
+    "bg-[var(--button-secondary-bg)] text-[var(--button-secondary-text)] border border-[var(--button-secondary-border)] hover:bg-[var(--button-secondary-bg-hover)]",
+  ghost:
+    "bg-transparent text-[var(--text-secondary)] border border-transparent hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]",
 };
 ---
 

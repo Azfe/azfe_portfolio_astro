@@ -1,9 +1,56 @@
 ---
 import { SITE } from "@/config/site";
-
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-slate-200 py-8 text-center text-sm text-slate-500">
-  <p>© {year} {SITE.author}. Todos los derechos reservados.</p>
+<footer class="footer">
+  <p>
+    © {year}
+    <strong>{SITE.author}</strong>. Hecho con dedicacion desde Madrid.
+  </p>
+  <div class="footer-links">
+    <a href="mailto:alexzapata1984@gmail.com">Email</a>
+    <span class="footer-sep">·</span>
+    <a href="/cv">CV</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/azfe" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
 </footer>
+
+<style>
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--ink-3);
+    font-size: 13.5px;
+    line-height: 1.6;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer strong {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .footer-links a {
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--blue);
+  }
+
+  .footer-sep {
+    color: var(--line);
+  }
+</style>

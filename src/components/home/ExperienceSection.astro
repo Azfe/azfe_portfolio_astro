@@ -1,0 +1,233 @@
+---
+const experiences = [
+  {
+    role: "Backend Developer",
+    company: "Freelance / Proyectos propios",
+    start: "2023",
+    end: null,
+    isCurrent: true,
+    location: "Madrid, ES",
+    description:
+      "Desarrollo de APIs REST con FastAPI y arquitectura limpia. Construcción de portfolio profesional con Astro + FastAPI desplegado en Railway y Vercel.",
+  },
+  {
+    role: "Fullstack Developer",
+    company: "Empresa anterior",
+    start: "2021",
+    end: "2023",
+    isCurrent: false,
+    location: "Madrid, ES",
+    description:
+      "Desarrollo y mantenimiento de aplicaciones web con React y Node.js. Integración con APIs de terceros y gestión de bases de datos PostgreSQL.",
+  },
+  {
+    role: "Junior Developer",
+    company: "Primera empresa",
+    start: "2020",
+    end: "2021",
+    isCurrent: false,
+    location: "Madrid, ES",
+    description:
+      "Iniciacion en desarrollo web profesional. HTML, CSS, JavaScript y primeros pasos con frameworks modernos.",
+  },
+];
+---
+
+<section class="xp-section" id="experiencia">
+  <div class="section-wrap">
+    <h2 class="section-title">Experiencia</h2>
+
+    <div class="timeline">
+      {
+        experiences.map((exp) => (
+          <div class="timeline-item">
+            <div class="timeline-dot" />
+            <div class="xp-card">
+              <div class="xp-header">
+                <div class="xp-main">
+                  <h3 class="xp-role">{exp.role}</h3>
+                  <span class="xp-company">{exp.company}</span>
+                </div>
+                <div class="xp-meta">
+                  <span class="xp-dates">
+                    {exp.start} — {exp.isCurrent ? <strong>presente</strong> : exp.end}
+                  </span>
+                  <span class="xp-location">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <circle cx="12" cy="10" r="3" />
+                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
+                      </>
+                    </svg>
+                    {exp.location}
+                  </span>
+                </div>
+              </div>
+              {exp.description && <p class="xp-desc">{exp.description}</p>}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .xp-section {
+    padding: 24px 24px 64px;
+    background-color: rgb(117, 117, 117);
+  }
+
+  .section-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-title::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 22px;
+    background: var(--blue);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+    border-radius: 1px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(30, 107, 247, 0.25);
+  }
+
+  .xp-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--transition);
+  }
+
+  .xp-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .xp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .xp-role {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+
+  .xp-company {
+    font-size: 14px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+
+  .xp-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .xp-dates {
+    font-size: 13px;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  .xp-dates strong {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .xp-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .xp-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .xp-header {
+      flex-direction: column;
+    }
+
+    .xp-meta {
+      align-items: flex-start;
+    }
+  }
+</style>
