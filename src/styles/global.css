@@ -1,67 +1,78 @@
+/* Plus Jakarta Sans — fuente local, sin Google Fonts */
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
 @import "tailwindcss";
 @import "./variables.css";
 @import "./animations.css";
 
 @theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
+  /* --- Colores portfolio (landing) --- */
+  --color-bg: #ffffff;
+  --color-ink: #1a2747;
+  --color-ink-2: #4a5a7a;
+  --color-ink-3: #8592b0;
+  --color-line: #e8ecf4;
+  --color-card: #ffffff;
+  --color-soft: #f5f8fd;
+  --color-blue: #1e6bf7;
+  --color-blue-2: #3c83ff;
+  --color-blue-soft: #eaf1ff;
+  --color-dot: #d9e0ee;
 
-  --color-neutral-50: #f8fafc;
-  --color-neutral-100: #f1f5f9;
-  --color-neutral-200: #e2e8f0;
-  --color-neutral-300: #cbd5e1;
-  --color-neutral-400: #94a3b8;
-  --color-neutral-500: #64748b;
-  --color-neutral-600: #475569;
-  --color-neutral-700: #334155;
-  --color-neutral-800: #1e293b;
-  --color-neutral-900: #0f172a;
-  --color-neutral-950: #020617;
+  /* --- Colores CV --- */
+  --color-cv-bg: #f4f6fa;
+  --color-cv-paper: #ffffff;
+  --color-cv-brand: #00507d;
+  --color-cv-brand-2: #2a78a6;
+  --color-cv-brand-soft: #e0eef6;
 
-  --color-success: #22c55e;
-  --color-success-subtle: #dcfce7;
-  --color-error: #ef4444;
-  --color-error-subtle: #fee2e2;
-  --color-warning: #f59e0b;
-  --color-warning-subtle: #fef3c7;
-  --color-info: #06b6d4;
-  --color-info-subtle: #cffafe;
+  /* --- Skill chip colors --- */
+  --color-chip-c1-bg: #e9efff;
+  --color-chip-c1-text: #2859d8;
+  --color-chip-c2-bg: #e0f6ef;
+  --color-chip-c2-text: #0f8a4a;
+  --color-chip-c3-bg: #fdebee;
+  --color-chip-c3-text: #c23a52;
+  --color-chip-c4-bg: #fff4dd;
+  --color-chip-c4-text: #a66b15;
+  --color-chip-c5-bg: #f1eaff;
+  --color-chip-c5-text: #6a3acf;
+  --color-chip-c6-bg: #e4f3fb;
+  --color-chip-c6-text: #1d6f9c;
 
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  /* --- Tipografía --- */
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
-  --font-display: "Inter", system-ui, sans-serif;
 
-  --radius-none: 0px;
-  --radius-sm: 4px;
-  --radius-base: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
-  --radius-full: 9999px;
+  /* --- Radios --- */
+  --radius-pill: 999px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
-    color-scheme: light;
-    background-color: var(--bg-page);
-    color: var(--text-primary);
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+    scroll-behavior: smooth;
   }
 
   body {
-    font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Dots pattern background */
+    background-image: radial-gradient(var(--color-dot) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+    background-attachment: fixed;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 }

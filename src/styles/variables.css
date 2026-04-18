@@ -1,133 +1,26 @@
+/* Design tokens — portfolio azfe.dev */
 :root {
-  --bg-page: var(--color-neutral-50);
-  --bg-surface: var(--color-neutral-100);
-  --bg-card: #ffffff;
-  --bg-card-hover: var(--color-neutral-100);
-  --bg-elevated: var(--color-neutral-200);
-  --bg-muted: rgba(15, 23, 42, 0.04);
+  --bg: #ffffff;
+  --ink: #1a2747;
+  --ink-2: #4a5a7a;
+  --ink-3: #8592b0;
+  --line: #e8ecf4;
+  --card: #ffffff;
+  --soft: #f5f8fd;
+  --blue: #1e6bf7;
+  --blue-2: #3c83ff;
+  --blue-soft: #eaf1ff;
+  --dot: #d9e0ee;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
 
-  --text-primary: var(--color-neutral-900);
-  --text-secondary: var(--color-neutral-600);
-  --text-muted: var(--color-neutral-500);
-  --text-disabled: var(--color-neutral-400);
-  --text-inverse: #ffffff;
+  /* Shadows */
+  --shadow-card: 0 2px 16px rgba(26, 39, 71, 0.07);
+  --shadow-card-hover: 0 6px 28px rgba(26, 39, 71, 0.12);
+  --shadow-blue: 0 0 40px rgba(30, 107, 247, 0.22);
+  --shadow-avatar: 0 0 0 4px rgba(30, 107, 247, 0.15);
 
-  --border-default: var(--color-neutral-200);
-  --border-subtle: var(--color-neutral-100);
-  --border-strong: var(--color-neutral-300);
-
-  --color-accent: var(--color-primary-600);
-  --interactive-primary: var(--color-primary-600);
-  --interactive-primary-hover: var(--color-primary-700);
-  --interactive-primary-active: var(--color-primary-800);
-  --interactive-secondary: var(--color-neutral-100);
-  --interactive-secondary-hover: var(--color-neutral-200);
-  --focus-ring: var(--color-primary-500);
-
-  --state-success: var(--color-success);
-  --state-success-bg: var(--color-success-subtle);
-  --state-error: var(--color-error);
-  --state-error-bg: var(--color-error-subtle);
-  --state-warning: var(--color-warning);
-  --state-warning-bg: var(--color-warning-subtle);
-  --state-info: var(--color-info);
-  --state-info-bg: var(--color-info-subtle);
-
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 20px 48px rgba(15, 23, 42, 0.12);
-
-  --font-body: var(--font-sans);
-  --font-heading: var(--font-display);
-  --font-code: var(--font-mono);
-
-  --text-body-size: var(--text-base);
-  --text-body-line-height: var(--leading-relaxed);
-  --text-heading-line-height: var(--leading-tight);
-  --text-label-size: var(--text-sm);
-
-  --radius-interactive: var(--radius-base);
-  --radius-surface: var(--radius-lg);
-  --radius-badge: var(--radius-full);
-
-  --space-inline-xs: var(--spacing-2);
-  --space-inline-sm: var(--spacing-3);
-  --space-inline-md: var(--spacing-4);
-  --space-inline-lg: var(--spacing-6);
-
-  --space-stack-xs: var(--spacing-2);
-  --space-stack-sm: var(--spacing-4);
-  --space-stack-md: var(--spacing-6);
-  --space-stack-lg: var(--spacing-8);
-  --space-stack-xl: var(--spacing-12);
-  --space-section-y: var(--spacing-20);
-
-  --container-content: var(--container-lg);
-  --container-page: var(--container-xl);
-
-  --button-primary-bg: var(--interactive-primary);
-  --button-primary-bg-hover: var(--interactive-primary-hover);
-  --button-primary-bg-active: var(--interactive-primary-active);
-  --button-primary-text: var(--text-inverse);
-  --button-primary-border: var(--interactive-primary);
-
-  --button-secondary-bg: transparent;
-  --button-secondary-bg-hover: var(--interactive-secondary-hover);
-  --button-secondary-text: var(--text-primary);
-  --button-secondary-border: var(--border-default);
-
-  --card-bg: var(--bg-card);
-  --card-bg-hover: var(--bg-card-hover);
-  --card-text: var(--text-primary);
-  --card-border: var(--border-default);
-  --card-shadow: var(--shadow-md);
-
-  --badge-bg: var(--color-primary-100);
-  --badge-text: var(--color-primary-700);
-  --badge-border: var(--color-primary-200);
-
-  --section-title-text: var(--text-primary);
-  --section-title-accent: var(--color-accent);
-  --section-title-muted: var(--text-secondary);
-}
-
-.dark,
-[data-theme="dark"] {
-  --bg-page: var(--color-neutral-950);
-  --bg-surface: var(--color-neutral-900);
-  --bg-card: var(--color-neutral-800);
-  --bg-card-hover: var(--color-neutral-700);
-  --bg-elevated: var(--color-neutral-700);
-  --bg-muted: rgba(255, 255, 255, 0.04);
-
-  --text-primary: var(--color-neutral-50);
-  --text-secondary: var(--color-neutral-400);
-  --text-muted: var(--color-neutral-500);
-  --text-disabled: var(--color-neutral-600);
-  --text-inverse: var(--color-neutral-950);
-
-  --border-default: var(--color-neutral-700);
-  --border-subtle: var(--color-neutral-800);
-  --border-strong: var(--color-neutral-600);
-
-  --color-accent: var(--color-primary-400);
-  --interactive-primary: var(--color-primary-500);
-  --interactive-primary-hover: var(--color-primary-600);
-  --interactive-primary-active: var(--color-primary-700);
-  --interactive-secondary: var(--color-neutral-800);
-  --interactive-secondary-hover: var(--color-neutral-700);
-  --focus-ring: var(--color-primary-500);
-
-  --state-success-bg: rgba(34, 197, 94, 0.12);
-  --state-error-bg: rgba(239, 68, 68, 0.12);
-  --state-warning-bg: rgba(245, 158, 11, 0.12);
-  --state-info-bg: rgba(6, 182, 212, 0.12);
-
-  --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.24);
-  --shadow-md: 0 8px 24px rgba(2, 6, 23, 0.32);
-  --shadow-lg: 0 16px 40px rgba(2, 6, 23, 0.4);
-
-  --badge-bg: rgba(59, 130, 246, 0.12);
-  --badge-text: var(--color-primary-300);
-  --badge-border: rgba(59, 130, 246, 0.24);
+  /* Transitions */
+  --transition: 200ms ease;
 }
