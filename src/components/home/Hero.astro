@@ -6,8 +6,15 @@ import { ROUTES } from "@/config/constants";
   <!-- Avatar -->
   <div class="hero-avatar-wrap">
     <div class="hero-avatar">
-      <!-- <img src="./public/profile.png" alt="Alex Zapata" class="hero-avatar-img" loading="lazy" width="220" height="220" /> -->
-      <span class="hero-avatar-initials">AZ</span>
+      <img
+        src="/profile.png"
+        alt="Alex Zapata"
+        class="hero-avatar-img"
+        loading="lazy"
+        width="220"
+        height="220"
+      />
+      <!-- <span class="hero-avatar-initials">AZ</span> -->
     </div>
   </div>
 
@@ -18,7 +25,7 @@ import { ROUTES } from "@/config/constants";
 
   <p class="hero-role">
     <span class="hero-dot" aria-hidden="true"></span>
-    Fullstack developer · UI designer
+    Fullstack web developer - UI designer
     <span class="hero-dot" aria-hidden="true"></span>
   </p>
 
@@ -169,6 +176,25 @@ import { ROUTES } from "@/config/constants";
       0 0 0 5px rgba(255, 255, 255, 0.9),
       0 0 40px rgba(30, 107, 247, 0.25);
     position: relative;
+    overflow: hidden;
+  }
+
+  .hero-avatar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(14, 42, 92, 0.4), rgba(30, 107, 247, 0.3));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
 
   .hero-avatar-initials {
@@ -177,6 +203,8 @@ import { ROUTES } from "@/config/constants";
     color: rgba(255, 255, 255, 0.9);
     letter-spacing: -2px;
     user-select: none;
+    position: relative;
+    z-index: 2;
   }
 
   .hero-title {

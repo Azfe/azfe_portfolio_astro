@@ -67,7 +67,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* Dots pattern background */
-    background-image: radial-gradient(var(--color-dot) 1px, transparent 1.5px);
+    /* background-image: radial-gradient(var(--color-dot) 1px, transparent 1.5px); */
     background-size: 22px 22px;
     background-attachment: fixed;
   }
