@@ -77,41 +77,6 @@ import Navigation from "@/components/common/Navigation.astro";
     display: inline-block;
   }
 
-  :global(.nav-links) {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  :global(.nav-link) {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: var(--radius-pill);
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink-2);
-    text-decoration: none;
-    transition:
-      background var(--transition),
-      color var(--transition);
-  }
-
-  :global(.nav-link:hover) {
-    background: var(--soft);
-    color: var(--blue);
-  }
-
-  :global(.nav-link-icon) {
-    display: flex;
-    align-items: center;
-    opacity: 0.7;
-  }
-
   .hero-badge {
     display: inline-flex;
     align-items: center;
@@ -132,21 +97,5 @@ import Navigation from "@/components/common/Navigation.astro";
   .hero-badge:hover {
     background: #d4e5ff;
     box-shadow: 0 2px 12px rgba(30, 107, 247, 0.15);
-  }
-
-  @media (max-width: 640px) {
-    :global(.nav-links) {
-      gap: 2px;
-    }
-    :global(.nav-link) {
-      padding: 6px 10px;
-      font-size: 13px;
-    }
-    :global(.nav-link span:not(.nav-link-icon)) {
-      display: none;
-    }
-    :global(.nav-link-icon) {
-      opacity: 1;
-    }
   }
 </style>
