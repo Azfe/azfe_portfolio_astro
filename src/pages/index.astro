@@ -6,9 +6,10 @@ import ExperienceSection from "@/components/home/ExperienceSection.astro";
 import StudiesSection from "@/components/home/StudiesSection.astro";
 import ProjectsSection from "@/components/home/ProjectsSection.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
+import { PAGE_SEO } from "@/config/seo";
 ---
 
-<MainLayout>
+<MainLayout title={PAGE_SEO.home.title} description={PAGE_SEO.home.description}>
   <Hero />
   <AboutCard />
   <ExperienceSection />

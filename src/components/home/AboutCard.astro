@@ -1,5 +1,9 @@
 ---
-const skills = [
+import Badge from "@/components/ui/Badge.astro";
+
+type SkillCat = "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
+
+const skills: { label: string; cat: SkillCat }[] = [
   { label: "Python", cat: "c1" },
   { label: "FastAPI", cat: "c1" },
   { label: "TypeScript", cat: "c1" },
@@ -61,7 +65,7 @@ const skills = [
 
     <!-- Skills chips -->
     <div class="skills-chips">
-      {skills.map(({ label, cat }) => <span class={`chip chip--${cat}`}>{label}</span>)}
+      {skills.map(({ label, cat }) => <Badge label={label} variant={cat} />)}
     </div>
   </div>
 </section>
@@ -186,40 +190,6 @@ const skills = [
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-  }
-
-  .chip {
-    display: inline-block;
-    padding: 5px 13px;
-    border-radius: var(--radius-pill);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-  }
-
-  .chip--c1 {
-    background: #e9efff;
-    color: #2859d8;
-  }
-  .chip--c2 {
-    background: #e0f6ef;
-    color: #0f8a4a;
-  }
-  .chip--c3 {
-    background: #fdebee;
-    color: #c23a52;
-  }
-  .chip--c4 {
-    background: #fff4dd;
-    color: #a66b15;
-  }
-  .chip--c5 {
-    background: #f1eaff;
-    color: #6a3acf;
-  }
-  .chip--c6 {
-    background: #e4f3fb;
-    color: #1d6f9c;
   }
 
   @media (max-width: 600px) {
