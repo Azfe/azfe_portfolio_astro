@@ -2,12 +2,12 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Pagina no encontrada" noindex={true}>
+<BaseLayout title="Página no encontrada" noindex={true}>
   <div class="not-found">
     <div class="not-found-inner">
       <span class="not-found-code">404</span>
-      <h1 class="not-found-title">Pagina no encontrada</h1>
-      <p class="not-found-desc">La pagina que buscas no existe o ha sido movida.</p>
+      <h1 class="not-found-title">Página no encontrada</h1>
+      <p class="not-found-desc">La página que buscas no existe o ha sido movida.</p>
       <div class="not-found-actions">
         <a href="/" class="btn-home">
           <svg
@@ -25,7 +25,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           >
           Volver al inicio
         </a>
-        <a href="/cv" class="btn-cv">Ver CV</a>
+        <div>
+          <a href="/cv" class="btn-cv">Ver CV</a>
+          <a href="/projects" class="btn-cv">Ver Proyectos</a>
+        </div>
       </div>
     </div>
   </div>
