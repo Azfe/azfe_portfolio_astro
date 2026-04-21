@@ -2,10 +2,19 @@
 export const prerender = false;
 
 import CVLayout from "@/layouts/CVLayout.astro";
+import SkillList from "@/components/cv/SkillList.astro";
 import { getCVComplete } from "@/services/api/cv.service";
 import { ApiError } from "@/services/api/base.service";
-import type { CompleteCV } from "@/types/cv.types";
-import { formatDateRange } from "@/utils/formatters";
+import type {
+  CompleteCV,
+  Skill,
+  Tool,
+  Language,
+  AdditionalTraining,
+  Project,
+} from "@/types/cv.types";
+import { formatDate, formatDateRange } from "@/utils/formatters";
+import { PAGE_SEO } from "@/config/seo";
 
 let cv: CompleteCV | null = null;
 let apiError: string | null = null;
@@ -44,12 +53,6 @@ const fallback = {
   certifications: [
     { title: "MongoDB for Python Developers", issuer: "MongoDB University", url: "#" },
     { title: "Clean Architecture & DDD", issuer: "Udemy", url: "#" },
-  ],
-  skills:
-    "Python · FastAPI · TypeScript · React · MongoDB · PostgreSQL · Docker · Clean Architecture · REST APIs · pytest · Git · Linux",
-  projects: [
-    { title: "azfe.dev Portfolio", url: "https://azfe.dev" },
-    { title: "REST API Clean Arch", url: "https://github.com/azfe" },
   ],
   experiences: [
     {
@@ -111,8 +114,6 @@ const data = cv
         issuer: c.issuer,
         url: c.credential_url ?? "#",
       })),
-      skills: cv.skills.map((s) => s.name).join(" · "),
-      projects: cv.projects.map((p) => ({ title: p.title, url: p.live_url ?? p.repo_url ?? "#" })),
       experiences: cv.work_experiences.map((e) => ({
         role: e.role,
         company: e.company,
@@ -131,9 +132,85 @@ const data = cv
       })),
     }
   : fallback;
+
+// Skills: typed array for SkillList (only available from API)
+const skills: Skill[] = cv ? cv.skills : [];
+
+// Fallback skills string for when backend is unavailable
+const fallbackSkillsText =
+  "Python · FastAPI · TypeScript · React · MongoDB · PostgreSQL · Docker · Clean Architecture · REST APIs · pytest · Git · Linux";
+
+// Projects: full Project objects (only available from API)
+const projects: Project[] = cv ? cv.projects : [];
+
+// Fallback projects for when backend is unavailable
+const fallbackProjects = [
+  { title: "azfe.dev Portfolio", url: "https://azfe.dev" },
+  { title: "REST API Clean Arch", url: "https://github.com/azfe" },
+];
+
+// Additional training (only available from API)
+const additionalTraining: AdditionalTraining[] = cv ? cv.additional_training : [];
+
+// Fallback additional training for when backend is unavailable
+const fallbackAdditionalTraining = [
+  {
+    title: "FastAPI - The Complete Course",
+    provider: "Udemy",
+    completion_date: "2023-06-01",
+    duration: "20h",
+    certificate_url: null,
+    description:
+      "Desarrollo de APIs REST modernas con FastAPI, validación con Pydantic y despliegue con Docker.",
+  },
+  {
+    title: "Clean Architecture & DDD en Python",
+    provider: "Udemy",
+    completion_date: "2023-09-01",
+    duration: "15h",
+    certificate_url: null,
+    description: null,
+  },
+];
+
+// Tools: grouped by category (only available from API)
+const tools: Tool[] = cv ? cv.tools : [];
+
+// Fallback tools for when backend is unavailable
+const fallbackToolsText =
+  "VS Code · Docker · Git · Postman · MongoDB Atlas · GitHub Actions · Linux · Railway";
+
+// Languages: only available from API (endpoint not yet implemented — use ?? [])
+const languages: Language[] = cv
+  ? ((cv as CompleteCV & { languages?: Language[] }).languages ?? [])
+  : [];
+
+// Fallback languages (shown when API returns no languages)
+const fallbackLanguages = [
+  { name: "Español", proficiency: "c2" as const },
+  { name: "Inglés", proficiency: "b2" as const },
+];
+
+// CEFR label map
+const cefrLabel: Record<string, string> = {
+  a1: "A1 — Principiante",
+  a2: "A2 — Básico",
+  b1: "B1 — Intermedio",
+  b2: "B2 — Intermedio alto",
+  c1: "C1 — Avanzado",
+  c2: "C2 — Nativo / Maestría",
+};
+
+// Group tools by category
+const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
+  const cat = tool.category ?? "Otros";
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(tool);
+  return acc;
+}, {});
 ---
 
-<CVLayout title="CV — Alex Zapata">
+<CVLayout title={PAGE_SEO.cv.title} description={PAGE_SEO.cv.description}>
   {
     apiError && (
       <div class="cv-notice">
@@ -320,30 +397,74 @@ const data = cv
 
       <!-- Skills -->
       {
-        data.skills && (
+        skills.length > 0 ? (
+          <div class="sidebar-section sidebar-skill-list">
+            <SkillList skills={skills} />
+          </div>
+        ) : (
           <div class="sidebar-section">
             <h4 class="sidebar-heading">Skills</h4>
-            <p class="sidebar-skills">{data.skills}</p>
+            <p class="sidebar-skills">{fallbackSkillsText}</p>
           </div>
         )
       }
 
-      <!-- Proyectos -->
+      <!-- Tools -->
       {
-        data.projects.length > 0 && (
+        tools.length > 0 ? (
           <div class="sidebar-section">
-            <h4 class="sidebar-heading">Proyectos</h4>
-            <ul class="project-list">
-              {data.projects.map((p) => (
-                <li>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer">
-                    {p.title}
-                  </a>
-                </li>
+            <h4 class="sidebar-heading">Herramientas</h4>
+            <div class="tools-group-list">
+              {Object.entries(toolsByCategory).map(([category, categoryTools]) => (
+                <div class="tools-group">
+                  <p class="tools-category-label">{category}</p>
+                  <div class="tools-tag-row">
+                    {categoryTools.map((tool) => (
+                      <span class="tools-tag">{tool.name}</span>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
+          </div>
+        ) : (
+          <div class="sidebar-section">
+            <h4 class="sidebar-heading">Herramientas</h4>
+            <p class="sidebar-skills">{fallbackToolsText}</p>
           </div>
         )
+      }
+
+      <!-- Idiomas -->
+      {
+        (() => {
+          const displayLangs =
+            languages.length > 0
+              ? languages.map((l) => ({
+                  name: l.name,
+                  label: l.proficiency
+                    ? (cefrLabel[l.proficiency] ?? l.proficiency.toUpperCase())
+                    : null,
+                }))
+              : fallbackLanguages.map((l) => ({
+                  name: l.name,
+                  label: cefrLabel[l.proficiency] ?? l.proficiency.toUpperCase(),
+                }));
+
+          return displayLangs.length > 0 ? (
+            <div class="sidebar-section">
+              <h4 class="sidebar-heading">Idiomas</h4>
+              <ul class="lang-list">
+                {displayLangs.map((lang) => (
+                  <li class="lang-item">
+                    <span class="lang-name">{lang.name}</span>
+                    {lang.label && <span class="lang-level">{lang.label}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null;
+        })()
       }
     </aside>
 
@@ -409,6 +530,109 @@ const data = cv
             </div>
           </div>
         )
+      }
+
+      <!-- Formación adicional -->
+      {
+        (() => {
+          const trainingItems =
+            additionalTraining.length > 0 ? additionalTraining : fallbackAdditionalTraining;
+          return trainingItems.length > 0 ? (
+            <div class="cv-section">
+              <h2 class="cv-section-title">Formación adicional</h2>
+              <div class="xp-list">
+                {trainingItems.map((item) => (
+                  <div class="xp-item">
+                    <div class="xp-dot" />
+                    <div class="xp-content">
+                      <h3 class="xp-role">
+                        {(item as AdditionalTraining).certificate_url ? (
+                          <a
+                            href={(item as AdditionalTraining).certificate_url!}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-title-link"
+                          >
+                            {item.title}
+                          </a>
+                        ) : (
+                          item.title
+                        )}
+                      </h3>
+                      <div class="xp-meta-row">
+                        <span class="xp-dates-pill">{formatDate(item.completion_date)}</span>
+                        <span class="xp-company-inline">{item.provider}</span>
+                        {item.duration && (
+                          <span class="training-duration-pill">{item.duration}</span>
+                        )}
+                      </div>
+                      {item.description && <p class="xp-desc">{item.description}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null;
+        })()
+      }
+
+      <!-- Proyectos -->
+      {
+        projects.length > 0 ? (
+          <div class="cv-section">
+            <h2 class="cv-section-title">Proyectos</h2>
+            <div class="xp-list">
+              {projects.map((project) => (
+                <div class="xp-item">
+                  <div class="xp-dot" />
+                  <div class="xp-content">
+                    <h3 class="xp-role">
+                      {project.live_url || project.repo_url ? (
+                        <a
+                          href={project.live_url ?? project.repo_url ?? "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="project-title-link"
+                        >
+                          {project.title}
+                        </a>
+                      ) : (
+                        project.title
+                      )}
+                      {project.is_ongoing && <span class="project-ongoing-badge">En curso</span>}
+                    </h3>
+                    <div class="xp-meta-row">
+                      <span class="xp-dates-pill">
+                        {formatDateRange(project.start_date, project.end_date, project.is_ongoing)}
+                      </span>
+                    </div>
+                    {project.description && <p class="xp-desc">{project.description}</p>}
+                    {project.technologies.length > 0 && (
+                      <div class="project-tech-list">
+                        {project.technologies.map((tech) => (
+                          <span class="project-tech-badge">{tech}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : fallbackProjects.length > 0 ? (
+          <div class="cv-section">
+            <h2 class="cv-section-title">Proyectos</h2>
+            <ul class="project-list">
+              {fallbackProjects.map((p) => (
+                <li>
+                  <a href={p.url} target="_blank" rel="noopener noreferrer">
+                    {p.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null
       }
     </main>
   </div>
@@ -714,6 +938,146 @@ const data = cv
     font-size: 13px;
     color: #4a5a7a;
     line-height: 1.65;
+  }
+
+  /* Skills sidebar overrides — SkillList uses Tailwind classes which work fine,
+     but section title from SectionTitle.astro needs to match sidebar heading style */
+  .sidebar-skill-list :global(h2) {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a2747;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1a2747;
+    margin-bottom: 12px;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .sidebar-skill-list :global(section) {
+    margin-bottom: 0;
+  }
+
+  /* Project title link */
+  .project-title-link {
+    color: #00507d;
+    text-decoration: none;
+  }
+
+  .project-title-link:hover {
+    text-decoration: underline;
+  }
+
+  /* "En curso" badge on project title row */
+  .project-ongoing-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #e6f4ea;
+    color: #276b3a;
+    font-size: 10.5px;
+    font-weight: 600;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+  }
+
+  /* Technology tags below project description */
+  .project-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .project-tech-badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #1a2747;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
+  }
+
+  /* Tools sidebar */
+  .tools-group-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tools-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tools-category-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #8592b0;
+    margin-bottom: 2px;
+  }
+
+  .tools-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tools-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #1a2747;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
+  }
+
+  /* Languages sidebar */
+  .lang-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lang-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lang-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1a2747;
+  }
+
+  .lang-level {
+    font-size: 11px;
+    color: #8592b0;
+  }
+
+  /* Additional training duration pill */
+  .training-duration-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #4a5a7a;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
   }
 
   /* Print */
