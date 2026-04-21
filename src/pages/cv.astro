@@ -5,8 +5,15 @@ import CVLayout from "@/layouts/CVLayout.astro";
 import SkillList from "@/components/cv/SkillList.astro";
 import { getCVComplete } from "@/services/api/cv.service";
 import { ApiError } from "@/services/api/base.service";
-import type { CompleteCV, Skill, Project } from "@/types/cv.types";
-import { formatDateRange } from "@/utils/formatters";
+import type {
+  CompleteCV,
+  Skill,
+  Tool,
+  Language,
+  AdditionalTraining,
+  Project,
+} from "@/types/cv.types";
+import { formatDate, formatDateRange } from "@/utils/formatters";
 import { PAGE_SEO } from "@/config/seo";
 
 let cv: CompleteCV | null = null;
@@ -141,6 +148,66 @@ const fallbackProjects = [
   { title: "azfe.dev Portfolio", url: "https://azfe.dev" },
   { title: "REST API Clean Arch", url: "https://github.com/azfe" },
 ];
+
+// Additional training (only available from API)
+const additionalTraining: AdditionalTraining[] = cv ? cv.additional_training : [];
+
+// Fallback additional training for when backend is unavailable
+const fallbackAdditionalTraining = [
+  {
+    title: "FastAPI - The Complete Course",
+    provider: "Udemy",
+    completion_date: "2023-06-01",
+    duration: "20h",
+    certificate_url: null,
+    description:
+      "Desarrollo de APIs REST modernas con FastAPI, validación con Pydantic y despliegue con Docker.",
+  },
+  {
+    title: "Clean Architecture & DDD en Python",
+    provider: "Udemy",
+    completion_date: "2023-09-01",
+    duration: "15h",
+    certificate_url: null,
+    description: null,
+  },
+];
+
+// Tools: grouped by category (only available from API)
+const tools: Tool[] = cv ? cv.tools : [];
+
+// Fallback tools for when backend is unavailable
+const fallbackToolsText =
+  "VS Code · Docker · Git · Postman · MongoDB Atlas · GitHub Actions · Linux · Railway";
+
+// Languages: only available from API (endpoint not yet implemented — use ?? [])
+const languages: Language[] = cv
+  ? ((cv as CompleteCV & { languages?: Language[] }).languages ?? [])
+  : [];
+
+// Fallback languages (shown when API returns no languages)
+const fallbackLanguages = [
+  { name: "Español", proficiency: "c2" as const },
+  { name: "Inglés", proficiency: "b2" as const },
+];
+
+// CEFR label map
+const cefrLabel: Record<string, string> = {
+  a1: "A1 — Principiante",
+  a2: "A2 — Básico",
+  b1: "B1 — Intermedio",
+  b2: "B2 — Intermedio alto",
+  c1: "C1 — Avanzado",
+  c2: "C2 — Nativo / Maestría",
+};
+
+// Group tools by category
+const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
+  const cat = tool.category ?? "Otros";
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(tool);
+  return acc;
+}, {});
 ---
 
 <CVLayout title={PAGE_SEO.cv.title} description={PAGE_SEO.cv.description}>
@@ -341,6 +408,64 @@ const fallbackProjects = [
           </div>
         )
       }
+
+      <!-- Tools -->
+      {
+        tools.length > 0 ? (
+          <div class="sidebar-section">
+            <h4 class="sidebar-heading">Herramientas</h4>
+            <div class="tools-group-list">
+              {Object.entries(toolsByCategory).map(([category, categoryTools]) => (
+                <div class="tools-group">
+                  <p class="tools-category-label">{category}</p>
+                  <div class="tools-tag-row">
+                    {categoryTools.map((tool) => (
+                      <span class="tools-tag">{tool.name}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div class="sidebar-section">
+            <h4 class="sidebar-heading">Herramientas</h4>
+            <p class="sidebar-skills">{fallbackToolsText}</p>
+          </div>
+        )
+      }
+
+      <!-- Idiomas -->
+      {
+        (() => {
+          const displayLangs =
+            languages.length > 0
+              ? languages.map((l) => ({
+                  name: l.name,
+                  label: l.proficiency
+                    ? (cefrLabel[l.proficiency] ?? l.proficiency.toUpperCase())
+                    : null,
+                }))
+              : fallbackLanguages.map((l) => ({
+                  name: l.name,
+                  label: cefrLabel[l.proficiency] ?? l.proficiency.toUpperCase(),
+                }));
+
+          return displayLangs.length > 0 ? (
+            <div class="sidebar-section">
+              <h4 class="sidebar-heading">Idiomas</h4>
+              <ul class="lang-list">
+                {displayLangs.map((lang) => (
+                  <li class="lang-item">
+                    <span class="lang-name">{lang.name}</span>
+                    {lang.label && <span class="lang-level">{lang.label}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null;
+        })()
+      }
     </aside>
 
     <!-- MAIN -->
@@ -405,6 +530,50 @@ const fallbackProjects = [
             </div>
           </div>
         )
+      }
+
+      <!-- Formación adicional -->
+      {
+        (() => {
+          const trainingItems =
+            additionalTraining.length > 0 ? additionalTraining : fallbackAdditionalTraining;
+          return trainingItems.length > 0 ? (
+            <div class="cv-section">
+              <h2 class="cv-section-title">Formación adicional</h2>
+              <div class="xp-list">
+                {trainingItems.map((item) => (
+                  <div class="xp-item">
+                    <div class="xp-dot" />
+                    <div class="xp-content">
+                      <h3 class="xp-role">
+                        {(item as AdditionalTraining).certificate_url ? (
+                          <a
+                            href={(item as AdditionalTraining).certificate_url!}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-title-link"
+                          >
+                            {item.title}
+                          </a>
+                        ) : (
+                          item.title
+                        )}
+                      </h3>
+                      <div class="xp-meta-row">
+                        <span class="xp-dates-pill">{formatDate(item.completion_date)}</span>
+                        <span class="xp-company-inline">{item.provider}</span>
+                        {item.duration && (
+                          <span class="training-duration-pill">{item.duration}</span>
+                        )}
+                      </div>
+                      {item.description && <p class="xp-desc">{item.description}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null;
+        })()
       }
 
       <!-- Proyectos -->
@@ -828,6 +997,84 @@ const fallbackProjects = [
     border-radius: 999px;
     background: #f0f4fa;
     color: #1a2747;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
+  }
+
+  /* Tools sidebar */
+  .tools-group-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tools-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tools-category-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #8592b0;
+    margin-bottom: 2px;
+  }
+
+  .tools-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tools-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #1a2747;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
+  }
+
+  /* Languages sidebar */
+  .lang-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lang-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lang-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1a2747;
+  }
+
+  .lang-level {
+    font-size: 11px;
+    color: #8592b0;
+  }
+
+  /* Additional training duration pill */
+  .training-duration-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #4a5a7a;
     font-size: 11px;
     font-weight: 500;
     border: 1px solid #dce4f0;
