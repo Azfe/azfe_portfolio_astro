@@ -23,6 +23,10 @@ export const PAGE_SEO: Record<string, SEOProps> = {
     title: "CV",
     description: `Curriculum vitae de ${SITE.author} — trayectoria profesional, habilidades y formación.`,
   },
+  projects: {
+    title: "Proyectos",
+    description: `Proyectos de ${SITE.author} — casos reales con stack técnico, código y demos.`,
+  },
   notFound: {
     title: "Página no encontrada",
     description: "La página que buscas no existe.",
