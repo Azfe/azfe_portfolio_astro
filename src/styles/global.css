@@ -61,6 +61,8 @@
     color: var(--color-ink);
     background-color: var(--color-bg);
     scroll-behavior: smooth;
+    /* Compensa el header sticky (60px) + 16px de margen visual */
+    scroll-padding-top: 55px;
   }
 
   body {
