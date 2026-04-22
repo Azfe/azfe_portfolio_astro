@@ -3,7 +3,7 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: "./dist/client",
-      url: ["/", "/projects"],
+      url: ["/", "/projects/"],
       numberOfRuns: 3,
     },
     assert: {
@@ -16,11 +16,14 @@ module.exports = {
         "total-blocking-time": ["warn", { maxNumericValue: 300 }],
         "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
         "largest-contentful-paint": ["warn", { maxNumericValue: 2500 }],
+        // Auditorías informativas sin puntuación numérica — el preset les aplica minScore y devuelve NaN
+        "lcp-lazy-loaded": "off",
+        "non-composited-animations": "off",
+        "prioritize-lcp-image": "off",
       },
     },
     upload: {
-      target: "lhci",
-      serverBaseUrl: "https://lighthouse-ci.appspot.com/",
+      target: "temporary-public-storage",
     },
   },
 };
