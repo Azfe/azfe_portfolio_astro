@@ -29,6 +29,18 @@ export default tseslint.config(
     },
   },
 
+  // Archivos CommonJS (.cjs) — module, require, exports son globales válidos
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        ...globals.node,
+        ...globals.commonjs,
+      },
+    },
+  },
+
   // Overrides para archivos TypeScript
   {
     files: ["**/*.ts", "**/*.tsx"],
