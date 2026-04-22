@@ -19,7 +19,7 @@ export const prerender = false;
 import CVLayout from "@/layouts/CVLayout.astro";
 import SkillList from "@/components/cv/SkillList.astro";
 import { getCVComplete } from "@/services/api/cv.service";
-import { ApiError } from "@/services/api/base.service";
+import { fetchPageData } from "@/utils/error-handler";
 import type {
   CompleteCV,
   Skill,
@@ -31,27 +31,18 @@ import type {
 import { formatDate, formatDateRange } from "@/utils/formatters";
 import { PAGE_SEO } from "@/config/seo";
 
+const cvResult = await fetchPageData(() => getCVComplete());
+
 let cv: CompleteCV | null = null;
 let apiError: string | null = null;
 
-try {
-  cv = await getCVComplete();
-  if (!cv?.profile) {
+if (cvResult.ok) {
+  cv = cvResult.data?.profile ? cvResult.data : null;
+  if (!cv) {
     apiError = "No se encontraron datos del CV en el servidor.";
-    cv = null;
   }
-} catch (err) {
-  if (err instanceof ApiError) {
-    if (err.code === "NETWORK_ERROR") {
-      apiError = "Backend no disponible — mostrando datos de ejemplo.";
-    } else if (err.status === 404) {
-      apiError = "No se encontraron datos del CV en el servidor.";
-    } else {
-      apiError = `Error al cargar el CV (${err.status}): ${err.message}`;
-    }
-  } else {
-    apiError = "Error inesperado al cargar el CV.";
-  }
+} else {
+  apiError = cvResult.error.userMessage;
 }
 
 // Datos de ejemplo para cuando el backend no está disponible
