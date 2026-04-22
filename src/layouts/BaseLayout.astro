@@ -13,6 +13,7 @@ const { title, description, canonical, noindex } = Astro.props;
 <html lang={SITE.locale}>
   <head>
     <SEO title={title} description={description} canonical={canonical} noindex={noindex} />
+    <slot name="head" />
   </head>
   <body>
     <slot />

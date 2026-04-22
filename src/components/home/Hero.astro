@@ -1,19 +1,23 @@
 ---
+import { Image } from "astro:assets";
 import { ROUTES } from "@/config/constants";
+import profileImg from "/public/profile.png";
 ---
 
 <section class="hero" id="inicio">
   <!-- Avatar -->
   <div class="hero-avatar-wrap">
     <div class="hero-avatar">
-      <img
-        src="/profile.png"
+      <Image
+        src={profileImg}
         alt="Alex Zapata"
         class="hero-avatar-img"
         loading="eager"
         fetchpriority="high"
-        width="220"
-        height="220"
+        width={220}
+        height={220}
+        format="webp"
+        quality={85}
       />
       <!-- <span class="hero-avatar-initials">AZ</span> -->
     </div>
