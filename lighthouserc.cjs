@@ -2,8 +2,8 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: "./dist",
-      url: ["/", "/cv"],
+      staticDistDir: "./dist/client",
+      url: ["/", "/projects"],
       numberOfRuns: 3,
     },
     assert: {
