@@ -119,7 +119,7 @@ const data = cv
         company: e.company,
         start: e.start_date,
         end: e.end_date,
-        isCurrent: e.is_current,
+        isCurrent: e.end_date === null,
         location: "",
         description: e.description ?? "",
       })),
@@ -599,11 +599,17 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       ) : (
                         project.title
                       )}
-                      {project.is_ongoing && <span class="project-ongoing-badge">En curso</span>}
+                      {project.end_date === null && (
+                        <span class="project-ongoing-badge">En curso</span>
+                      )}
                     </h3>
                     <div class="xp-meta-row">
                       <span class="xp-dates-pill">
-                        {formatDateRange(project.start_date, project.end_date, project.is_ongoing)}
+                        {formatDateRange(
+                          project.start_date,
+                          project.end_date,
+                          project.end_date === null
+                        )}
                       </span>
                     </div>
                     {project.description && <p class="xp-desc">{project.description}</p>}
