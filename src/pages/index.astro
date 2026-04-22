@@ -1,4 +1,18 @@
 ---
+/**
+ * Render strategy: SSG (Static Site Generation)
+ *
+ * Rationale (I-F-4.4.4-02):
+ * The home page is a landing/presentation page. Its content is stable — it does
+ * not depend on real-time data from the backend on every request.
+ * Pre-rendering at build time maximises performance (served as a static HTML file),
+ * improves Lighthouse scores and keeps hosting simple (Vercel/Netlify edge cache).
+ *
+ * `prerender = true` is explicit here even though "static" is the project default,
+ * so the intent is self-documenting and survives future output-mode changes.
+ */
+export const prerender = true;
+
 import MainLayout from "@/layouts/MainLayout.astro";
 import Hero from "@/components/home/Hero.astro";
 import AboutCard from "@/components/home/AboutCard.astro";
