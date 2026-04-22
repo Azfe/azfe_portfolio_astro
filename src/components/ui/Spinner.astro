@@ -1,0 +1,25 @@
+---
+/**
+ * Spinner — inline CSS spinner for button-level or small-area loading states.
+ *
+ * Inherits `color` from its parent so it adapts to any context.
+ * For full-page or section-level loading, prefer CVSkeleton or a skeleton layout.
+ *
+ * Usage:
+ *   <Spinner size="18px" />
+ *   <Spinner size="14px" label="Cargando datos..." />
+ */
+interface Props {
+  size?: string;
+  label?: string;
+  class?: string;
+}
+
+const { size = "20px", label = "Cargando...", class: className } = Astro.props;
+---
+
+<span
+  class:list={["spinner", className]}
+  style={`width:${size};height:${size};`}
+  role="status"
+  aria-label={label}></span>

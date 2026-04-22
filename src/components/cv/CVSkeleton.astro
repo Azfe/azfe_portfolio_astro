@@ -1,0 +1,213 @@
+---
+/**
+ * CVSkeleton — skeleton placeholder that mirrors the CV page layout.
+ *
+ * Rendered server-side as static HTML — no JavaScript required.
+ * Intended for use in any context where the CV data has not yet resolved:
+ *   - Transitional loading indicators in future client-rendered routes
+ *   - Placeholder content in UI previews or Storybook
+ *
+ * The structure intentionally matches cv.astro (sidebar + main) so that the
+ * visual shift from skeleton to real content is minimal.
+ *
+ * Accessibility: the entire skeleton is wrapped in a live region so screen
+ * readers announce the loading state, and aria-hidden suppresses individual
+ * decorative blocks. The container carries role="status" + aria-busy="true".
+ */
+import SkeletonBlock from "@/components/ui/SkeletonBlock.astro";
+---
+
+<div class="cv-skeleton" role="status" aria-busy="true" aria-label="Cargando curriculum...">
+  <!-- SIDEBAR -->
+  <aside class="cv-sk-sidebar">
+    <!-- Contact section -->
+    <div class="cv-sk-section">
+      <SkeletonBlock width="70%" height="10px" radius="4px" />
+      <div class="cv-sk-contact-rows">
+        <SkeletonBlock width="90%" height="12px" />
+        <SkeletonBlock width="80%" height="12px" />
+        <SkeletonBlock width="85%" height="12px" />
+      </div>
+    </div>
+
+    <!-- Social section -->
+    <div class="cv-sk-section">
+      <SkeletonBlock width="55%" height="10px" radius="4px" />
+      <div class="cv-sk-contact-rows">
+        <SkeletonBlock width="60%" height="12px" />
+        <SkeletonBlock width="55%" height="12px" />
+      </div>
+    </div>
+
+    <!-- Skills section -->
+    <div class="cv-sk-section">
+      <SkeletonBlock width="45%" height="10px" radius="4px" />
+      <div class="cv-sk-tag-row">
+        <SkeletonBlock width="52px" height="22px" radius="999px" />
+        <SkeletonBlock width="64px" height="22px" radius="999px" />
+        <SkeletonBlock width="48px" height="22px" radius="999px" />
+        <SkeletonBlock width="56px" height="22px" radius="999px" />
+        <SkeletonBlock width="44px" height="22px" radius="999px" />
+        <SkeletonBlock width="60px" height="22px" radius="999px" />
+      </div>
+    </div>
+
+    <!-- Tools section -->
+    <div class="cv-sk-section">
+      <SkeletonBlock width="62%" height="10px" radius="4px" />
+      <div class="cv-sk-tag-row">
+        <SkeletonBlock width="46px" height="22px" radius="999px" />
+        <SkeletonBlock width="58px" height="22px" radius="999px" />
+        <SkeletonBlock width="50px" height="22px" radius="999px" />
+        <SkeletonBlock width="42px" height="22px" radius="999px" />
+      </div>
+    </div>
+
+    <!-- Languages section -->
+    <div class="cv-sk-section">
+      <SkeletonBlock width="50%" height="10px" radius="4px" />
+      <div class="cv-sk-contact-rows">
+        <SkeletonBlock width="72%" height="12px" />
+        <SkeletonBlock width="65%" height="12px" />
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="cv-sk-main">
+    <!-- Header block -->
+    <div class="cv-sk-header">
+      <SkeletonBlock width="55%" height="22px" radius="4px" />
+      <SkeletonBlock width="38%" height="10px" radius="4px" />
+      <SkeletonBlock width="100%" height="13px" />
+      <SkeletonBlock width="88%" height="13px" />
+      <SkeletonBlock width="74%" height="13px" />
+    </div>
+
+    <!-- Experience section -->
+    <div class="cv-sk-section-main">
+      <SkeletonBlock width="30%" height="10px" radius="4px" />
+      <div class="cv-sk-timeline">
+        {
+          [0, 1, 2].map(() => (
+            <div class="cv-sk-timeline-item">
+              <SkeletonBlock width="50%" height="14px" />
+              <SkeletonBlock width="36%" height="22px" radius="999px" />
+              <SkeletonBlock width="100%" height="12px" />
+              <SkeletonBlock width="92%" height="12px" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Education section -->
+    <div class="cv-sk-section-main">
+      <SkeletonBlock width="22%" height="10px" radius="4px" />
+      <div class="cv-sk-timeline">
+        {
+          [0, 1].map(() => (
+            <div class="cv-sk-timeline-item">
+              <SkeletonBlock width="60%" height="14px" />
+              <SkeletonBlock width="40%" height="22px" radius="999px" />
+              <SkeletonBlock width="85%" height="12px" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  .cv-skeleton {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    min-height: 600px;
+  }
+
+  .cv-sk-sidebar {
+    border-right: 1px solid #e8ecf4;
+    padding: 32px 22px;
+    background: #fafbfd;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cv-sk-section {
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cv-sk-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .cv-sk-contact-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .cv-sk-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .cv-sk-main {
+    padding: 36px 36px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cv-sk-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e8ecf4;
+  }
+
+  .cv-sk-section-main {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cv-sk-section-main:last-child {
+    margin-bottom: 0;
+  }
+
+  .cv-sk-timeline {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cv-sk-timeline-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .cv-skeleton {
+      grid-template-columns: 1fr;
+    }
+
+    .cv-sk-sidebar {
+      border-right: none;
+      border-bottom: 1px solid #e8ecf4;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+/**
+ * SkeletonBlock — base primitive for skeleton loading placeholders.
+ *
+ * Renders a shimmer block with configurable dimensions.
+ * Compose multiple SkeletonBlock elements to mirror real content layout.
+ *
+ * Usage:
+ *   <SkeletonBlock width="60%" height="14px" />
+ *   <SkeletonBlock width="100%" height="20px" radius="999px" />
+ */
+interface Props {
+  width?: string;
+  height?: string;
+  radius?: string;
+  class?: string;
+}
+
+const { width = "100%", height = "14px", radius = "6px", class: className } = Astro.props;
+---
+
+<span
+  class:list={["skeleton", className]}
+  style={`width:${width};height:${height};border-radius:${radius};display:block;`}
+  aria-hidden="true"></span>
