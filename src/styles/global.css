@@ -1,9 +1,7 @@
-/* Plus Jakarta Sans — fuente local, sin Google Fonts */
-@import "@fontsource/plus-jakarta-sans/400.css";
-@import "@fontsource/plus-jakarta-sans/500.css";
-@import "@fontsource/plus-jakarta-sans/600.css";
-@import "@fontsource/plus-jakarta-sans/700.css";
-@import "@fontsource/plus-jakarta-sans/800.css";
+/* Plus Jakarta Sans Variable — un solo archivo woff2 cubre los pesos 200-800.
+   Reemplaza los 5 imports de peso fijo (×4 subsets cada uno = 20 @font-face) por
+   4 @font-face con font-weight range, reduciendo las solicitudes de fuente de ~20 a ~4. */
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
 
 @import "tailwindcss";
 @import "./variables.css";
@@ -45,7 +43,8 @@
   --color-chip-c6-text: #1d6f9c;
 
   /* --- Tipografía --- */
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans:
+    "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 
   /* --- Radios --- */
