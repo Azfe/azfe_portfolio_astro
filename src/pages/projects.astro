@@ -1,4 +1,23 @@
 ---
+/**
+ * Render strategy: SSG (Static Site Generation)
+ *
+ * Rationale (I-F-4.4.4-04):
+ * The Projects page displays curated portfolio projects. In this first iteration
+ * the backend does not expose a dedicated /projects endpoint that is stable and
+ * ready for public consumption independently of the full /cv aggregate.
+ * Projects data is also relatively static — it changes only when a new project
+ * is added or updated by the developer, not on every visitor request.
+ *
+ * Decision: SSG with static/mock content for this iteration.
+ *
+ * Migration path: once the backend /projects endpoint is production-ready and
+ * data needs to be fresh on every request, replace `prerender = true` with
+ * `prerender = false` and fetch data via `getCVComplete()` or a dedicated
+ * `getProjects()` service call — following the same pattern as cv.astro.
+ */
+export const prerender = true;
+
 import MainLayout from "@/layouts/MainLayout.astro";
 import { PAGE_SEO } from "@/config/seo";
 

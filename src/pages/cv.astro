@@ -1,4 +1,19 @@
 ---
+/**
+ * Render strategy: SSR (Server-Side Rendering)
+ *
+ * Rationale (I-F-4.4.4-03):
+ * The CV page renders the developer's live curriculum from the backend API.
+ * Data must be fresh on every request so that any update in the CMS (backend)
+ * is immediately visible to visitors without a rebuild.
+ *
+ * `prerender = false` opts this page out of static generation and delegates
+ * rendering to the Node.js server adapter on every incoming request.
+ * This satisfies CU-02 ("Ver Página del CV") from the functional contract.
+ *
+ * Error handling: if the backend is unavailable, the page degrades gracefully
+ * with hardcoded fallback data and a visible notice banner — no blank page shown.
+ */
 export const prerender = false;
 
 import CVLayout from "@/layouts/CVLayout.astro";
