@@ -1,0 +1,45 @@
+---
+import type { WorkExperience } from "@/types/cv.types";
+import Card from "@/components/ui/Card.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import { formatDateRange } from "@/utils/formatters";
+
+interface Props {
+  experiences: WorkExperience[];
+}
+const { experiences } = Astro.props;
+---
+
+<section>
+  <SectionTitle title="Experiencia" />
+  <div class="space-y-4">
+    {
+      experiences.map((exp) => (
+        <Card>
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 class="font-semibold text-slate-900">{exp.role}</h3>
+              <p class="text-slate-600">{exp.company}</p>
+            </div>
+            <span class="text-sm whitespace-nowrap text-slate-400">
+              {formatDateRange(exp.start_date, exp.end_date, exp.end_date === null)}
+            </span>
+          </div>
+          {exp.description && <p class="mt-3 text-sm text-slate-600">{exp.description}</p>}
+          {exp.responsibilities.length > 0 && (
+            <ul class="mt-3 space-y-1 text-sm text-slate-600">
+              {exp.responsibilities.map((r) => (
+                <li class="flex gap-2">
+                  <span class="mt-0.5 text-slate-400" aria-hidden="true">
+                    •
+                  </span>
+                  {r}
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,21 @@
+---
+import "@/styles/global.css";
+import { SITE } from "@/config/site";
+import SEO from "@/components/common/SEO.astro";
+import type { SEOProps } from "@/config/seo";
+
+type Props = SEOProps;
+
+const { title, description, canonical, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <SEO title={title} description={description} canonical={canonical} noindex={noindex} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

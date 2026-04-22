@@ -1,0 +1,79 @@
+/* Plus Jakarta Sans Variable — un solo archivo woff2 cubre los pesos 200-800.
+   Reemplaza los 5 imports de peso fijo (×4 subsets cada uno = 20 @font-face) por
+   4 @font-face con font-weight range, reduciendo las solicitudes de fuente de ~20 a ~4. */
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
+
+@import "tailwindcss";
+@import "./variables.css";
+@import "./animations.css";
+
+@theme {
+  /* --- Colores portfolio (landing) --- */
+  --color-bg: #ffffff;
+  --color-ink: #1a2747;
+  --color-ink-2: #4a5a7a;
+  --color-ink-3: #4c5872;
+  --color-line: #e8ecf4;
+  --color-card: #ffffff;
+  --color-soft: #f5f8fd;
+  --color-blue: #1e6bf7;
+  --color-blue-2: #3c83ff;
+  --color-blue-soft: #eaf1ff;
+  --color-dot: #d9e0ee;
+
+  /* --- Colores CV --- */
+  --color-cv-bg: #f4f6fa;
+  --color-cv-paper: #ffffff;
+  --color-cv-brand: #00507d;
+  --color-cv-brand-2: #2a78a6;
+  --color-cv-brand-soft: #e0eef6;
+
+  /* --- Skill chip colors --- */
+  --color-chip-c1-bg: #e9efff;
+  --color-chip-c1-text: #2859d8;
+  --color-chip-c2-bg: #e0f6ef;
+  --color-chip-c2-text: #0f8a4a;
+  --color-chip-c3-bg: #fdebee;
+  --color-chip-c3-text: #c23a52;
+  --color-chip-c4-bg: #fff4dd;
+  --color-chip-c4-text: #a66b15;
+  --color-chip-c5-bg: #f1eaff;
+  --color-chip-c5-text: #6a3acf;
+  --color-chip-c6-bg: #e4f3fb;
+  --color-chip-c6-text: #1d6f9c;
+
+  /* --- Tipografía --- */
+  --font-sans:
+    "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+
+  /* --- Radios --- */
+  --radius-pill: 999px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+    scroll-behavior: smooth;
+    /* Compensa el header sticky (60px) + 16px de margen visual */
+    scroll-padding-top: 55px;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Dots pattern background */
+    /* background-image: radial-gradient(var(--color-dot) 1px, transparent 1.5px); */
+    background-size: 22px 22px;
+    background-attachment: fixed;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}

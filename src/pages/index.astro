@@ -1,0 +1,47 @@
+---
+/**
+ * Render strategy: SSG (Static Site Generation)
+ *
+ * Rationale (I-F-4.4.4-02):
+ * The home page is a landing/presentation page. Its content is stable — it does
+ * not depend on real-time data from the backend on every request.
+ * Pre-rendering at build time maximises performance (served as a static HTML file),
+ * improves Lighthouse scores and keeps hosting simple (Vercel/Netlify edge cache).
+ *
+ * `prerender = true` is explicit here even though "static" is the project default,
+ * so the intent is self-documenting and survives future output-mode changes.
+ */
+export const prerender = true;
+
+import { getImage } from "astro:assets";
+import MainLayout from "@/layouts/MainLayout.astro";
+import Hero from "@/components/home/Hero.astro";
+import AboutCard from "@/components/home/AboutCard.astro";
+import ExperienceSection from "@/components/home/ExperienceSection.astro";
+import StudiesSection from "@/components/home/StudiesSection.astro";
+import ProjectsSection from "@/components/home/ProjectsSection.astro";
+import ContactSection from "@/components/home/ContactSection.astro";
+import { PAGE_SEO } from "@/config/seo";
+import profileImg from "/public/profile.png";
+
+// Pre-generate the optimized avatar so we can emit a <link rel="preload"> for it.
+// This eliminates the LCP delay caused by the browser not discovering the image
+// until the CSS is applied and the element rendered.
+const optimizedAvatar = await getImage({
+  src: profileImg,
+  width: 220,
+  height: 220,
+  format: "webp",
+  quality: 85,
+});
+---
+
+<MainLayout title={PAGE_SEO.home.title} description={PAGE_SEO.home.description}>
+  <link rel="preload" as="image" href={optimizedAvatar.src} type="image/webp" slot="head" />
+  <Hero />
+  <AboutCard />
+  <ExperienceSection />
+  <StudiesSection />
+  <ProjectsSection />
+  <ContactSection />
+</MainLayout>

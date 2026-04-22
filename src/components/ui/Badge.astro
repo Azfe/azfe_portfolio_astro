@@ -1,0 +1,87 @@
+---
+interface Props {
+  label: string;
+  variant?: "default" | "outline" | "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
+  class?: string;
+}
+const { label, variant = "default", class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-[var(--space-inline-xs)]",
+    "rounded-[var(--radius-badge)]",
+    "px-[var(--space-inline-sm)] py-[calc(var(--space-inline-xs)-2px)]",
+    "font-mono text-xs font-medium tracking-wide",
+    variant === "default" &&
+      "border border-[var(--badge-border)] bg-[var(--badge-bg)] text-[var(--badge-text)]",
+    variant === "outline" &&
+      "border border-[var(--border-default)] bg-transparent text-[var(--text-secondary)]",
+    variant === "c1" && "badge--c1",
+    variant === "c2" && "badge--c2",
+    variant === "c3" && "badge--c3",
+    variant === "c4" && "badge--c4",
+    variant === "c5" && "badge--c5",
+    variant === "c6" && "badge--c6",
+    className,
+  ]}
+>
+  {label}
+</span>
+
+<style>
+  .badge--c1 {
+    background: #e9efff;
+    color: #2859d8;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge--c2 {
+    background: #e0f6ef;
+    color: #0a6c39;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge--c3 {
+    background: #fdebee;
+    color: #a8243c;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge--c4 {
+    background: #fff4dd;
+    color: #7a5200;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge--c5 {
+    background: #f1eaff;
+    color: #6a3acf;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge--c6 {
+    background: #e4f3fb;
+    color: #1d6f9c;
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+</style>

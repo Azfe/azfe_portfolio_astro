@@ -1,0 +1,193 @@
+---
+// CVLayout does not use Header or Footer intentionally. It is a specialized
+// layout for CV viewing and download, with its own toolbar (back link, print/
+// download action). The standard site navigation is irrelevant in this context.
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <!-- Toolbar sticky -->
+  <div class="cv-bar">
+    <div class="cv-bar-inner">
+      <span class="cv-bar-brand">
+        <span class="cv-bar-dot"></span>
+        Alex Zapata &middot; Curriculum Vitae
+      </span>
+      <div class="cv-bar-actions">
+        <a href="/" class="cv-back-btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg
+          >
+          Portfolio
+        </a>
+        <button onclick="window.print()" class="cv-download-btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline
+              points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg
+          >
+          DESCARGAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CV page content -->
+  <div class="cv-bg">
+    <div class="cv-paper">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Reset body background for CV page */
+  :global(body) {
+    background-image: none !important;
+    background-color: var(--cv-bg, #f4f6fa) !important;
+  }
+
+  .cv-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #e8ecf4;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  .cv-bar-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .cv-bar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2747;
+    letter-spacing: -0.01em;
+  }
+
+  .cv-bar-dot {
+    width: 7px;
+    height: 7px;
+    background: #00507d;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .cv-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cv-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a5a7a;
+    text-decoration: none;
+    border: 1px solid #e8ecf4;
+    background: #f5f8fd;
+    transition:
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+
+  .cv-back-btn:hover {
+    border-color: #00507d;
+    color: #00507d;
+  }
+
+  .cv-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    background: #00507d;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 200ms ease;
+  }
+
+  .cv-download-btn:hover {
+    background: #2a78a6;
+  }
+
+  .cv-bg {
+    min-height: calc(100vh - 52px);
+    background: #f4f6fa;
+    padding: 40px 24px 60px;
+  }
+
+  .cv-paper {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  @media print {
+    .cv-bar {
+      display: none !important;
+    }
+
+    .cv-bg {
+      padding: 0;
+      background: transparent;
+    }
+
+    .cv-paper {
+      max-width: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  overline?: string;
+}
+const { title, subtitle, overline } = Astro.props;
+---
+
+<div class="mb-[var(--space-stack-md)] space-y-[var(--space-stack-xs)]">
+  {
+    overline && (
+      <p class="text-xs font-semibold tracking-widest text-[var(--section-title-accent)] uppercase">
+        {overline}
+      </p>
+    )
+  }
+  <h2
+    class="text-2xl leading-[var(--text-heading-line-height)] font-bold tracking-tight text-[var(--section-title-text)] md:text-3xl"
+  >
+    {title}
+  </h2>
+  {
+    subtitle && (
+      <p class="text-base leading-relaxed text-[var(--section-title-muted)]">{subtitle}</p>
+    )
+  }
+</div>

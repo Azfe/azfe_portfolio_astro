@@ -1,0 +1,240 @@
+/* Animaciones y transiciones — importado desde globals.css */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Clases de utilidad para animaciones */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out both;
+}
+
+/* Respeta la preferencia de reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-in-right {
+    animation: none;
+  }
+}
+
+/* ─── Skeleton shimmer ─────────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  from {
+    background-position: -400px 0;
+  }
+  to {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e8ecf4 25%, #f0f4fa 50%, #e8ecf4 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: #e8ecf4;
+  }
+}
+
+/* ─── Spinner ──────────────────────────────────────────────────────────────── */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* ─── Wave lines background — main ────────────────────────────────────────── */
+/*
+ * Técnica: SVG data-URI como tile de background.
+ * Cada pseudo-elemento contiene varias capas del mismo tile senoidal
+ * desplazadas verticalmente mediante background-position-y distinto.
+ * La animación mueve background-position-x para crear el efecto de
+ * desplazamiento horizontal de ola. Las fases están escalonadas entre
+ * ::before (izquierda→derecha) y ::after (derecha→izquierda, más lento)
+ * para dar profundidad.
+ *
+ * SVG tile: 1200×80 px, una curva sinusoidal de 1 px de trazo.
+ * Los colores usan el azul primario (#1e6bf7) con opacidad muy baja
+ * para que el fondo blanco siga siendo protagonista.
+ */
+
+@keyframes wave-forward {
+  from {
+    background-position:
+      0 10vh,
+      0 28vh,
+      0 48vh,
+      0 66vh,
+      0 84vh;
+  }
+  to {
+    background-position:
+      1200px 10vh,
+      1200px 28vh,
+      1200px 48vh,
+      1200px 66vh,
+      1200px 84vh;
+  }
+}
+
+@keyframes wave-backward {
+  from {
+    background-position:
+      0 19vh,
+      0 38vh,
+      0 57vh,
+      0 76vh;
+  }
+  to {
+    background-position:
+      -1200px 19vh,
+      -1200px 38vh,
+      -1200px 57vh,
+      -1200px 76vh;
+  }
+}
+
+.waves-bg {
+  position: relative;
+}
+
+/* Capas de olas — grupo A: se mueven hacia la derecha */
+.waves-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  /*
+   * Cinco líneas onduladas en distintas posiciones Y.
+   * Cada capa es el mismo tile SVG pero con background-position-y diferente
+   * para distribuirlas a lo largo de toda la pantalla.
+   * La opacidad del trazo va de más visible (capas superiores) a casi
+   * imperceptible (capas inferiores) para simular perspectiva de profundidad.
+   */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C150 10,350 70,600 40 S1050 10,1200 40' fill='none' stroke='rgba(30,107,247,0.18)' stroke-width='1.2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C150 10,350 70,600 40 S1050 10,1200 40' fill='none' stroke='rgba(30,107,247,0.12)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C150 10,350 70,600 40 S1050 10,1200 40' fill='none' stroke='rgba(30,107,247,0.08)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C150 10,350 70,600 40 S1050 10,1200 40' fill='none' stroke='rgba(30,107,247,0.06)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C150 10,350 70,600 40 S1050 10,1200 40' fill='none' stroke='rgba(30,107,247,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+
+  background-repeat: repeat-x;
+  background-size: 1200px 80px;
+
+  /* Distribuir verticalmente: 10%, 28%, 48%, 66%, 84% de la pantalla */
+  background-position:
+    0 10vh,
+    0 28vh,
+    0 48vh,
+    0 66vh,
+    0 84vh;
+
+  animation: wave-forward 18s linear infinite;
+}
+
+/* Capas de olas — grupo B: se mueven en sentido contrario, con frecuencia distinta */
+.waves-bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  /*
+   * Cuatro líneas con amplitud ligeramente distinta (C130 / C370)
+   * y opacidades aún más tenues. Se mueven hacia la izquierda para
+   * crear la ilusión de capas de agua a distinta profundidad.
+   */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C130 5,370 75,600 40 S1070 5,1200 40' fill='none' stroke='rgba(30,107,247,0.10)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C130 5,370 75,600 40 S1070 5,1200 40' fill='none' stroke='rgba(30,107,247,0.07)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C130 5,370 75,600 40 S1070 5,1200 40' fill='none' stroke='rgba(30,107,247,0.05)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='80' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 C130 5,370 75,600 40 S1070 5,1200 40' fill='none' stroke='rgba(30,107,247,0.03)' stroke-width='1'/%3E%3C/svg%3E");
+
+  background-repeat: repeat-x;
+  background-size: 1200px 80px;
+
+  /* Intercalar con el grupo A: 19vh, 38vh, 57vh, 76vh */
+  background-position:
+    0 19vh,
+    0 38vh,
+    0 57vh,
+    0 76vh;
+
+  animation: wave-backward 26s linear infinite;
+}
+
+/* El contenido queda por encima de las olas */
+.waves-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waves-bg::before,
+  .waves-bg::after {
+    animation: none;
+  }
+}
