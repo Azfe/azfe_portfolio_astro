@@ -48,57 +48,70 @@ if (cvResult.ok) {
 // Datos de ejemplo para cuando el backend no está disponible
 const fallback = {
   name: "Alex Zapata",
-  headline: "Software Engineer · Backend Developer",
+  headline: "Software developer · Fullstack Developer · UI Designer",
   location: "Barcelona, ES",
-  bio: "Desarrollador backend especializado en Python, FastAPI y Clean Architecture. Construyo sistemas escalables, APIs robustas y soluciones bien documentadas.",
-  email: "alexzapata1984@gmail.com",
-  phone: "+34 600 000 000",
+  bio: "Desarrollador full‑stack con capacidad para diseñar y desarrollar aplicaciones web end‑to‑end. Combino un fuerte dominio del frontend —creación de interfaces accesibles, eficientes y orientadas a la experiencia de usuario— con experiencia en backend, APIs, bases de datos y despliegue en entornos cloud. Comprometido con la calidad del código, la optimización del rendimiento y la construcción de productos escalables y mantenibles.",
+  email: "azapatafe@gmail.com",
+  phone: "+34 695 462 730",
   github: "https://github.com/azfe",
   linkedin: "https://linkedin.com/in/alexzapata",
   website: "https://azfe.dev",
   certifications: [
-    { title: "MongoDB for Python Developers", issuer: "MongoDB University", url: "#" },
-    { title: "Clean Architecture & DDD", issuer: "Udemy", url: "#" },
+    {
+      title: "Certificaciones en Platzi",
+      issuer: "Platzi",
+      date: null,
+      url: "https://platzi.com/p/Azfe1984/",
+    },
+    {
+      title: "Database Programming with PL/SQL",
+      issuer: "Oracle Academy",
+      date: "2020-05-07",
+      url: "https://www.linkedin.com/in/alejandrozapataf/overlay/Certifications/686878267/treasury/?profileId=ACoAABlTMRgB74V6i2RDqXYgvPk2UqWk9VmnCCg",
+    },
+    {
+      title: "Java Programming",
+      issuer: "Oracle Academy",
+      date: "2020-07-15",
+      url: "https://www.linkedin.com/in/alejandrozapataf/overlay/Certifications/338095226/treasury/?profileId=ACoAABlTMRgB74V6i2RDqXYgvPk2UqWk9VmnCCg",
+    },
+    {
+      title: "Master en CSS",
+      issuer: "Udemy",
+      date: "2020-07-15",
+      url: "https://www.udemy.com/certificate/UC-5d216ebf-8a7e-4ddb-80cb-57b1ab176c4b/",
+    },
   ],
   experiences: [
     {
-      role: "Backend Developer",
-      company: "Freelance / Proyectos propios",
-      start: "2023-01-01",
+      role: "Fullstack Developer & Team Lead",
+      company: "CodeCrafters Developer Community",
+      start: "2025-11-10",
       end: null,
       isCurrent: true,
       location: "Barcelona, ES",
       description:
-        "Desarrollo de APIs REST con FastAPI y arquitectura limpia. Portfolio profesional completo con generación de PDF, autenticación y despliegue en Railway.",
+        "Líder de equipos multidisciplinarios internacionales, especializado en la gestión del ciclo de vida de desarrollo bajo metodologías ágiles. Experto en coordinar flujos de trabajo en Git, asegurar la calidad mediante Code Reviews y promover estándares de Clean Code y mentoría técnica. Stack y Capacidades Técnicas: Backend: Arquitecturas escalables con Node.js, NestJS y PostgreSQL. Frontend: Interfaces reactivas con React y Tailwind CSS. DevOps: Automatización de despliegues con Docker y GitHub Actions. Liderazgo: Gestión de proyectos desde cero (E2E), garantizando escalabilidad e innovación en entornos colaborativos de alto rendimiento.",
     },
     {
-      role: "Fullstack Developer",
-      company: "Empresa anterior",
+      role: "Frontend Developer",
+      company: "Arttalo Tech",
       start: "2021-03-01",
       end: "2023-01-01",
       isCurrent: false,
       location: "Barcelona, ES",
       description:
-        "Desarrollo y mantenimiento de aplicaciones web con React y Node.js. Integración con APIs de terceros y gestión de bases de datos PostgreSQL.",
-    },
-    {
-      role: "Junior Developer",
-      company: "Primera empresa",
-      start: "2020-06-01",
-      end: "2021-03-01",
-      isCurrent: false,
-      location: "Barcelona, ES",
-      description:
-        "Iniciación en desarrollo web profesional con HTML, CSS, JavaScript y primeros frameworks modernos.",
+        "1. Sistema HMI para Automóviles: Desarrollo de interfaces críticas de alta precisión con enfoque en rendimiento y adaptabilidad. Programé arquitecturas de componentes pixel-perfect para múltiples resoluciones y sincronicé la UI con APIs del vehículo para visualización de datos en tiempo real (latencia cero). Optimicé microinteracciones y activos visuales, garantizando fluidez y carga instantánea en hardware embebido. 2. Intranet Corporativa: Liderazgo en el desarrollo de una biblioteca de componentes reutilizables, optimizando los tiempos de desarrollo en un 30%. Implementé interfaces accesibles (estándares WCAG) y responsivas para el 100% de la plantilla. Refactoricé la integración con APIs y optimicé el consumo de recursos de red, mejorando drásticamente la velocidad de respuesta y la consistencia visual..",
     },
   ],
   education: [
     {
-      degree: "Grado en Ingeniería Informática",
-      institution: "Universidad Complutense de Madrid",
+      degree: "Técnico Superior en Desarrollo de Aplicaciones Web",
+      institution: "FP Jesuites El Clot, Barcelona",
       start: "2016-09-01",
       end: "2020-06-01",
-      description: "Especialidad en Ingeniería del Software.",
+      description:
+        "Formación orientada al desarrollo completo de aplicaciones web en entorno cliente y servidor. Programación frontend con HTML5, CSS3 y JavaScript. Desarrollo de interfaces aplicando principios de usabilidad y accesibilidad. Programación backend y lógica de negocio (Java, Php). Diseño y gestión de bases de datos relacionales (MySQL / Oracle). Creación y consumo de APIs y servicios web REST. Desarrollo de aplicaciones web distribuidas. Aplicación de arquitectura de software y patrones de diseño. Uso profesional de Git y control de versiones. Implantación y despliegue de aplicaciones web. Aplicación de buenas prácticas, testing y documentación técnica. Desarrollo de proyectos y Formación en Centros de Trabajo (FCT).",
     },
   ],
 };
@@ -118,7 +131,8 @@ const data = cv
       certifications: cv.certifications.map((c) => ({
         title: c.title,
         issuer: c.issuer,
-        url: c.credential_url ?? "#",
+        date: c.issue_date ?? null,
+        url: c.credential_url ?? null,
       })),
       experiences: cv.work_experiences.map((e) => ({
         role: e.role,
@@ -161,13 +175,14 @@ const additionalTraining: AdditionalTraining[] = cv ? cv.additional_training : [
 // Fallback additional training for when backend is unavailable
 const fallbackAdditionalTraining = [
   {
-    title: "FastAPI - The Complete Course",
-    provider: "Udemy",
-    completion_date: "2023-06-01",
-    duration: "20h",
+    title:
+      "IFCD0210 - Certificado de profesionalidad Desarrollo de Aplicaciones con tecnología web (Nivel 3)",
+    provider: "The Corner (CEPP)",
+    completion_date: "2025-12-16",
+    duration: "6 meses",
     certificate_url: null,
     description:
-      "Desarrollo de APIs REST modernas con FastAPI, validación con Pydantic y despliegue con Docker.",
+      "Formación especializada en programación web en entorno cliente y servidor, orientada al desarrollo de aplicaciones modernas y escalables. Desarrollo de interfaces frontend con HTML5, CSS3, JavaScript ES6+, Tailwind CSS y React, aplicando principios de diseño UI con Figma. Implementación de backend y lógica de negocio mediante Python, Flask, FastAPI, incluyendo acceso y gestión de datos con SQLite y MySQL. Diseño y desarrollo de aplicaciones web distribuidas, aplicando arquitectura de software, patrones de diseño y buenas prácticas de programación. Uso de control de versiones con Git y colaboración con GitHub. Implantación, configuración y mantenimiento de aplicaciones web, garantizando rendimiento, seguridad y escalabilidad. Verificación, documentación e implementación de aplicaciones siguiendo criterios técnicos, metodologías de calidad y buenas prácticas.",
   },
   {
     title: "Clean Architecture & DDD en Python",
@@ -385,17 +400,47 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
           <div class="sidebar-section">
             <h4 class="sidebar-heading">Certificaciones</h4>
             <div class="cert-list">
-              {data.certifications.map((cert) => (
-                <div class="cert-card">
-                  <p class="cert-title">{cert.title}</p>
-                  <p class="cert-issuer">{cert.issuer}</p>
-                  {cert.url && cert.url !== "#" && (
-                    <a href={cert.url} class="cert-link" target="_blank" rel="noopener noreferrer">
-                      Ver →
-                    </a>
-                  )}
-                </div>
-              ))}
+              {data.certifications.map((cert) =>
+                cert.url ? (
+                  <a
+                    href={cert.url}
+                    class="cert-card cert-card--link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <p class="cert-title">{cert.title}</p>
+                    <p class="cert-issuer">{cert.issuer}</p>
+                    <div class="cert-footer">
+                      {cert.date && <span class="cert-date">{formatDate(cert.date)}</span>}
+                      <span class="cert-link">
+                        Ver credencial
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="11"
+                          height="11"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                ) : (
+                  <div class="cert-card">
+                    <p class="cert-title">{cert.title}</p>
+                    <p class="cert-issuer">{cert.issuer}</p>
+                    {cert.date && <p class="cert-date">{formatDate(cert.date)}</p>}
+                  </div>
+                )
+              )}
             </div>
           </div>
         )
@@ -567,10 +612,10 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       </h3>
                       <div class="xp-meta-row">
                         <span class="xp-dates-pill">{formatDate(item.completion_date)}</span>
-                        <span class="xp-company-inline">{item.provider}</span>
                         {item.duration && (
                           <span class="training-duration-pill">{item.duration}</span>
                         )}
+                        <span class="xp-company-inline">{item.provider}</span>
                       </div>
                       {item.description && <p class="xp-desc">{item.description}</p>}
                     </div>
@@ -740,6 +785,21 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
     border: 1px solid #e8ecf4;
     border-radius: 8px;
     background: #ffffff;
+    display: block;
+    text-decoration: none;
+  }
+
+  .cert-card--link {
+    cursor: pointer;
+    color: inherit;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .cert-card--link:hover {
+    border-color: #00507d;
+    box-shadow: 0 2px 8px rgba(0, 80, 125, 0.1);
   }
 
   .cert-title {
@@ -753,18 +813,32 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
   .cert-issuer {
     font-size: 11px;
     color: #8592b0;
-    margin-bottom: 6px;
+    margin-bottom: 0;
+  }
+
+  .cert-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    gap: 6px;
+  }
+
+  .cert-date {
+    font-size: 9px;
+    color: #8592b0;
+    margin: 0;
   }
 
   .cert-link {
-    font-size: 11.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
     font-weight: 600;
     color: #00507d;
-    text-decoration: none;
-  }
-
-  .cert-link:hover {
-    text-decoration: underline;
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .sidebar-skills {
