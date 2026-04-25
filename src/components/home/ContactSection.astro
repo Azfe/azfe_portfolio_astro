@@ -1,4 +1,6 @@
 ---
+import ContactForm from "@/components-islands/ContactForm";
+
 const services = [
   {
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
@@ -54,22 +56,6 @@ const services = [
 
     <!-- CTA -->
     <div class="contact-cta">
-      <a href="mailto:alexzapata1984@gmail.com" class="cta-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="17"
-          height="17"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-          ></path><polyline points="22,6 12,13 2,6"></polyline></svg
-        >
-        Escríbeme
-      </a>
       <span class="cta-badge">
         <span class="badge-dot"></span>
         Horarios flexibles
@@ -93,6 +79,12 @@ const services = [
         >
         Reunión en linea
       </span>
+    </div>
+
+    <!-- Formulario de contacto interactivo -->
+    <div class="form-wrap">
+      <h3 class="form-heading">Escríbeme directamente</h3>
+      <ContactForm client:visible />
     </div>
   </div>
 </section>
@@ -231,6 +223,19 @@ const services = [
     display: inline-block;
   }
 
+  .form-wrap {
+    margin-top: 40px;
+  }
+
+  .form-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
   @media (max-width: 600px) {
     .services-grid {
       grid-template-columns: 1fr;
@@ -240,10 +245,6 @@ const services = [
       flex-direction: column;
       align-items: stretch;
       text-align: center;
-    }
-
-    .cta-btn {
-      justify-content: center;
     }
   }
 </style>
