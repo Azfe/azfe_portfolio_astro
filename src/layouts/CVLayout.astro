@@ -3,6 +3,8 @@
 // layout for CV viewing and download, with its own toolbar (back link, print/
 // download action). The standard site navigation is irrelevant in this context.
 import BaseLayout from "./BaseLayout.astro";
+import DownloadButton from "@/components-islands/DownloadButton";
+import { API_URL } from "@/config/constants";
 
 interface Props {
   title?: string;
@@ -36,22 +38,7 @@ const { title, description, noindex = false } = Astro.props;
           >
           Portfolio
         </a>
-        <button onclick="window.print()" class="cv-download-btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline
-              points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg
-          >
-          DESCARGAR
-        </button>
+        <DownloadButton href={`${API_URL}/cv/download`} label="Descargar CV" client:load />
       </div>
     </div>
   </div>
