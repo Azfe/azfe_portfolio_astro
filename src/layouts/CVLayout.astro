@@ -4,6 +4,7 @@
 // download action). The standard site navigation is irrelevant in this context.
 import BaseLayout from "./BaseLayout.astro";
 import DownloadButton from "@/components-islands/DownloadButton";
+import ScrollToTop from "@/components-islands/ScrollToTop";
 import { API_URL } from "@/config/constants";
 
 interface Props {
@@ -49,6 +50,7 @@ const { title, description, noindex = false } = Astro.props;
       <slot />
     </div>
   </div>
+  <ScrollToTop client:idle />
 </BaseLayout>
 
 <style>
