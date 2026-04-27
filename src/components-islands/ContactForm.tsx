@@ -20,7 +20,7 @@
  * — este componente no necesita modificarse.
  */
 
-import { useState, useId } from "react";
+import { useState, useId, type SyntheticEvent } from "react";
 import { validateContactForm } from "@/utils/validators";
 import { normalizeError } from "@/utils/error-handler";
 import { sendContactMessage } from "@/services/api/contact.service";
@@ -256,7 +256,7 @@ export default function ContactForm() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
 
     // Validación cliente
