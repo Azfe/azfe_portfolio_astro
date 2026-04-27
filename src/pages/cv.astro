@@ -567,12 +567,15 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                 <div class="xp-item">
                   <div class="xp-dot" />
                   <div class="xp-content">
-                    <h3 class="xp-role">{edu.degree}</h3>
+                    <h3 class="xp-role">
+                      {edu.degree}
+                      <span class="xp-company-inline"> — {edu.institution}</span>
+                    </h3>
                     <div class="xp-meta-row">
                       <span class="xp-dates-pill">
                         {formatDateRange(edu.start, edu.end, false)}
                       </span>
-                      <span class="xp-company-inline">{edu.institution}</span>
+                      {/* <span class="xp-company-inline">{edu.institution}</span> */}
                     </div>
                     {edu.description && <p class="xp-desc">{edu.description}</p>}
                   </div>
@@ -609,13 +612,16 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                         ) : (
                           item.title
                         )}
+                        {/* <span class="xp-company"> — {item.provider}</span> */}
+                        <span class="xp-company-inline"> — {item.provider}</span>
                       </h3>
+
                       <div class="xp-meta-row">
                         <span class="xp-dates-pill">{formatDate(item.completion_date)}</span>
                         {item.duration && (
                           <span class="training-duration-pill">{item.duration}</span>
                         )}
-                        <span class="xp-company-inline">{item.provider}</span>
+                        {/* <span class="xp-company-inline">{item.provider}</span> */}
                       </div>
                       {item.description && <p class="xp-desc">{item.description}</p>}
                     </div>
