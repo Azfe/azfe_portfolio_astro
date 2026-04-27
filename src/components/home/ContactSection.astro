@@ -1,5 +1,7 @@
 ---
-import ContactForm from "@/components-islands/ContactForm";
+import { API_URL } from "@/config/constants";
+
+const apiUrl = API_URL ?? "";
 
 const services = [
   {
@@ -81,13 +83,299 @@ const services = [
       </span>
     </div>
 
-    <!-- Formulario de contacto interactivo -->
+    <!-- Formulario de contacto (nativo — siempre visible, sin React) -->
     <div class="form-wrap">
       <h3 class="form-heading">Escríbeme directamente</h3>
-      <ContactForm client:visible />
+
+      <div class="cf-container">
+        <!-- Error global -->
+        <div id="cf-global-error" class="cf-global-error" role="alert" aria-live="assertive" hidden>
+          <p id="cf-global-text" class="cf-global-text"></p>
+          <button id="cf-retry-btn" class="cf-retry-btn" type="button">Reintentar</button>
+        </div>
+
+        <!-- Formulario -->
+        <form id="cf-form" novalidate aria-label="Formulario de contacto">
+          <!-- Nombre -->
+          <div class="cf-field">
+            <label for="cf-name" class="cf-label">
+              Nombre <span aria-hidden="true" class="cf-required">*</span>
+            </label>
+            <input
+              id="cf-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              placeholder="Tu nombre completo"
+              class="cf-input"
+              aria-required="true"
+            />
+            <span id="cf-name-err" class="cf-field-err" role="alert" hidden></span>
+          </div>
+
+          <!-- Email -->
+          <div class="cf-field">
+            <label for="cf-email" class="cf-label">
+              Correo electrónico <span aria-hidden="true" class="cf-required">*</span>
+            </label>
+            <input
+              id="cf-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="tu@email.com"
+              class="cf-input"
+              aria-required="true"
+            />
+            <span id="cf-email-err" class="cf-field-err" role="alert" hidden></span>
+          </div>
+
+          <!-- Mensaje -->
+          <div class="cf-field" style="margin-bottom:24px">
+            <label for="cf-message" class="cf-label">
+              Mensaje <span aria-hidden="true" class="cf-required">*</span>
+            </label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="5"
+              placeholder="¿En qué puedo ayudarte?"
+              class="cf-input cf-textarea"
+              aria-required="true"></textarea>
+            <span id="cf-message-err" class="cf-field-err" role="alert" hidden></span>
+          </div>
+
+          <button type="submit" id="cf-submit" class="cf-submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              style="flex-shrink:0"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            Enviar mensaje
+          </button>
+        </form>
+
+        <!-- Estado de éxito -->
+        <div id="cf-success" class="cf-success" role="status" aria-live="polite" hidden>
+          <span class="cf-success-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </span>
+          <p class="cf-success-title">Mensaje enviado</p>
+          <p class="cf-success-desc">
+            Gracias por escribirme. Te responderé en el menor tiempo posible.
+          </p>
+          <button id="cf-new-msg" class="cf-new-msg-btn" type="button">
+            Enviar otro mensaje
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script define:vars={{ apiUrl }}>
+  (function () {
+    // Inject spinner keyframes once
+    if (!document.getElementById("cf-keyframes")) {
+      const ks = document.createElement("style");
+      ks.id = "cf-keyframes";
+      ks.textContent = "@keyframes cf-spin { to { transform: rotate(360deg); } }";
+      document.head.appendChild(ks);
+    }
+
+    const form = document.getElementById("cf-form");
+    const successEl = document.getElementById("cf-success");
+    const globalErrorEl = document.getElementById("cf-global-error");
+    const globalTextEl = document.getElementById("cf-global-text");
+    const retryBtn = document.getElementById("cf-retry-btn");
+    const newMsgBtn = document.getElementById("cf-new-msg");
+    const submitBtn = document.getElementById("cf-submit");
+    const nameInput = document.getElementById("cf-name");
+    const emailInput = document.getElementById("cf-email");
+    const messageInput = document.getElementById("cf-message");
+    const nameErr = document.getElementById("cf-name-err");
+    const emailErr = document.getElementById("cf-email-err");
+    const messageErr = document.getElementById("cf-message-err");
+
+    if (!form) return;
+
+    const SEND_ICON =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    const SPIN_ICON =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" style="animation:cf-spin 0.8s linear infinite;flex-shrink:0"><circle cx="12" cy="12" r="10" opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>';
+
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    function showFieldErr(input, errEl, msg) {
+      input.setAttribute("aria-invalid", "true");
+      input.style.borderColor = "#e53e3e";
+      input.style.background = "#fff5f5";
+      errEl.textContent = msg;
+      errEl.hidden = false;
+    }
+
+    function clearFieldErr(input, errEl) {
+      input.removeAttribute("aria-invalid");
+      input.style.borderColor = "";
+      input.style.background = "";
+      errEl.hidden = true;
+      errEl.textContent = "";
+    }
+
+    function setLoading(on) {
+      submitBtn.disabled = on;
+      submitBtn.innerHTML = on ? SPIN_ICON + " Enviando…" : SEND_ICON + " Enviar mensaje";
+    }
+
+    function showGlobalErr(msg, retryable) {
+      globalTextEl.textContent = msg;
+      retryBtn.hidden = !retryable;
+      globalErrorEl.hidden = false;
+    }
+
+    // Clear field error on typing
+    [
+      [nameInput, nameErr],
+      [emailInput, emailErr],
+      [messageInput, messageErr],
+    ].forEach(function (pair) {
+      pair[0].addEventListener("input", function () {
+        clearFieldErr(pair[0], pair[1]);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      let hasErr = false;
+
+      if (!name || name.length < 2) {
+        showFieldErr(
+          nameInput,
+          nameErr,
+          name ? "El nombre debe tener al menos 2 caracteres." : "El nombre es obligatorio."
+        );
+        hasErr = true;
+      } else {
+        clearFieldErr(nameInput, nameErr);
+      }
+
+      if (!email) {
+        showFieldErr(emailInput, emailErr, "El correo electrónico es obligatorio.");
+        hasErr = true;
+      } else if (!validateEmail(email)) {
+        showFieldErr(emailInput, emailErr, "Introduce un correo electrónico válido.");
+        hasErr = true;
+      } else {
+        clearFieldErr(emailInput, emailErr);
+      }
+
+      if (!message || message.length < 10) {
+        showFieldErr(
+          messageInput,
+          messageErr,
+          message ? "El mensaje debe tener al menos 10 caracteres." : "El mensaje es obligatorio."
+        );
+        hasErr = true;
+      } else {
+        clearFieldErr(messageInput, messageErr);
+      }
+
+      if (hasErr) return;
+
+      globalErrorEl.hidden = true;
+      setLoading(true);
+
+      fetch(apiUrl + "/contact-messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, email: email, message: message }),
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            return res
+              .json()
+              .catch(function () {
+                return {};
+              })
+              .then(function (body) {
+                const err = new Error(body.message || "HTTP " + res.status);
+                err.status = res.status;
+                throw err;
+              });
+          }
+          return res.json();
+        })
+        .then(function () {
+          form.hidden = true;
+          successEl.hidden = false;
+        })
+        .catch(function (err) {
+          const status = err && err.status;
+          let msg;
+          if (!status || status === 0 || status >= 500) {
+            msg =
+              status >= 500
+                ? "Ha ocurrido un error interno en el servidor. Inténtalo de nuevo más tarde."
+                : "El servidor no está disponible en este momento. Comprueba tu conexión e inténtalo de nuevo.";
+            showGlobalErr(msg, true);
+          } else {
+            msg =
+              err && err.message && !String(err.message).startsWith("HTTP")
+                ? err.message
+                : "Los datos enviados no son válidos. Revisa el formulario e inténtalo de nuevo.";
+            showGlobalErr(msg, false);
+          }
+        })
+        .finally(function () {
+          setLoading(false);
+        });
+    });
+
+    retryBtn.addEventListener("click", function () {
+      globalErrorEl.hidden = true;
+    });
+
+    newMsgBtn.addEventListener("click", function () {
+      form.reset();
+      clearFieldErr(nameInput, nameErr);
+      clearFieldErr(emailInput, emailErr);
+      clearFieldErr(messageInput, messageErr);
+      successEl.hidden = true;
+      form.hidden = false;
+    });
+  })();
+</script>
 
 <style>
   .contact-section {
@@ -180,28 +468,6 @@ const services = [
     flex-wrap: wrap;
   }
 
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 13px 28px;
-    border-radius: var(--radius-pill);
-    background: var(--blue);
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      background var(--transition),
-      box-shadow var(--transition);
-    box-shadow: 0 4px 16px rgba(30, 107, 247, 0.3);
-  }
-
-  .cta-btn:hover {
-    background: var(--blue-2);
-    box-shadow: 0 6px 22px rgba(30, 107, 247, 0.4);
-  }
-
   .cta-badge {
     display: inline-flex;
     align-items: center;
@@ -236,6 +502,177 @@ const services = [
     text-align: center;
   }
 
+  /* ---- Contact form ---- */
+
+  .cf-container {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .cf-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+
+  .cf-required {
+    color: #c53030;
+  }
+
+  .cf-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--line);
+    background: var(--soft);
+    color: var(--ink);
+    font-size: 14px;
+    outline: none;
+    transition:
+      border-color 150ms ease,
+      background 150ms ease;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  .cf-input:focus {
+    border-color: var(--blue);
+  }
+
+  .cf-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .cf-field-err {
+    font-size: 12.5px;
+    color: #c53030;
+    font-weight: 500;
+  }
+
+  .cf-global-error {
+    background: #fff5f5;
+    border: 1.5px solid #fed7d7;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cf-global-text {
+    font-size: 13.5px;
+    color: #c53030;
+    font-weight: 500;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .cf-retry-btn {
+    align-self: flex-start;
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    border: 1.5px solid #c53030;
+    color: #c53030;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+  }
+
+  .cf-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 28px;
+    border-radius: var(--radius-pill);
+    background: var(--blue);
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition:
+      background 200ms ease,
+      box-shadow 200ms ease;
+    box-shadow: 0 4px 14px rgba(30, 107, 247, 0.28);
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .cf-submit:hover:not(:disabled) {
+    background: var(--blue-2);
+    box-shadow: 0 6px 20px rgba(30, 107, 247, 0.38);
+  }
+
+  .cf-submit:disabled {
+    opacity: 0.75;
+    cursor: default;
+    box-shadow: none;
+  }
+
+  .cf-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 28px;
+    text-align: center;
+  }
+
+  .cf-success-icon {
+    color: #22c55e;
+    background: #f0fdf4;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cf-success-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .cf-success-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 340px;
+    line-height: 1.6;
+  }
+
+  .cf-new-msg-btn {
+    margin-top: 4px;
+    padding: 9px 22px;
+    border-radius: var(--radius-pill);
+    background: var(--soft);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
   @media (max-width: 600px) {
     .services-grid {
       grid-template-columns: 1fr;
@@ -245,6 +682,10 @@ const services = [
       flex-direction: column;
       align-items: stretch;
       text-align: center;
+    }
+
+    .cf-container {
+      padding: 24px 18px;
     }
   }
 </style>

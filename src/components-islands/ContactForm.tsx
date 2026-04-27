@@ -20,7 +20,7 @@
  * — este componente no necesita modificarse.
  */
 
-import { useState, useId, type SyntheticEvent } from "react";
+import { useState, type SyntheticEvent } from "react";
 import { validateContactForm } from "@/utils/validators";
 import { normalizeError } from "@/utils/error-handler";
 import { sendContactMessage } from "@/services/api/contact.service";
@@ -235,9 +235,16 @@ const SUCCESS_BOX: React.CSSProperties = {
 
 const EMPTY_FORM: ContactFormData = { name: "", email: "", message: "" };
 
-export default function ContactForm() {
-  const formId = useId();
+const FIELD_IDS = {
+  name: "cf-name",
+  email: "cf-email",
+  message: "cf-message",
+  nameError: "cf-name-error",
+  emailError: "cf-email-error",
+  messageError: "cf-message-error",
+} as const;
 
+export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -358,12 +365,12 @@ export default function ContactForm() {
 
   const isLoading = status === "loading";
 
-  const nameId = `${formId}-name`;
-  const emailId = `${formId}-email`;
-  const messageId = `${formId}-message`;
-  const nameErrorId = `${nameId}-error`;
-  const emailErrorId = `${emailId}-error`;
-  const messageErrorId = `${messageId}-error`;
+  const nameId = FIELD_IDS.name;
+  const emailId = FIELD_IDS.email;
+  const messageId = FIELD_IDS.message;
+  const nameErrorId = FIELD_IDS.nameError;
+  const emailErrorId = FIELD_IDS.emailError;
+  const messageErrorId = FIELD_IDS.messageError;
 
   return (
     <div style={FORM_WRAP}>
