@@ -43,6 +43,8 @@ export interface WorkExperience extends BaseEntity {
   company: string;
   start_date: ISODateString;
   end_date: ISODateString | null;
+  is_current: boolean;
+  duration_months: number;
   description: string | null;
   responsibilities: string[];
   order_index: number;

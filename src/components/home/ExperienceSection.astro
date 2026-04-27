@@ -1,6 +1,7 @@
 ---
 import type { WorkExperience } from "@/types/cv.types";
 import { formatDate } from "@/utils/formatters";
+import { formatDuration } from "@/utils/date.utils";
 
 interface Props {
   experiences: WorkExperience[];
@@ -9,8 +10,8 @@ interface Props {
 const { experiences } = Astro.props;
 
 const sorted = [...experiences].sort((a, b) => {
-  if (!a.end_date && b.end_date) return -1;
-  if (a.end_date && !b.end_date) return 1;
+  if (a.is_current && !b.is_current) return -1;
+  if (!a.is_current && b.is_current) return 1;
   return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
 });
 ---
@@ -22,29 +23,27 @@ const sorted = [...experiences].sort((a, b) => {
     {
       sorted.length > 0 ? (
         <div class="timeline">
-          {sorted.map((exp) => {
-            const isCurrent = !exp.end_date;
-            return (
-              <div class="timeline-item">
-                <div class="timeline-dot" />
-                <div class="xp-card">
-                  <div class="xp-header">
-                    <div class="xp-main">
-                      <h3 class="xp-role">{exp.role}</h3>
-                      <span class="xp-company">{exp.company}</span>
-                    </div>
-                    <div class="xp-meta">
-                      <span class="xp-dates">
-                        {formatDate(exp.start_date)} —{" "}
-                        {isCurrent ? <strong>presente</strong> : formatDate(exp.end_date!)}
-                      </span>
-                    </div>
+          {sorted.map((exp) => (
+            <div class="timeline-item">
+              <div class="timeline-dot" />
+              <div class="xp-card">
+                <div class="xp-header">
+                  <div class="xp-main">
+                    <h3 class="xp-role">{exp.role}</h3>
+                    <span class="xp-company">{exp.company}</span>
                   </div>
-                  {exp.description && <p class="xp-desc">{exp.description}</p>}
+                  <div class="xp-meta">
+                    <span class="xp-dates">
+                      {formatDate(exp.start_date)} —{" "}
+                      {exp.is_current ? <strong>presente</strong> : formatDate(exp.end_date!)}
+                    </span>
+                    <span class="xp-duration">{formatDuration(exp.duration_months)}</span>
+                  </div>
                 </div>
+                {exp.description && <p class="xp-desc">{exp.description}</p>}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       ) : (
         <p class="empty">No hay experiencia disponible.</p>
@@ -176,6 +175,12 @@ const sorted = [...experiences].sort((a, b) => {
   .xp-dates strong {
     color: var(--blue);
     font-weight: 600;
+  }
+
+  .xp-duration {
+    font-size: 12px;
+    color: var(--ink-3);
+    white-space: nowrap;
   }
 
   .xp-desc {
