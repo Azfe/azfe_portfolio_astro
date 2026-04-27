@@ -29,6 +29,7 @@ import type {
   Project,
 } from "@/types/cv.types";
 import { formatDate, formatDateRange } from "@/utils/formatters";
+import { formatDuration } from "@/utils/date.utils";
 import { PAGE_SEO } from "@/config/seo";
 
 const cvResult = await fetchPageData(() => getCVComplete());
@@ -89,6 +90,7 @@ const fallback = {
       start: "2025-11-10",
       end: null,
       isCurrent: true,
+      duration_months: null,
       location: "Barcelona, ES",
       description:
         "Líder de equipos multidisciplinarios internacionales, especializado en la gestión del ciclo de vida de desarrollo bajo metodologías ágiles. Experto en coordinar flujos de trabajo en Git, asegurar la calidad mediante Code Reviews y promover estándares de Clean Code y mentoría técnica. Stack y Capacidades Técnicas: Backend: Arquitecturas escalables con Node.js, NestJS y PostgreSQL. Frontend: Interfaces reactivas con React y Tailwind CSS. DevOps: Automatización de despliegues con Docker y GitHub Actions. Liderazgo: Gestión de proyectos desde cero (E2E), garantizando escalabilidad e innovación en entornos colaborativos de alto rendimiento.",
@@ -99,6 +101,7 @@ const fallback = {
       start: "2021-03-01",
       end: "2023-01-01",
       isCurrent: false,
+      duration_months: 22,
       location: "Barcelona, ES",
       description:
         "1. Sistema HMI para Automóviles: Desarrollo de interfaces críticas de alta precisión con enfoque en rendimiento y adaptabilidad. Programé arquitecturas de componentes pixel-perfect para múltiples resoluciones y sincronicé la UI con APIs del vehículo para visualización de datos en tiempo real (latencia cero). Optimicé microinteracciones y activos visuales, garantizando fluidez y carga instantánea en hardware embebido. 2. Intranet Corporativa: Liderazgo en el desarrollo de una biblioteca de componentes reutilizables, optimizando los tiempos de desarrollo en un 30%. Implementé interfaces accesibles (estándares WCAG) y responsivas para el 100% de la plantilla. Refactoricé la integración con APIs y optimicé el consumo de recursos de red, mejorando drásticamente la velocidad de respuesta y la consistencia visual..",
@@ -140,6 +143,7 @@ const data = cv
         start: e.start_date,
         end: e.end_date,
         isCurrent: e.end_date === null,
+        duration_months: e.duration_months,
         location: "",
         description: e.description ?? "",
       })),
@@ -546,6 +550,11 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       <span class="xp-dates-pill">
                         {formatDateRange(exp.start, exp.end, exp.isCurrent)}
                       </span>
+                      {exp.duration_months != null && exp.duration_months > 0 && (
+                        <span class="training-duration-pill">
+                          {formatDuration(exp.duration_months)}
+                        </span>
+                      )}
                       {exp.location && <span class="xp-location-pill">{exp.location}</span>}
                     </div>
                     {exp.description && <p class="xp-desc">{exp.description}</p>}
@@ -567,12 +576,15 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                 <div class="xp-item">
                   <div class="xp-dot" />
                   <div class="xp-content">
-                    <h3 class="xp-role">{edu.degree}</h3>
+                    <h3 class="xp-role">
+                      {edu.degree}
+                      <span class="xp-company-inline"> — {edu.institution}</span>
+                    </h3>
                     <div class="xp-meta-row">
                       <span class="xp-dates-pill">
                         {formatDateRange(edu.start, edu.end, false)}
                       </span>
-                      <span class="xp-company-inline">{edu.institution}</span>
+                      {/* <span class="xp-company-inline">{edu.institution}</span> */}
                     </div>
                     {edu.description && <p class="xp-desc">{edu.description}</p>}
                   </div>
@@ -609,13 +621,16 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                         ) : (
                           item.title
                         )}
+                        {/* <span class="xp-company"> — {item.provider}</span> */}
+                        <span class="xp-company-inline"> — {item.provider}</span>
                       </h3>
+
                       <div class="xp-meta-row">
                         <span class="xp-dates-pill">{formatDate(item.completion_date)}</span>
                         {item.duration && (
                           <span class="training-duration-pill">{item.duration}</span>
                         )}
-                        <span class="xp-company-inline">{item.provider}</span>
+                        {/* <span class="xp-company-inline">{item.provider}</span> */}
                       </div>
                       {item.description && <p class="xp-desc">{item.description}</p>}
                     </div>
