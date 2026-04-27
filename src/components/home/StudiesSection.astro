@@ -1,82 +1,98 @@
 ---
-const studies = [
-  {
-    institution: "Universidad Complutense de Madrid",
-    title: "Grado en Ingenieria Informatica",
-    subtitle: "Desarrollo de Software",
-    year: "2016 – 2020",
+import type { Education, Certification } from "@/types/cv.types";
+import { formatDate } from "@/utils/formatters";
+
+interface Props {
+  education: Education[];
+  certifications: Certification[];
+}
+
+const { education, certifications } = Astro.props;
+
+type StudyTag = "grade" | "cert";
+
+interface StudyItem {
+  tag: StudyTag;
+  tagLabel: string;
+  institution: string;
+  title: string;
+  subtitle: string | null;
+  year: string;
+  url: string | null;
+}
+
+const educationItems: StudyItem[] = [...education]
+  .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime())
+  .map((e) => ({
     tag: "grade",
-    tagLabel: "Grado",
-  },
-  {
-    institution: "Udemy / Platzi",
-    title: "Clean Architecture & DDD",
-    subtitle: "Arquitectura de software avanzada",
-    year: "2023",
+    tagLabel: "Formación",
+    institution: e.institution,
+    title: e.degree,
+    subtitle: e.field,
+    year: e.end_date
+      ? `${new Date(e.start_date).getFullYear()} – ${new Date(e.end_date).getFullYear()}`
+      : `${new Date(e.start_date).getFullYear()} – actual`,
+    url: null,
+  }));
+
+const certItems: StudyItem[] = [...certifications]
+  .sort((a, b) => new Date(b.issue_date).getTime() - new Date(a.issue_date).getTime())
+  .map((c) => ({
     tag: "cert",
     tagLabel: "Certificado",
-    url: "#",
-  },
-  {
-    institution: "MongoDB University",
-    title: "MongoDB for Python Developers",
-    subtitle: "M220P — Bases de datos documentales",
-    year: "2022",
-    tag: "cert",
-    tagLabel: "Certificado",
-    url: "#",
-  },
-  {
-    institution: "FreeCodeCamp",
-    title: "APIs and Microservices",
-    subtitle: "Backend development con Node.js",
-    year: "2021",
-    tag: "cert",
-    tagLabel: "Certificado",
-    url: "#",
-  },
-];
+    institution: c.issuer,
+    title: c.title,
+    subtitle: null,
+    year: formatDate(c.issue_date),
+    url: c.credential_url,
+  }));
+
+const studies: StudyItem[] = [...educationItems, ...certItems];
 ---
 
 <section class="studies-section" id="estudios">
   <div class="section-wrap">
     <h2 class="section-title">Estudios</h2>
 
-    <div class="studies-grid">
-      {
-        studies.map((s) => (
-          <div class="study-card">
-            <span class={`study-tag study-tag--${s.tag}`}>{s.tagLabel}</span>
-            <p class="study-provider">{s.institution}</p>
-            <h3 class="study-title">{s.title}</h3>
-            <p class="study-subtitle">{s.subtitle}</p>
-            <div class="study-footer">
-              <span class="study-year">{s.year}</span>
-              {s.url && (
-                <a href={s.url} class="study-link" target="_blank" rel="noopener noreferrer">
-                  Ver credencial
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="11"
-                    height="11"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
-                </a>
-              )}
+    {
+      studies.length > 0 ? (
+        <div class="studies-grid">
+          {studies.map((s) => (
+            <div class="study-card">
+              <span class={`study-tag study-tag--${s.tag}`}>{s.tagLabel}</span>
+              <p class="study-provider">{s.institution}</p>
+              <h3 class="study-title">{s.title}</h3>
+              {s.subtitle && <p class="study-subtitle">{s.subtitle}</p>}
+              <div class="study-footer">
+                <span class="study-year">{s.year}</span>
+                {s.url && (
+                  <a href={s.url} class="study-link" target="_blank" rel="noopener noreferrer">
+                    Ver credencial
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
-        ))
-      }
-    </div>
+          ))}
+        </div>
+      ) : (
+        <p class="empty">No hay estudios disponibles.</p>
+      )
+    }
   </div>
 </section>
 
@@ -187,6 +203,7 @@ const studies = [
     align-items: center;
     justify-content: space-between;
     padding-top: 12px;
+    margin-top: auto;
     border-top: 1px dashed var(--line);
   }
 
@@ -209,6 +226,11 @@ const studies = [
 
   .study-link:hover {
     opacity: 0.75;
+  }
+
+  .empty {
+    color: var(--ink-3);
+    font-size: 14px;
   }
 
   @media (max-width: 600px) {
