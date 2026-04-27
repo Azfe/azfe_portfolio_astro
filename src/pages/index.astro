@@ -1,17 +1,14 @@
 ---
 /**
- * Render strategy: SSG (Static Site Generation)
+ * Render strategy: SSR (Server-Side Rendering)
  *
- * Rationale (I-F-4.4.4-02):
- * The home page is a landing/presentation page. Its content is stable — it does
- * not depend on real-time data from the backend on every request.
- * Pre-rendering at build time maximises performance (served as a static HTML file),
- * improves Lighthouse scores and keeps hosting simple (Vercel/Netlify edge cache).
- *
- * `prerender = true` is explicit here even though "static" is the project default,
- * so the intent is self-documenting and survives future output-mode changes.
+ * Rationale (I-F-4.4.4-02, revised 2026-04-27):
+ * Initial plan was SSG. Revised because Home and CV would show inconsistent data:
+ * CV reflects live backend state while Home showed stale hardcoded content.
+ * Both pages now use SSR so any backend update is immediately visible site-wide.
+ * Satisfies CU-01 ("Ver Página de Inicio") revised contract.
  */
-export const prerender = true;
+export const prerender = false;
 
 import { getImage } from "astro:assets";
 import MainLayout from "@/layouts/MainLayout.astro";
@@ -22,11 +19,12 @@ import StudiesSection from "@/components/home/StudiesSection.astro";
 import ProjectsSection from "@/components/home/ProjectsSection.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
 import { PAGE_SEO } from "@/config/seo";
+import { getCVComplete } from "@/services/api/cv.service";
+import { fetchPageData } from "@/utils/error-handler";
+import type { WorkExperience, Project, Skill, Education, Certification } from "@/types/cv.types";
 import profileImg from "/public/profile.png";
 
 // Pre-generate the optimized avatar so we can emit a <link rel="preload"> for it.
-// This eliminates the LCP delay caused by the browser not discovering the image
-// until the CSS is applied and the element rendered.
 const optimizedAvatar = await getImage({
   src: profileImg,
   width: 220,
@@ -34,14 +32,147 @@ const optimizedAvatar = await getImage({
   format: "webp",
   quality: 85,
 });
+
+const cvResult = await fetchPageData(() => getCVComplete());
+
+let cv = null;
+let apiError: string | null = null;
+
+if (cvResult.ok) {
+  cv = cvResult.data?.profile ? cvResult.data : null;
+  if (!cv) {
+    apiError = "No se encontraron datos en el servidor.";
+  }
+} else {
+  apiError = cvResult.error.userMessage;
+}
+
+const name = cv?.profile.name ?? "Alex Zapata";
+const headline = cv?.profile.headline ?? "Software developer · Fullstack · UI designer";
+const email = cv?.contact_info?.email ?? "alexzapata1984@gmail.com";
+const github = cv?.contact_info?.github ?? "https://github.com/azfe";
+const linkedin = cv?.contact_info?.linkedin ?? "https://linkedin.com/in/alexzapata";
+const website = cv?.contact_info?.website ?? "https://azfe.dev";
+const xUrl =
+  cv?.social_networks?.find(
+    (n) => n.platform.toLowerCase() === "x" || n.platform.toLowerCase() === "twitter"
+  )?.url ?? "https://x.com/azfe_dev";
+
+const bio =
+  cv?.profile.bio ??
+  "Desarrollador full‑stack con capacidad para diseñar y desarrollar aplicaciones web end‑to‑end. Combino un fuerte dominio del frontend con experiencia en backend, APIs, bases de datos y despliegue en entornos cloud. Comprometido con la calidad del código, la optimización del rendimiento y la construcción de productos escalables y mantenibles.";
+const location = cv?.profile.location ?? "Barcelona, ES";
+
+const FALLBACK_SKILLS: Skill[] = [
+  { id: "1", name: "Python", category: "Lenguajes", level: "expert", order_index: 1 },
+  { id: "2", name: "FastAPI", category: "Frameworks", level: "expert", order_index: 2 },
+  { id: "3", name: "TypeScript", category: "Lenguajes", level: "advanced", order_index: 3 },
+  { id: "4", name: "React", category: "Frameworks", level: "advanced", order_index: 4 },
+  { id: "5", name: "MongoDB", category: "Bases de datos", level: "advanced", order_index: 5 },
+  {
+    id: "6",
+    name: "PostgreSQL",
+    category: "Bases de datos",
+    level: "intermediate",
+    order_index: 6,
+  },
+  { id: "7", name: "Docker", category: "DevOps", level: "intermediate", order_index: 7 },
+  {
+    id: "8",
+    name: "Clean Architecture",
+    category: "Arquitectura",
+    level: "advanced",
+    order_index: 8,
+  },
+  { id: "9", name: "REST APIs", category: "Frameworks", level: "expert", order_index: 9 },
+  { id: "10", name: "pytest", category: "Testing", level: "advanced", order_index: 10 },
+  { id: "11", name: "Node.js", category: "Frameworks", level: "intermediate", order_index: 11 },
+  {
+    id: "12",
+    name: "Railway · Vercel",
+    category: "DevOps",
+    level: "intermediate",
+    order_index: 12,
+  },
+];
+
+const FALLBACK_EXPERIENCES: WorkExperience[] = [
+  {
+    id: "1",
+    role: "Backend Developer",
+    company: "Freelance / Proyectos propios",
+    start_date: "2023-01-01",
+    end_date: null,
+    description:
+      "Desarrollo de APIs REST con FastAPI y arquitectura limpia. Construcción de portfolio profesional con Astro + FastAPI desplegado en Railway y Vercel.",
+    responsibilities: [],
+    order_index: 1,
+  },
+  {
+    id: "2",
+    role: "Fullstack Developer",
+    company: "Empresa anterior",
+    start_date: "2021-01-01",
+    end_date: "2023-01-01",
+    description:
+      "Desarrollo y mantenimiento de aplicaciones web con React y Node.js. Integración con APIs de terceros y gestión de bases de datos PostgreSQL.",
+    responsibilities: [],
+    order_index: 2,
+  },
+];
+
+const FALLBACK_PROJECTS: Project[] = [
+  {
+    id: "1",
+    title: "azfe.dev — Portfolio profesional",
+    description:
+      "Portfolio y CV online construido con Astro + FastAPI. Backend con Clean Architecture, MongoDB y generación de PDF. Frontend SSR desplegado en Vercel.",
+    start_date: "2023-01-01",
+    end_date: null,
+    live_url: "https://azfe.dev",
+    repo_url: "https://github.com/Azfe",
+    technologies: ["Astro", "FastAPI", "MongoDB", "Python", "Tailwind"],
+    order_index: 1,
+  },
+];
+
+const skills: Skill[] = cv?.skills ?? FALLBACK_SKILLS;
+const experiences: WorkExperience[] = cv?.work_experiences ?? FALLBACK_EXPERIENCES;
+const education: Education[] = cv?.education ?? [];
+const certifications: Certification[] = cv?.certifications ?? [];
+const projects: Project[] = cv?.projects ?? FALLBACK_PROJECTS;
+
+const yearsOfExperience =
+  experiences.length > 0
+    ? new Date().getFullYear() -
+      Math.min(...experiences.map((e) => new Date(e.start_date).getFullYear()))
+    : 4;
 ---
 
 <MainLayout title={PAGE_SEO.home.title} description={PAGE_SEO.home.description}>
   <link rel="preload" as="image" href={optimizedAvatar.src} type="image/webp" slot="head" />
-  <Hero />
-  <AboutCard />
-  <ExperienceSection />
-  <StudiesSection />
-  <ProjectsSection />
+  {
+    apiError && (
+      <div class="api-notice" role="alert">
+        Mostrando datos locales — el servidor no está disponible.
+      </div>
+    )
+  }
+  <Hero {name} {headline} {email} {github} {linkedin} {xUrl} {website} />
+  <AboutCard {bio} {location} {skills} {yearsOfExperience} />
+  <ExperienceSection {experiences} />
+  <StudiesSection {education} {certifications} />
+  <ProjectsSection {projects} />
   <ContactSection />
 </MainLayout>
+
+<style>
+  .api-notice {
+    background: #fff8e1;
+    border-bottom: 1px solid #ffe082;
+    color: #795548;
+    text-align: center;
+    padding: 10px 24px;
+    font-size: 13.5px;
+  }
+</style>
