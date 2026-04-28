@@ -232,11 +232,28 @@ const education: Education[] = cv?.education ?? [];
 const certifications: Certification[] = cv?.certifications ?? [];
 const projects: Project[] = cv?.projects ?? FALLBACK_PROJECTS;
 
-const yearsOfExperience =
-  experiences.length > 0
-    ? new Date().getFullYear() -
-      Math.min(...experiences.map((e) => new Date(e.start_date).getFullYear()))
-    : 4;
+function calcYearsOfExperience(exps: WorkExperience[]): number {
+  if (exps.length === 0) return 4;
+  const now = new Date();
+  const intervals = exps
+    .map(
+      (e) =>
+        [
+          new Date(e.start_date).getTime(),
+          e.end_date ? new Date(e.end_date).getTime() : now.getTime(),
+        ] as [number, number]
+    )
+    .sort((a, b) => a[0] - b[0]);
+  const merged: [number, number][] = [intervals[0]];
+  for (const [start, end] of intervals.slice(1)) {
+    const last = merged[merged.length - 1];
+    if (start <= last[1]) last[1] = Math.max(last[1], end);
+    else merged.push([start, end]);
+  }
+  const totalMs = merged.reduce((sum, [s, e]) => sum + (e - s), 0);
+  return Math.floor(totalMs / (1000 * 60 * 60 * 24 * 365.25));
+}
+const yearsOfExperience = calcYearsOfExperience(experiences);
 ---
 
 <MainLayout title={PAGE_SEO.home.title} description={PAGE_SEO.home.description}>
