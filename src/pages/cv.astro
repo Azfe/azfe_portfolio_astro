@@ -547,6 +547,8 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       {exp.company && <span class="xp-company"> — {exp.company}</span>}
                     </h3>
                     <div class="xp-meta-row">
+                      {exp.location && <span class="xp-location-pill">{exp.location}</span>}
+
                       <span class="xp-dates-pill">
                         {formatDateRange(exp.start, exp.end, exp.isCurrent)}
                       </span>
@@ -555,7 +557,6 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                           {formatDuration(exp.duration_months)}
                         </span>
                       )}
-                      {exp.location && <span class="xp-location-pill">{exp.location}</span>}
                     </div>
                     {exp.description && <p class="xp-desc">{exp.description}</p>}
                   </div>
@@ -1003,6 +1004,7 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
 
   .xp-meta-row {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
@@ -1015,7 +1017,7 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
     border-radius: 999px;
     background: #e0eef6;
     color: #00507d;
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 600;
   }
 
@@ -1025,7 +1027,7 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
     border-radius: 999px;
     background: #fdebee;
     color: #c23a52;
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 500;
   }
 
