@@ -144,7 +144,7 @@ const data = cv
         end: e.end_date,
         isCurrent: e.end_date === null,
         duration_months: e.duration_months,
-        location: "",
+        location: e.location ?? "",
         description: e.description ?? "",
       })),
       education: cv.education.map((e) => ({

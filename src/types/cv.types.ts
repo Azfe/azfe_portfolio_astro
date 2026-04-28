@@ -41,6 +41,7 @@ export interface SocialNetwork extends BaseEntity {
 export interface WorkExperience extends BaseEntity {
   role: string;
   company: string;
+  location?: string | null;
   start_date: ISODateString;
   end_date: ISODateString | null;
   is_current: boolean;
