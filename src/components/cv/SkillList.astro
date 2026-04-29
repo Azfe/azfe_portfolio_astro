@@ -1,7 +1,6 @@
 ---
 import type { Skill } from "@/types/cv.types";
 import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Badge from "@/components/ui/Badge.astro";
 
 interface Props {
   skills: Skill[];
@@ -11,7 +10,26 @@ const { skills } = Astro.props;
 
 <section>
   <SectionTitle title="Habilidades" />
-  <div class="flex flex-wrap gap-2">
-    {skills.map((skill) => <Badge label={skill.name} />)}
+  <div class="tag-row">
+    {skills.map((skill) => <span class="skill-tag">{skill.name}</span>)}
   </div>
 </section>
+
+<style>
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .skill-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f0f4fa;
+    color: #1a2747;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #dce4f0;
+  }
+</style>
