@@ -14,10 +14,9 @@ const { bio, location, skills, yearsOfExperience } = Astro.props;
 type BadgeVariant = "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
 const BADGE_VARIANTS: BadgeVariant[] = ["c1", "c2", "c3", "c4", "c5", "c6"];
 
-const uniqueCategories = [...new Set(skills.map((s) => s.category))];
-const displaySkills = skills.slice(0, 12).map((s) => ({
+const displaySkills = skills.slice(0, 12).map((s, i) => ({
   label: s.name,
-  cat: BADGE_VARIANTS[uniqueCategories.indexOf(s.category) % BADGE_VARIANTS.length],
+  cat: BADGE_VARIANTS[i % BADGE_VARIANTS.length],
 }));
 ---
 
