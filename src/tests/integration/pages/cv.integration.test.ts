@@ -195,10 +195,9 @@ describe("CV — skills: API vs fallback", () => {
     expect(skills).toHaveLength(0);
   });
 
-  it("cada skill tiene name, category y level", () => {
+  it("cada skill tiene name y level", () => {
     for (const skill of mockCompleteCV.skills) {
       expect(typeof skill.name).toBe("string");
-      expect(typeof skill.category).toBe("string");
     }
   });
 });

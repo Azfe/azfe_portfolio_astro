@@ -64,7 +64,6 @@ export interface Project extends BaseEntity {
 
 export interface Skill extends BaseEntity {
   name: string;
-  category: string;
   level: SkillLevel | null;
   order_index: number;
 }
