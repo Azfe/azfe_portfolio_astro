@@ -228,7 +228,7 @@ const cefrLabel: Record<string, string> = {
 
 // Group tools by category
 const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
-  const cat = tool.category ?? "Otros";
+  const cat = tool.category ?? "";
   if (!acc[cat]) acc[cat] = [];
   acc[cat].push(tool);
   return acc;
@@ -472,7 +472,7 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
             <div class="tools-group-list">
               {Object.entries(toolsByCategory).map(([category, categoryTools]) => (
                 <div class="tools-group">
-                  <p class="tools-category-label">{category}</p>
+                  {category && <p class="tools-category-label">{category}</p>}
                   <div class="tools-tag-row">
                     {categoryTools.map((tool) => (
                       <span class="tools-tag">{tool.name}</span>

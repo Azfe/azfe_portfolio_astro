@@ -209,7 +209,7 @@ describe("CV — skills: API vs fallback", () => {
 describe("CV — tools: agrupación por categoría", () => {
   function groupToolsByCategory(tools: Tool[]): Record<string, Tool[]> {
     return tools.reduce<Record<string, Tool[]>>((acc, tool) => {
-      const cat = tool.category ?? "Otros";
+      const cat = tool.category ?? "";
       if (!acc[cat]) acc[cat] = [];
       acc[cat].push(tool);
       return acc;
@@ -228,21 +228,21 @@ describe("CV — tools: agrupación por categoría", () => {
     }
   });
 
-  it("usa 'Otros' como categoría cuando category es null/undefined", () => {
+  it("agrupa bajo clave vacía cuando category es null/undefined", () => {
     const toolsWithNull: Tool[] = [
       {
         id: "t-null",
         created_at: null,
         updated_at: null,
         name: "Sin categoría",
-        category: null as unknown as string,
+        category: null,
         icon_url: null,
         order_index: 99,
       },
     ];
     const grouped = groupToolsByCategory(toolsWithNull);
-    expect(grouped["Otros"]).toBeDefined();
-    expect(grouped["Otros"].length).toBe(1);
+    expect(grouped[""]).toBeDefined();
+    expect(grouped[""].length).toBe(1);
   });
 
   it("devuelve objeto vacío cuando no hay tools", () => {

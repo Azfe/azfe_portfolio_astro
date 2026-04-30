@@ -70,7 +70,7 @@ export interface Skill extends BaseEntity {
 
 export interface Tool extends BaseEntity {
   name: string;
-  category: string;
+  category: string | null;
   icon_url: string | null;
   order_index: number;
 }
