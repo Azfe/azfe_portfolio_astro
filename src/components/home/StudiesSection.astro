@@ -60,8 +60,8 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
           {studies.map((s) => (
             <div class="study-card">
               <span class={`study-tag study-tag--${s.tag}`}>{s.tagLabel}</span>
-              <p class="study-provider">{s.institution}</p>
               <h3 class="study-title">{s.title}</h3>
+              <p class="study-provider">{s.institution}</p>
               {s.subtitle && <p class="study-subtitle">{s.subtitle}</p>}
               <div class="study-footer">
                 <span class="study-year">{s.year}</span>
@@ -131,7 +131,7 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
 
   .studies-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     gap: 20px;
   }
 
