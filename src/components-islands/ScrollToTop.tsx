@@ -8,7 +8,7 @@ function injectStyles() {
   style.id = STYLE_ID;
   style.textContent = `
     .scroll-to-top-btn:focus-visible {
-      outline: 2px solid var(--blue);
+      outline: 2px solid var(--accent-color);
       outline-offset: 4px;
     }
   `;
@@ -45,7 +45,7 @@ export default function ScrollToTop() {
         width: "44px",
         height: "44px",
         borderRadius: "50%",
-        background: "var(--blue)",
+        background: "var(--accent-color)",
         color: "#ffffff",
         border: "none",
         cursor: "pointer",
@@ -59,11 +59,11 @@ export default function ScrollToTop() {
         outlineOffset: "2px",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.background = "var(--blue-2)";
+        (e.currentTarget as HTMLButtonElement).style.background = "var(--accent-color-2)";
         (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.background = "var(--blue)";
+        (e.currentTarget as HTMLButtonElement).style.background = "var(--accent-color)";
         (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
       }}
     >
