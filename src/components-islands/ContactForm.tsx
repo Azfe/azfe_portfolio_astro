@@ -164,7 +164,7 @@ const SUBMIT_BTN: React.CSSProperties = {
   gap: "8px",
   padding: "11px 28px",
   borderRadius: "var(--radius-pill)",
-  background: "var(--blue)",
+  background: "var(--accent-color)",
   color: "#ffffff",
   fontSize: "14.5px",
   fontWeight: 700,
@@ -485,14 +485,14 @@ export default function ContactForm() {
           style={isLoading ? SUBMIT_BTN_LOADING : SUBMIT_BTN}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              (e.currentTarget as HTMLButtonElement).style.background = "var(--blue-2)";
+              (e.currentTarget as HTMLButtonElement).style.background = "var(--accent-color-2)";
               (e.currentTarget as HTMLButtonElement).style.boxShadow =
                 "0 6px 20px rgba(30, 107, 247, 0.38)";
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              (e.currentTarget as HTMLButtonElement).style.background = "var(--blue)";
+              (e.currentTarget as HTMLButtonElement).style.background = "var(--accent-color)";
               (e.currentTarget as HTMLButtonElement).style.boxShadow =
                 "0 4px 14px rgba(30, 107, 247, 0.28)";
             }
