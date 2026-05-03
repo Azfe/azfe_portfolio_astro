@@ -19,6 +19,12 @@ module.exports = {
         "total-blocking-time": ["warn", { maxNumericValue: 300 }],
         "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
         "largest-contentful-paint": ["warn", { maxNumericValue: 2500 }],
+        // El servidor de desarrollo (@astrojs/node standalone) no comprime ni
+        // hace tree-shaking. En producción (Railway/Vercel) ambas optimizaciones
+        // se aplican automáticamente, por lo que estas comprobaciones no aportan
+        // valor real en el entorno de CI de test.
+        "unused-javascript": "off",
+        "uses-text-compression": "off",
         // Auditorías informativas sin puntuación numérica — el preset les aplica minScore y devuelve NaN
         "lcp-lazy-loaded": "off",
         "non-composited-animations": "off",

@@ -45,7 +45,7 @@ const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
                 <p class="project-desc">{p.description}</p>
 
                 {p.technologies.length > 0 && (
-                  <div class="project-tags" role="list" aria-label="Stack tecnológico">
+                  <div class="project-tags" aria-label="Stack tecnológico">
                     {p.technologies
                       .flatMap((tech) =>
                         tech.includes(",") ? tech.split(",").map((t) => t.trim()) : [tech]
