@@ -21,7 +21,14 @@ import ContactSection from "@/components/home/ContactSection.astro";
 import { PAGE_SEO } from "@/config/seo";
 import { getCVComplete } from "@/services/api/cv.service";
 import { fetchPageData } from "@/utils/error-handler";
-import type { WorkExperience, Project, Skill, Education, Certification } from "@/types/cv.types";
+import type {
+  WorkExperience,
+  Project,
+  Skill,
+  Education,
+  AdditionalTraining,
+  Certification,
+} from "@/types/cv.types";
 import profileImg from "/public/profile.png";
 
 // Pre-generate the optimized avatar so we can emit a <link rel="preload"> for it.
@@ -217,6 +224,7 @@ const FALLBACK_PROJECTS: Project[] = [
 const skills: Skill[] = cv?.skills ?? FALLBACK_SKILLS;
 const experiences: WorkExperience[] = cv?.work_experiences ?? FALLBACK_EXPERIENCES;
 const education: Education[] = cv?.education ?? [];
+const additionalTraining: AdditionalTraining[] = cv?.additional_training ?? [];
 const certifications: Certification[] = cv?.certifications ?? [];
 const projects: Project[] = cv?.projects ?? FALLBACK_PROJECTS;
 
@@ -256,7 +264,7 @@ const yearsOfExperience = calcYearsOfExperience(experiences);
   <Hero {name} {headline} {email} {github} {linkedin} {xUrl} {website} />
   <AboutCard {bio} {location} {skills} {yearsOfExperience} />
   <ExperienceSection {experiences} />
-  <StudiesSection {education} {certifications} />
+  <StudiesSection {education} {additionalTraining} {certifications} />
   <ProjectsSection {projects} />
   <ContactSection />
 </MainLayout>
