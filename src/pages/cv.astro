@@ -693,7 +693,7 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                               : [tech]
                           )
                           .map((tech) => (
-                            <TechBadge tech={tech} />
+                            <TechBadge tech={tech} size="sm" />
                           ))}
                       </div>
                     )}

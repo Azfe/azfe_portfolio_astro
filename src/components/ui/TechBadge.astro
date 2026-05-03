@@ -6,6 +6,7 @@ type BadgeVariant = "default" | "outline" | "c1" | "c2" | "c3" | "c4" | "c5" | "
 interface Props {
   tech: string;
   class?: string;
+  size?: "sm" | "md";
 }
 
 const TECH_COLORS: Record<string, BadgeVariant> = {
@@ -31,9 +32,10 @@ const TECH_COLORS: Record<string, BadgeVariant> = {
   "git+github": "c3",
 };
 
-const { tech, class: className } = Astro.props;
+const { tech, class: className, size = "md" } = Astro.props;
 
 const variant: BadgeVariant = TECH_COLORS[tech.toLowerCase()] ?? "c1";
+const sizeStyle = size === "sm" ? "font-size: 10px; padding: 3px 8px;" : undefined;
 ---
 
-<Badge label={tech} variant={variant} class={className} />
+<Badge label={tech} variant={variant} class={className} style={sizeStyle} />

@@ -3,11 +3,13 @@ interface Props {
   label: string;
   variant?: "default" | "outline" | "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
   class?: string;
+  style?: string;
 }
-const { label, variant = "default", class: className } = Astro.props;
+const { label, variant = "default", class: className, style } = Astro.props;
 ---
 
 <span
+  style={style}
   class:list={[
     "inline-flex items-center gap-[var(--space-inline-xs)]",
     "rounded-[var(--radius-badge)]",
