@@ -2,8 +2,11 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: "./dist/client",
-      url: ["/", "/projects/"],
+      // index.astro and cv.astro use SSR (prerender = false), so staticDistDir
+      // cannot serve them. We start the @astrojs/node standalone server instead.
+      startServerCommand: "node dist/server/entry.mjs",
+      startServerReadyPattern: "listening on",
+      url: ["http://localhost:4321/", "http://localhost:4321/projects/"],
       numberOfRuns: 3,
     },
     assert: {

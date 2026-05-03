@@ -91,3 +91,8 @@ jobs:
         run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          # @astrojs/node standalone server reads HOST and PORT at runtime
+          HOST: "0.0.0.0"
+          PORT: "4321"
+          # SSR pages call the backend — point to a mock/stub URL in CI
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL || 'http://localhost:8000/api/v1' }}
