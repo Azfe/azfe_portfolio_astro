@@ -19,6 +19,7 @@ interface StudyItem {
   subtitle: string | null;
   year: string;
   url: string | null;
+  description: string | null;
 }
 
 const educationItems: StudyItem[] = [...education]
@@ -33,6 +34,7 @@ const educationItems: StudyItem[] = [...education]
       ? `${new Date(e.start_date).getFullYear()} – ${new Date(e.end_date).getFullYear()}`
       : `${new Date(e.start_date).getFullYear()} – actual`,
     url: null,
+    description: e.description,
   }));
 
 const certItems: StudyItem[] = [...certifications]
@@ -45,6 +47,7 @@ const certItems: StudyItem[] = [...certifications]
     subtitle: null,
     year: formatDate(c.issue_date),
     url: c.credential_url,
+    description: null,
   }));
 
 const studies: StudyItem[] = [...educationItems, ...certItems];
@@ -63,6 +66,7 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
               <h3 class="study-title">{s.title}</h3>
               <p class="study-provider">{s.institution}</p>
               {s.subtitle && <p class="study-subtitle">{s.subtitle}</p>}
+              {s.description && <p class="study-desc">{s.description}</p>}
               <div class="study-footer">
                 <span class="study-year">{s.year}</span>
                 {s.url && (
@@ -194,8 +198,15 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
   .study-subtitle {
     font-size: 13.5px;
     color: var(--ink-2);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     line-height: 1.5;
+  }
+
+  .study-desc {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 16px;
   }
 
   .study-footer {
