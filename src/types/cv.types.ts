@@ -41,8 +41,11 @@ export interface SocialNetwork extends BaseEntity {
 export interface WorkExperience extends BaseEntity {
   role: string;
   company: string;
+  location?: string | null;
   start_date: ISODateString;
   end_date: ISODateString | null;
+  is_current: boolean;
+  duration_months: number;
   description: string | null;
   responsibilities: string[];
   order_index: number;
@@ -61,14 +64,13 @@ export interface Project extends BaseEntity {
 
 export interface Skill extends BaseEntity {
   name: string;
-  category: string;
   level: SkillLevel | null;
   order_index: number;
 }
 
 export interface Tool extends BaseEntity {
   name: string;
-  category: string;
+  category: string | null;
   icon_url: string | null;
   order_index: number;
 }

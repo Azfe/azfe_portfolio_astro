@@ -1,22 +1,23 @@
 ---
 import Badge from "@/components/ui/Badge.astro";
+import type { Skill } from "@/types/cv.types";
 
-type SkillCat = "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
+interface Props {
+  bio: string | null;
+  location: string | null;
+  skills: Skill[];
+  yearsOfExperience: number;
+}
 
-const skills: { label: string; cat: SkillCat }[] = [
-  { label: "Python", cat: "c1" },
-  { label: "FastAPI", cat: "c1" },
-  { label: "TypeScript", cat: "c1" },
-  { label: "Node.js", cat: "c2" },
-  { label: "React", cat: "c1" },
-  { label: "MongoDB", cat: "c3" },
-  { label: "PostgreSQL", cat: "c3" },
-  { label: "Docker", cat: "c5" },
-  { label: "Clean Architecture", cat: "c4" },
-  { label: "REST APIs", cat: "c2" },
-  { label: "Testing", cat: "c6" },
-  { label: "Railway · Vercel", cat: "c5" },
-];
+const { bio, location, skills, yearsOfExperience } = Astro.props;
+
+type BadgeVariant = "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
+const BADGE_VARIANTS: BadgeVariant[] = ["c1", "c2", "c3", "c4", "c5", "c6"];
+
+const displaySkills = skills.slice(0, 12).map((s, i) => ({
+  label: s.name,
+  cat: BADGE_VARIANTS[i % BADGE_VARIANTS.length],
+}));
 ---
 
 <section class="about-wrap" id="sobre-mi">
@@ -24,8 +25,8 @@ const skills: { label: string; cat: SkillCat }[] = [
     <!-- Stats row -->
     <div class="about-stats">
       <div class="stat">
-        <span class="stat-value">+4</span>
-        <span class="stat-label">anos de experiencia</span>
+        <span class="stat-value">+{yearsOfExperience}</span>
+        <span class="stat-label">años de experiencia</span>
       </div>
       <div class="stat-sep"></div>
       <div class="stat stat-route">
@@ -44,7 +45,7 @@ const skills: { label: string; cat: SkillCat }[] = [
               d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"></path></svg
           >
         </span>
-        <span>Barcelona, ES</span>
+        <span>{location ?? "Barcelona, ES"}</span>
       </div>
       <div class="stat-sep"></div>
       <div class="stat">
@@ -56,18 +57,18 @@ const skills: { label: string; cat: SkillCat }[] = [
     </div>
 
     <!-- Bio -->
-    <p class="about-bio">
-      Desarrollador full‑stack con capacidad para diseñar y desarrollar aplicaciones web end‑to‑end.
-      Combino un fuerte dominio del frontend —creación de interfaces accesibles, eficientes y
-      orientadas a la experiencia de usuario— con experiencia en backend, APIs, bases de datos y
-      despliegue en entornos cloud. Comprometido con la calidad del código, la optimización del
-      rendimiento y la construcción de productos escalables y mantenibles.
-    </p>
+    {bio && <p class="about-bio">{bio}</p>}
 
     <!-- Skills chips -->
-    <div class="skills-chips">
-      {skills.map(({ label, cat }) => <Badge label={label} variant={cat} />)}
-    </div>
+    {
+      displaySkills.length > 0 && (
+        <div class="skills-chips">
+          {displaySkills.map(({ label, cat }) => (
+            <Badge label={label} variant={cat} />
+          ))}
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -129,7 +130,7 @@ const skills: { label: string; cat: SkillCat }[] = [
   .stat-value {
     font-size: 28px;
     font-weight: 800;
-    color: var(--blue);
+    color: var(--accent-color);
     line-height: 1;
   }
 

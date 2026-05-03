@@ -40,3 +40,27 @@ export function formatMonthYear(dateStr: string): string {
     year: "numeric",
   });
 }
+
+/**
+ * Convierte un número de meses a un formato legible en español.
+ * Omite la parte con valor cero.
+ *
+ * Ejemplos:
+ *   14 → "1 año 2 meses"
+ *   12 → "1 año"
+ *    3 → "3 meses"
+ *    1 → "1 mes"
+ *    0 → "menos de 1 mes"
+ */
+export function formatDuration(months: number): string {
+  if (months <= 0) return "menos de 1 mes";
+
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+
+  const yearsPart = years > 0 ? `${years} ${years === 1 ? "año" : "años"}` : "";
+  const monthsPart =
+    remainingMonths > 0 ? `${remainingMonths} ${remainingMonths === 1 ? "mes" : "meses"}` : "";
+
+  return [yearsPart, monthsPart].filter(Boolean).join(" ");
+}
