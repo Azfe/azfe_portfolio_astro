@@ -20,6 +20,7 @@ export const prerender = true;
 
 import MainLayout from "@/layouts/MainLayout.astro";
 import { PAGE_SEO } from "@/config/seo";
+import TechBadge from "@/components/ui/TechBadge.astro";
 
 interface MockProject {
   subtitle: string;
@@ -113,9 +114,7 @@ const projects: MockProject[] = [
                 {/* Stack técnico */}
                 <div class="project-tags" role="list" aria-label="Stack tecnológico">
                   {p.tags.map((tag) => (
-                    <span class="project-tag" role="listitem">
-                      {tag}
-                    </span>
+                    <TechBadge tech={tag} />
                   ))}
                 </div>
 
@@ -326,17 +325,6 @@ const projects: MockProject[] = [
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 16px;
-  }
-
-  .project-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    background: var(--soft);
-    color: var(--ink-2);
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid var(--line);
   }
 
   /* CTAs */

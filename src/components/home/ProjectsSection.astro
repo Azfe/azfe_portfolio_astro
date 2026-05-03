@@ -1,6 +1,7 @@
----
+﻿---
 import { ROUTES } from "@/config/constants";
 import type { Project } from "@/types/cv.types";
+import TechBadge from "@/components/ui/TechBadge.astro";
 
 interface Props {
   projects: Project[];
@@ -44,10 +45,14 @@ const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
                 <p class="project-desc">{p.description}</p>
 
                 {p.technologies.length > 0 && (
-                  <div class="project-tags">
-                    {p.technologies.map((tech) => (
-                      <span class="project-tag">{tech}</span>
-                    ))}
+                  <div class="project-tags" role="list" aria-label="Stack tecnológico">
+                    {p.technologies
+                      .flatMap((tech) =>
+                        tech.includes(",") ? tech.split(",").map((t) => t.trim()) : [tech]
+                      )
+                      .map((tech) => (
+                        <TechBadge tech={tech} />
+                      ))}
                   </div>
                 )}
 
@@ -245,17 +250,6 @@ const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 16px;
-  }
-
-  .project-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    background: var(--soft);
-    color: var(--ink-2);
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid var(--line);
   }
 
   .project-links {

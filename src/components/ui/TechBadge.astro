@@ -1,0 +1,41 @@
+---
+import Badge from "./Badge.astro";
+
+type BadgeVariant = "default" | "outline" | "c1" | "c2" | "c3" | "c4" | "c5" | "c6";
+
+interface Props {
+  tech: string;
+  class?: string;
+  size?: "sm" | "md";
+}
+
+const TECH_COLORS: Record<string, BadgeVariant> = {
+  python: "c2",
+  fastapi: "c2",
+  typescript: "c1",
+  react: "c1",
+  astro: "c5",
+  tailwind: "c6",
+  tailwindcss: "c6",
+  "tailwind css": "c6",
+  mongodb: "c2",
+  docker: "c6",
+  pytest: "c3",
+  javascript: "c1",
+  html: "c3",
+  css: "c1",
+  vite: "c5",
+  vitest: "c5",
+  git: "c3",
+  github: "c3",
+  "git + github": "c3",
+  "git+github": "c3",
+};
+
+const { tech, class: className, size = "md" } = Astro.props;
+
+const variant: BadgeVariant = TECH_COLORS[tech.toLowerCase()] ?? "c1";
+const sizeStyle = size === "sm" ? "font-size: 10px; padding: 3px 8px;" : undefined;
+---
+
+<Badge label={tech} variant={variant} class={className} style={sizeStyle} />

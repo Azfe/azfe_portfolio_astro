@@ -31,6 +31,7 @@ import type {
 import { formatDate, formatDateRange } from "@/utils/formatters";
 import { formatDuration } from "@/utils/date.utils";
 import { PAGE_SEO } from "@/config/seo";
+import TechBadge from "@/components/ui/TechBadge.astro";
 
 const cvResult = await fetchPageData(() => getCVComplete());
 
@@ -682,9 +683,18 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                     {project.description && <p class="xp-desc">{project.description}</p>}
                     {project.technologies.length > 0 && (
                       <div class="project-tech-list">
-                        {project.technologies.map((tech) => (
-                          <span class="project-tech-badge">{tech}</span>
-                        ))}
+                        {project.technologies
+                          .flatMap((tech) =>
+                            tech.includes(",")
+                              ? tech
+                                  .split(",")
+                                  .map((t) => t.trim())
+                                  .filter(Boolean)
+                              : [tech]
+                          )
+                          .map((tech) => (
+                            <TechBadge tech={tech} size="sm" />
+                          ))}
                       </div>
                     )}
                   </div>
