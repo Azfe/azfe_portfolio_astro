@@ -1,15 +1,16 @@
 ---
-import type { Education, Certification } from "@/types/cv.types";
+import type { Education, AdditionalTraining, Certification } from "@/types/cv.types";
 import { formatDate } from "@/utils/formatters";
 
 interface Props {
   education: Education[];
+  additionalTraining: AdditionalTraining[];
   certifications: Certification[];
 }
 
-const { education, certifications } = Astro.props;
+const { education, additionalTraining, certifications } = Astro.props;
 
-type StudyTag = "grade" | "cert";
+type StudyTag = "grade" | "training";
 
 interface StudyItem {
   tag: StudyTag;
@@ -20,37 +21,42 @@ interface StudyItem {
   year: string;
   url: string | null;
   description: string | null;
+  sortDate: number;
 }
 
-const educationItems: StudyItem[] = [...education]
-  .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime())
-  .map((e) => ({
-    tag: "grade",
-    tagLabel: "Formación",
-    institution: e.institution,
-    title: e.degree,
-    subtitle: e.field,
-    year: e.end_date
-      ? `${new Date(e.start_date).getFullYear()} – ${new Date(e.end_date).getFullYear()}`
-      : `${new Date(e.start_date).getFullYear()} – actual`,
-    url: null,
-    description: e.description,
-  }));
+const educationItems: StudyItem[] = education.map((e) => ({
+  tag: "grade",
+  tagLabel: "Académico",
+  institution: e.institution,
+  title: e.degree,
+  subtitle: e.field,
+  year: e.end_date
+    ? `${new Date(e.start_date).getFullYear()} – ${new Date(e.end_date).getFullYear()}`
+    : `${new Date(e.start_date).getFullYear()} – actual`,
+  url: null,
+  description: e.description,
+  sortDate: new Date(e.start_date).getTime(),
+}));
 
-const certItems: StudyItem[] = [...certifications]
-  .sort((a, b) => new Date(b.issue_date).getTime() - new Date(a.issue_date).getTime())
-  .map((c) => ({
-    tag: "cert",
-    tagLabel: "Certificado",
-    institution: c.issuer,
-    title: c.title,
-    subtitle: null,
-    year: formatDate(c.issue_date),
-    url: c.credential_url,
-    description: null,
-  }));
+const trainingItems: StudyItem[] = additionalTraining.map((e) => ({
+  tag: "training",
+  tagLabel: "Complementario",
+  institution: e.provider,
+  title: e.title,
+  subtitle: e.duration ?? null,
+  year: formatDate(e.completion_date),
+  url: e.certificate_url,
+  description: e.description,
+  sortDate: new Date(e.completion_date).getTime(),
+}));
 
-const studies: StudyItem[] = [...educationItems, ...certItems];
+const studies: StudyItem[] = [...educationItems, ...trainingItems].sort(
+  (a, b) => b.sortDate - a.sortDate
+);
+
+const certCards = [...certifications].sort(
+  (a, b) => new Date(b.issue_date).getTime() - new Date(a.issue_date).getTime()
+);
 ---
 
 <section class="studies-section" id="estudios">
@@ -71,7 +77,7 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
                 <span class="study-year">{s.year}</span>
                 {s.url && (
                   <a href={s.url} class="study-link" target="_blank" rel="noopener noreferrer">
-                    Ver credencial
+                    Ver certificado
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="11"
@@ -95,6 +101,54 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
         </div>
       ) : (
         <p class="empty">No hay estudios disponibles.</p>
+      )
+    }
+
+    {
+      certCards.length > 0 && (
+        <div class="certs-subsection">
+          <h3 class="subsection-title">Certificaciones</h3>
+          <div class="certs-grid">
+            {certCards.map((c) => (
+              <div class="cert-card">
+                <h4 class="cert-title">{c.title}</h4>
+                <p class="cert-issuer">{c.issuer}</p>
+                <div class="cert-meta">
+                  <span>Emitido: {formatDate(c.issue_date)}</span>
+                  <span>
+                    {c.expiry_date ? `Expira: ${formatDate(c.expiry_date)}` : "Sin caducidad"}
+                  </span>
+                  {c.credential_id && <span class="cert-id">ID: {c.credential_id}</span>}
+                </div>
+                {c.credential_url && (
+                  <a
+                    href={c.credential_url}
+                    class="study-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver credencial
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       )
     }
   </div>
@@ -135,7 +189,6 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
 
   .studies-grid {
     display: grid;
-    /* grid-template-columns: 1fr 1fr; */
     gap: 20px;
   }
 
@@ -171,9 +224,9 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
     color: #8f5800;
   }
 
-  .study-tag--cert {
-    background: #d8f3e6;
-    color: #0a6c39;
+  .study-tag--training {
+    background: #dbeafe;
+    color: #1e40af;
   }
 
   .study-provider {
@@ -193,6 +246,7 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
     margin-bottom: 5px;
     line-height: 1.3;
     letter-spacing: -0.01em;
+    width: 80%;
   }
 
   .study-subtitle {
@@ -239,6 +293,77 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
     opacity: 0.75;
   }
 
+  /* Subapartado Certificaciones */
+
+  .certs-subsection {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .subsection-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 18px 14px;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cert-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .cert-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .cert-issuer {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .cert-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .cert-id {
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    word-break: break-all;
+  }
+
   .empty {
     color: var(--ink-3);
     font-size: 14px;
@@ -246,6 +371,10 @@ const studies: StudyItem[] = [...educationItems, ...certItems];
 
   @media (max-width: 600px) {
     .studies-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .certs-grid {
       grid-template-columns: 1fr;
     }
   }
