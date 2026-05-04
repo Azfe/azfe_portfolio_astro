@@ -84,6 +84,7 @@ export const mockWorkExperiences: WorkExperience[] = [
     duration_months: 28,
     description: "Desarrollo de APIs REST con FastAPI y MongoDB.",
     responsibilities: ["Diseño de arquitectura", "Code reviews", "Testing"],
+    technologies: [],
     order_index: 1,
   },
   {
@@ -99,6 +100,7 @@ export const mockWorkExperiences: WorkExperience[] = [
     duration_months: 22,
     description: "Desarrollo fullstack con React y Node.js.",
     responsibilities: ["Frontend con React", "Backend con Express"],
+    technologies: [],
     order_index: 2,
   },
 ];
@@ -178,6 +180,7 @@ export const mockEducation: Education[] = [
     start_date: "2016-09-01",
     end_date: "2020-06-01",
     description: "Formación en desarrollo web fullstack.",
+    technologies: [],
     order_index: 1,
   },
 ];
@@ -193,6 +196,7 @@ export const mockAdditionalTraining: AdditionalTraining[] = [
     duration: "15h",
     certificate_url: null,
     description: "Patrones de diseño y arquitectura limpia.",
+    technologies: [],
     order_index: 1,
   },
 ];

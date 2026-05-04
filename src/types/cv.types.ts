@@ -48,6 +48,7 @@ export interface WorkExperience extends BaseEntity {
   duration_months: number;
   description: string | null;
   responsibilities: string[];
+  technologies: string[];
   order_index: number;
 }
 
@@ -82,6 +83,7 @@ export interface Education extends BaseEntity {
   start_date: ISODateString;
   end_date: ISODateString | null;
   description: string | null;
+  technologies: string[];
   order_index: number;
 }
 
@@ -92,6 +94,7 @@ export interface AdditionalTraining extends BaseEntity {
   duration: string | null;
   certificate_url: string | null;
   description: string | null;
+  technologies: string[];
   order_index: number;
 }
 
