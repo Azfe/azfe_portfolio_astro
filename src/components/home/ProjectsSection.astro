@@ -19,6 +19,8 @@ const GRADIENTS = [
 ];
 
 const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
+const totalProjects = sorted.length;
+const visible = sorted.slice(0, 4);
 ---
 
 <section class="projects-section" id="proyectos">
@@ -26,9 +28,9 @@ const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
     <h2 class="section-title">Proyectos</h2>
 
     {
-      sorted.length > 0 ? (
+      visible.length > 0 ? (
         <div class="projects-grid">
-          {sorted.map((p, i) => (
+          {visible.map((p, i) => (
             <div class="project-card">
               <div class="project-thumb" style={`background: ${GRADIENTS[i % GRADIENTS.length]}`}>
                 <div class="project-thumb-lines">
@@ -111,26 +113,30 @@ const sorted = [...projects].sort((a, b) => a.order_index - b.order_index);
       )
     }
 
-    <div class="projects-cta">
-      <a href={ROUTES.projects} class="projects-cta-link">
-        Ver todos los proyectos
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
-    </div>
+    {
+      totalProjects > 4 && (
+        <div class="projects-cta">
+          <a href={ROUTES.projects} class="projects-cta-link">
+            Ver todos los proyectos
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>
 
