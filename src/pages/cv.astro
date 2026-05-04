@@ -567,9 +567,18 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                     {exp.description && <p class="xp-desc">{exp.description}</p>}
                     {exp.technologies.length > 0 && (
                       <div class="project-tech-list">
-                        {exp.technologies.map((tech) => (
-                          <TechBadge tech={tech} size="sm" />
-                        ))}
+                        {exp.technologies
+                          .flatMap((tech) =>
+                            tech.includes(",")
+                              ? tech
+                                  .split(",")
+                                  .map((t) => t.trim())
+                                  .filter(Boolean)
+                              : [tech]
+                          )
+                          .map((tech) => (
+                            <TechBadge tech={tech} size="sm" />
+                          ))}
                       </div>
                     )}
                   </div>
@@ -603,9 +612,18 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                     {edu.description && <p class="xp-desc">{edu.description}</p>}
                     {edu.technologies.length > 0 && (
                       <div class="project-tech-list">
-                        {edu.technologies.map((tech) => (
-                          <TechBadge tech={tech} size="sm" />
-                        ))}
+                        {edu.technologies
+                          .flatMap((tech) =>
+                            tech.includes(",")
+                              ? tech
+                                  .split(",")
+                                  .map((t) => t.trim())
+                                  .filter(Boolean)
+                              : [tech]
+                          )
+                          .map((tech) => (
+                            <TechBadge tech={tech} size="sm" />
+                          ))}
                       </div>
                     )}
                   </div>
@@ -656,9 +674,21 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       {item.description && <p class="xp-desc">{item.description}</p>}
                       {(item as AdditionalTraining).technologies?.length > 0 && (
                         <div class="project-tech-list">
-                          {(item as AdditionalTraining).technologies.map((tech) => (
+                          {/* {(item as AdditionalTraining).technologies.map((tech) => (
                             <TechBadge tech={tech} size="sm" />
-                          ))}
+                          ))} */}
+                          {(item as AdditionalTraining).technologies
+                            .flatMap((tech) =>
+                              tech.includes(",")
+                                ? tech
+                                    .split(",")
+                                    .map((t) => t.trim())
+                                    .filter(Boolean)
+                                : [tech]
+                            )
+                            .map((tech) => (
+                              <TechBadge tech={tech} size="sm" />
+                            ))}
                         </div>
                       )}
                     </div>
