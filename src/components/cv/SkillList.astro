@@ -1,17 +1,27 @@
 ---
-import type { Skill } from "@/types/cv.types";
+import type { Skill, SkillLevel } from "@/types/cv.types";
 import SectionTitle from "@/components/ui/SectionTitle.astro";
 
 interface Props {
   skills: Skill[];
 }
 const { skills } = Astro.props;
+
+function chipClass(level: SkillLevel | null): string {
+  const map: Partial<Record<SkillLevel, string>> = {
+    expert: "chip-c1",
+    advanced: "chip-c2",
+    intermediate: "chip-c5",
+    basic: "chip-c6",
+  };
+  return map[level ?? "none"] ?? "chip-neutral";
+}
 ---
 
 <section>
   <SectionTitle title="Habilidades" />
   <div class="tag-row">
-    {skills.map((skill) => <span class="skill-tag">{skill.name}</span>)}
+    {skills.map((skill) => <span class={`skill-tag ${chipClass(skill.level)}`}>{skill.name}</span>)}
   </div>
 </section>
 
@@ -24,12 +34,35 @@ const { skills } = Astro.props;
 
   .skill-tag {
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: #f0f4fa;
-    color: #1a2747;
+    padding: 2px 9px;
+    border-radius: var(--radius-pill);
     font-size: 11px;
     font-weight: 500;
-    border: 1px solid #dce4f0;
+  }
+
+  .chip-c1 {
+    background: var(--color-chip-c1-bg);
+    color: var(--color-chip-c1-text);
+  }
+
+  .chip-c2 {
+    background: var(--color-chip-c2-bg);
+    color: var(--color-chip-c2-text);
+  }
+
+  .chip-c5 {
+    background: var(--color-chip-c5-bg);
+    color: var(--color-chip-c5-text);
+  }
+
+  .chip-c6 {
+    background: var(--color-chip-c6-bg);
+    color: var(--color-chip-c6-text);
+  }
+
+  .chip-neutral {
+    background: var(--color-soft);
+    color: var(--color-ink-2);
+    border: 1px solid var(--color-line);
   }
 </style>

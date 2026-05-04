@@ -63,16 +63,16 @@ const BASE_STYLE: React.CSSProperties = {
   alignItems: "center",
   gap: "6px",
   padding: "7px 16px",
-  borderRadius: "999px",
+  borderRadius: "var(--radius-pill)",
   fontSize: "12px",
   fontWeight: 700,
   letterSpacing: "0.06em",
   color: "#ffffff",
-  background: "#00507d",
+  background: "var(--color-blue)",
   border: "none",
   cursor: "pointer",
   textTransform: "uppercase",
-  transition: "background 200ms ease",
+  transition: "background var(--transition)",
   userSelect: "none",
 };
 
@@ -187,12 +187,12 @@ export default function DownloadButton({
         style={loading ? LOADING_STYLE : BASE_STYLE}
         onMouseEnter={(e) => {
           if (!loading) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#2a78a6";
+            (e.currentTarget as HTMLButtonElement).style.background = "var(--color-blue-2)";
           }
         }}
         onMouseLeave={(e) => {
           if (!loading) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#00507d";
+            (e.currentTarget as HTMLButtonElement).style.background = "var(--color-blue)";
           }
         }}
       >
