@@ -1,7 +1,9 @@
 ---
 import { SITE } from "@/config/site";
 import { ROUTES } from "@/config/constants";
+import { NAV_LINKS } from "@/config/navigation";
 import Navigation from "@/components/common/Navigation.astro";
+import HamburgerMenu from "@/components-islands/HamburgerMenu";
 ---
 
 <header class="nav-header">
@@ -12,6 +14,7 @@ import Navigation from "@/components/common/Navigation.astro";
     </a>
 
     <Navigation />
+    <HamburgerMenu client:load links={NAV_LINKS} cvHref={ROUTES.cv} />
 
     <!-- Badge CV -->
     <a href={ROUTES.cv} target="_blank" class="hero-badge">
@@ -97,5 +100,39 @@ import Navigation from "@/components/common/Navigation.astro";
   .hero-badge:hover {
     background: #d4e5ff;
     box-shadow: 0 2px 12px rgba(30, 107, 247, 0.15);
+  }
+
+  /* Hamburger oculto por encima de 520px */
+  :global(.hamburger-wrapper) {
+    display: none;
+  }
+
+  /* ── 885px ── */
+  @media (max-width: 885px) {
+    .nav-brand {
+      display: none;
+    }
+
+    .hero-badge {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+  }
+
+  /* ── 520px ── */
+  @media (max-width: 520px) {
+    :global(.main-nav) {
+      display: none;
+    }
+
+    :global(.hamburger-wrapper) {
+      display: block;
+    }
+
+    .hero-badge {
+      padding: 5px 11px;
+      font-size: 11.5px;
+      gap: 5px;
+    }
   }
 </style>
