@@ -147,6 +147,7 @@ const data = cv
         duration_months: e.duration_months,
         location: e.location ?? "",
         description: e.description ?? "",
+        technologies: e.technologies,
       })),
       education: cv.education.map((e) => ({
         degree: e.degree,
@@ -154,6 +155,7 @@ const data = cv
         start: e.start_date,
         end: e.end_date,
         description: e.description ?? "",
+        technologies: e.technologies,
       })),
     }
   : fallback;
@@ -560,6 +562,13 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       )}
                     </div>
                     {exp.description && <p class="xp-desc">{exp.description}</p>}
+                    {exp.technologies.length > 0 && (
+                      <div class="project-tech-list">
+                        {exp.technologies.map((tech) => (
+                          <TechBadge tech={tech} size="sm" />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -589,6 +598,13 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                       {/* <span class="xp-company-inline">{edu.institution}</span> */}
                     </div>
                     {edu.description && <p class="xp-desc">{edu.description}</p>}
+                    {edu.technologies.length > 0 && (
+                      <div class="project-tech-list">
+                        {edu.technologies.map((tech) => (
+                          <TechBadge tech={tech} size="sm" />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -635,6 +651,13 @@ const toolsByCategory = tools.reduce<Record<string, Tool[]>>((acc, tool) => {
                         {/* <span class="xp-company-inline">{item.provider}</span> */}
                       </div>
                       {item.description && <p class="xp-desc">{item.description}</p>}
+                      {(item as AdditionalTraining).technologies?.length > 0 && (
+                        <div class="project-tech-list">
+                          {(item as AdditionalTraining).technologies.map((tech) => (
+                            <TechBadge tech={tech} size="sm" />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
