@@ -2,6 +2,7 @@
 import type { WorkExperience } from "@/types/cv.types";
 import { formatDate } from "@/utils/formatters";
 import { formatDuration } from "@/utils/date.utils";
+import TechBadge from "@/components/ui/TechBadge.astro";
 
 interface Props {
   experiences: WorkExperience[];
@@ -62,6 +63,13 @@ const sorted = [...experiences].sort((a, b) => {
                   </div>
                 </div>
                 {exp.description && <p class="xp-desc">{exp.description}</p>}
+                {exp.technologies.length > 0 && (
+                  <div class="xp-tech-list">
+                    {exp.technologies.map((tech) => (
+                      <TechBadge tech={tech} size="sm" />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -226,6 +234,13 @@ const sorted = [...experiences].sort((a, b) => {
     font-size: 14px;
     color: var(--ink-2);
     line-height: 1.7;
+  }
+
+  .xp-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
   }
 
   .empty {
