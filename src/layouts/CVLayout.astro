@@ -102,10 +102,9 @@ const { title, description, noindex = false } = Astro.props;
   <!-- Scroll-to-top (nativo, sin React) -->
   <button
     id="scroll-to-top-cv"
+    class="scroll-to-top-btn"
     aria-label="Volver arriba"
-    style="display:none;position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:#00507d;color:#fff;border:none;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,80,125,0.35);z-index:200;transition:background 200ms ease,transform 200ms ease;"
-    onmouseenter="this.style.background='#2a78a6';this.style.transform='translateY(-2px)'"
-    onmouseleave="this.style.background='#00507d';this.style.transform='translateY(0)'"
+    style="display:none"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -144,15 +143,15 @@ const { title, description, noindex = false } = Astro.props;
   /* Reset body background for CV page */
   :global(body) {
     background-image: none !important;
-    background-color: var(--cv-bg, #f4f6fa) !important;
+    background-color: var(--color-cv-bg) !important;
   }
 
   .cv-bar {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: #ffffff;
-    border-bottom: 1px solid #e8ecf4;
+    background: var(--color-card);
+    border-bottom: 1px solid var(--color-line);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 
@@ -173,14 +172,14 @@ const { title, description, noindex = false } = Astro.props;
     gap: 8px;
     font-size: 14px;
     font-weight: 700;
-    color: #1a2747;
+    color: var(--color-ink);
     letter-spacing: -0.01em;
   }
 
   .cv-bar-dot {
     width: 7px;
     height: 7px;
-    background: #00507d;
+    background: var(--color-blue);
     border-radius: 50%;
     display: inline-block;
     flex-shrink: 0;
@@ -197,21 +196,21 @@ const { title, description, noindex = false } = Astro.props;
     align-items: center;
     gap: 5px;
     padding: 6px 14px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-size: 13px;
     font-weight: 500;
-    color: #4a5a7a;
+    color: var(--color-ink-2);
     text-decoration: none;
-    border: 1px solid #e8ecf4;
-    background: #f5f8fd;
+    border: 1px solid var(--color-line);
+    background: var(--color-soft);
     transition:
-      border-color 200ms ease,
-      color 200ms ease;
+      border-color var(--transition),
+      color var(--transition);
   }
 
   .cv-back-btn:hover {
-    border-color: #00507d;
-    color: #00507d;
+    border-color: var(--color-blue);
+    color: var(--color-blue);
   }
 
   .cv-download-btn {
@@ -219,35 +218,61 @@ const { title, description, noindex = false } = Astro.props;
     align-items: center;
     gap: 6px;
     padding: 7px 16px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.06em;
     color: #ffffff;
-    background: #00507d;
+    background: var(--color-blue);
     border: none;
     cursor: pointer;
     text-transform: uppercase;
-    transition: background 200ms ease;
+    transition: background var(--transition);
   }
 
   .cv-download-btn:hover {
-    background: #2a78a6;
+    background: var(--color-blue-2);
   }
 
   .cv-bg {
     min-height: calc(100vh - 52px);
-    background: #f4f6fa;
+    background: var(--color-cv-bg);
     padding: 40px 24px 60px;
   }
 
   .cv-paper {
     max-width: 860px;
     margin: 0 auto;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    background: var(--color-cv-paper);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-card-hover);
     overflow: hidden;
+  }
+
+  .scroll-to-top-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-blue);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(30, 107, 247, 0.3);
+    z-index: 200;
+    transition:
+      background var(--transition),
+      transform var(--transition);
+  }
+
+  .scroll-to-top-btn:hover {
+    background: var(--color-blue-2);
+    transform: translateY(-2px);
   }
 
   @media print {

@@ -318,6 +318,7 @@ describe("CV — formación adicional: API vs fallback", () => {
       duration: null,
       certificate_url: null,
       description: null,
+      technologies: [],
       order_index: 1,
     };
     expect(itemWithNullDuration.duration).toBeNull();
