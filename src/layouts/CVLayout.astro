@@ -4,6 +4,7 @@
 // download action). The standard site navigation is irrelevant in this context.
 import BaseLayout from "./BaseLayout.astro";
 import { API_URL } from "@/config/constants";
+import { SITE } from "@/config/site";
 
 const dlHref = `${API_URL}/cv/download`;
 
@@ -22,7 +23,7 @@ const { title, description, noindex = false } = Astro.props;
     <div class="cv-bar-inner">
       <span class="cv-bar-brand">
         <span class="cv-bar-dot"></span>
-        Alex Zapata &middot; Curriculum Vitae
+        {SITE.name} &middot; Curriculum Vitae
       </span>
       <div class="cv-bar-actions">
         <a href="/" class="cv-back-btn">
