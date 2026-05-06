@@ -32,14 +32,27 @@ const visible = sorted.slice(0, 4);
         <div class="projects-grid">
           {visible.map((p, i) => (
             <div class="project-card">
-              <div class="project-thumb" style={`background: ${GRADIENTS[i % GRADIENTS.length]}`}>
-                <div class="project-thumb-lines">
-                  <>
-                    <span />
-                    <span />
-                    <span />
-                  </>
-                </div>
+              <div
+                class="project-thumb"
+                style={p.image_url ? undefined : `background: ${GRADIENTS[i % GRADIENTS.length]}`}
+              >
+                {p.image_url ? (
+                  <img
+                    class="project-thumb-img"
+                    src={p.image_url}
+                    alt={p.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="project-thumb-lines">
+                    <>
+                      <span />
+                      <span />
+                      <span />
+                    </>
+                  </div>
+                )}
               </div>
 
               <div class="project-body">
@@ -201,6 +214,13 @@ const visible = sorted.slice(0, 4);
     align-items: center;
     justify-content: center;
     overflow: hidden;
+  }
+
+  .project-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .project-thumb-lines {
