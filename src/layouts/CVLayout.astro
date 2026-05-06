@@ -292,4 +292,38 @@ const { title, description, noindex = false } = Astro.props;
       border-radius: 0;
     }
   }
+
+  @media (max-width: 885px) {
+    .cv-bar-inner {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .cv-bar-brand {
+      display: none; /* igual que nav-brand en home */
+    }
+
+    .cv-back-btn {
+      padding: 6px 12px; /* reducido, igual que hero-badge */
+      font-size: 12px;
+    }
+
+    .cv-download-btn {
+      padding: 6px 14px;
+      font-size: 11px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cv-back-btn {
+      padding: 5px 10px;
+      font-size: 11.5px;
+      gap: 4px;
+    }
+
+    .cv-download-btn {
+      padding: 5px 12px;
+      font-size: 11px;
+      gap: 4px;
+    }
+  }
 </style>
