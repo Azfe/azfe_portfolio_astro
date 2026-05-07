@@ -1,64 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Curriculum vitae de Alex Zapata — Software Developer & UI Designer" />
-  <meta name="robots" content="noindex" />
-  <title>CV — Alex Zapata · azfe.dev</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <script>
-    window.__CV_CONFIG__ = {
-      apiUrl: 'https://azfeportfolioapi-production.up.railway.app/api/v1'
-    };
-  </script>
-</head>
-<body>
-  <!-- Toolbar sticky -->
-  <div class="cv-bar">
-    <div class="cv-bar-inner">
-      <span class="cv-bar-brand">
-        <span class="cv-bar-dot"></span>
-        azfe.dev &middot; Curriculum Vitae
-      </span>
-      <div class="cv-bar-actions">
-        <a href="https://azfe.dev" class="cv-back-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          Portfolio
-        </a>
-        <button id="btn-download" class="cv-download-btn" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Descargar CV
-        </button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Curriculum vitae de Alex Zapata — Software Developer & UI Designer"
+    />
+    <meta name="robots" content="noindex" />
+    <title>CV — Alex Zapata · azfe.dev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script>
+      window.__CV_CONFIG__ = {
+        apiUrl: "https://azfeportfolioapi-production.up.railway.app/api/v1",
+      };
+    </script>
+  </head>
+  <body>
+    <!-- Toolbar sticky -->
+    <div class="cv-bar">
+      <div class="cv-bar-inner">
+        <span class="cv-bar-brand">
+          <span class="cv-bar-dot"></span>
+          azfe.dev &middot; Curriculum Vitae
+        </span>
+        <div class="cv-bar-actions">
+          <a href="https://azfe.dev" class="cv-back-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Portfolio
+          </a>
+          <button id="btn-download" class="cv-download-btn" type="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Descargar CV
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Notice banner (hidden by default) -->
-  <div id="cv-notice" class="cv-notice" hidden></div>
+    <!-- Notice banner (hidden by default) -->
+    <div id="cv-notice" class="cv-notice" hidden></div>
 
-  <!-- CV content -->
-  <div class="cv-bg">
-    <div id="cv-paper" class="cv-paper">
-      <div class="cv-layout">
-        <aside id="cv-sidebar" class="cv-sidebar"></aside>
-        <main id="cv-main" class="cv-main"></main>
+    <!-- CV content -->
+    <div class="cv-bg">
+      <div id="cv-paper" class="cv-paper">
+        <div class="cv-layout">
+          <aside id="cv-sidebar" class="cv-sidebar"></aside>
+          <main id="cv-main" class="cv-main"></main>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Scroll to top -->
-  <button id="scroll-to-top-cv" class="scroll-to-top-btn" aria-label="Volver arriba" style="display:none">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
-  </button>
+    <!-- Scroll to top -->
+    <button
+      id="scroll-to-top-cv"
+      class="scroll-to-top-btn"
+      aria-label="Volver arriba"
+      style="display: none"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
 
-  <!-- html2pdf.js desde CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- html2pdf.js desde CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <!-- App entry point (ES modules) -->
-  <script type="module" src="src/scripts/main.js"></script>
-</body>
+    <!-- App entry point (ES modules) -->
+    <script type="module" src="src/scripts/main.js"></script>
+  </body>
 </html>
