@@ -117,6 +117,7 @@ export const mockProjects: Project[] = [
     live_url: "https://azfe.dev",
     repo_url: "https://github.com/azfe/portfolio",
     technologies: ["Astro", "FastAPI", "MongoDB", "TypeScript"],
+    image_url: null,
     order_index: 1,
   },
 ];

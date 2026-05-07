@@ -20,6 +20,7 @@ interface StudyItem {
   title: string;
   subtitle: string | null;
   year: string;
+  duration: string | null;
   url: string | null;
   description: string | null;
   technologies: string[];
@@ -31,10 +32,11 @@ const educationItems: StudyItem[] = education.map((e) => ({
   tagLabel: "Académico",
   institution: e.institution,
   title: e.degree,
-  subtitle: e.field,
+  subtitle: e.field ?? null,
   year: e.end_date
     ? `${new Date(e.start_date).getFullYear()} – ${new Date(e.end_date).getFullYear()}`
     : `${new Date(e.start_date).getFullYear()} – actual`,
+  duration: null,
   url: null,
   description: e.description,
   technologies: e.technologies,
@@ -46,7 +48,8 @@ const trainingItems: StudyItem[] = additionalTraining.map((e) => ({
   tagLabel: "Complementario",
   institution: e.provider,
   title: e.title,
-  subtitle: e.duration ?? null,
+  subtitle: null,
+  duration: e.duration ?? null,
   year: formatDate(e.completion_date),
   url: e.certificate_url,
   description: e.description,
@@ -95,6 +98,7 @@ const certCards = [...certifications].sort(
               )}
               <div class="study-footer">
                 <span class="study-year">{s.year}</span>
+                <span class="study-year study-duration">{s.duration}</span>
                 {s.url && (
                   <a href={s.url} class="study-link" target="_blank" rel="noopener noreferrer">
                     Ver certificado
@@ -293,7 +297,7 @@ const certCards = [...certifications].sort(
   .study-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content:left  */
     padding-top: 12px;
     margin-top: auto;
     border-top: 1px dashed var(--line);
@@ -303,6 +307,13 @@ const certCards = [...certifications].sort(
     font-size: 13px;
     color: var(--ink-3);
     font-weight: 500;
+  }
+
+  .study-duration {
+    font-size: 13px;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-left: 4%;
   }
 
   .study-link {

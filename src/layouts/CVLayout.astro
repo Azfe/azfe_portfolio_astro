@@ -4,6 +4,7 @@
 // download action). The standard site navigation is irrelevant in this context.
 import BaseLayout from "./BaseLayout.astro";
 import { API_URL } from "@/config/constants";
+import { SITE } from "@/config/site";
 
 const dlHref = `${API_URL}/cv/download`;
 
@@ -22,7 +23,7 @@ const { title, description, noindex = false } = Astro.props;
     <div class="cv-bar-inner">
       <span class="cv-bar-brand">
         <span class="cv-bar-dot"></span>
-        Alex Zapata &middot; Curriculum Vitae
+        {SITE.name} &middot; Curriculum Vitae
       </span>
       <div class="cv-bar-actions">
         <a href="/" class="cv-back-btn">
@@ -289,6 +290,40 @@ const { title, description, noindex = false } = Astro.props;
       max-width: none;
       box-shadow: none;
       border-radius: 0;
+    }
+  }
+
+  @media (max-width: 885px) {
+    .cv-bar-inner {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .cv-bar-brand {
+      display: none; /* igual que nav-brand en home */
+    }
+
+    .cv-back-btn {
+      padding: 6px 12px; /* reducido, igual que hero-badge */
+      font-size: 12px;
+    }
+
+    .cv-download-btn {
+      padding: 6px 14px;
+      font-size: 11px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cv-back-btn {
+      padding: 5px 10px;
+      font-size: 11.5px;
+      gap: 4px;
+    }
+
+    .cv-download-btn {
+      padding: 5px 12px;
+      font-size: 11px;
+      gap: 4px;
     }
   }
 </style>

@@ -61,5 +61,15 @@ export default tseslint.config(
       // Las variables de Astro frontmatter pueden usarse solo en el template
       "@typescript-eslint/no-unused-vars": "off",
     },
+  },
+
+  // Scripts del CV estático en public/ — entorno de navegador puro
+  {
+    files: ["public/cv/src/scripts/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
   }
 );

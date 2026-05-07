@@ -59,6 +59,7 @@ export interface Project extends BaseEntity {
   end_date: ISODateString | null;
   live_url: string | null;
   repo_url: string | null;
+  image_url: string | null;
   technologies: string[];
   order_index: number;
 }
