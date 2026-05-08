@@ -1,6 +1,6 @@
 export const SITE = {
-  name: import.meta.env.PUBLIC_SITE_NAME as string,
-  url: import.meta.env.PUBLIC_SITE_URL as string,
+  name: (import.meta.env.PUBLIC_SITE_NAME as string) || "Azfe.dev",
+  url: (import.meta.env.PUBLIC_SITE_URL as string) || "https://azfe.dev",
   description:
     "Portfolio profesional de Alex Zapata — desarrollador backend especializado en Python y arquitecturas limpias.",
   author: "Alex Zapata",
