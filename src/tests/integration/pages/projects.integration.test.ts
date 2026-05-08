@@ -191,7 +191,7 @@ describe("Proyectos — composición con MainLayout y navegación", () => {
   });
 
   it("desde Proyectos hay enlace de retorno al CV (ROUTES.cv)", () => {
-    expect(ROUTES.cv).toBe("/cv");
+    expect(ROUTES.cv).toBe("https://cv.azfe.dev/");
   });
 
   it("ROUTES.projects coincide con la ruta de la página", () => {

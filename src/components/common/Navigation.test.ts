@@ -22,8 +22,8 @@ describe("ROUTES — constantes usadas por Navigation", () => {
     expect(ROUTES.home).toBe("/");
   });
 
-  it("ROUTES.cv es '/cv'", () => {
-    expect(ROUTES.cv).toBe("/cv");
+  it("ROUTES.cv es la URL del visor de CV standalone", () => {
+    expect(ROUTES.cv).toBe("https://cv.azfe.dev/");
   });
 
   it("ROUTES define al menos home y cv", () => {

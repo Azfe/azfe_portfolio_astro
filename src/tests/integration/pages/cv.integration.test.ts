@@ -58,7 +58,7 @@ describe("CV — configuración SEO (PAGE_SEO.cv)", () => {
 
 describe("CV — estrategia de render SSR", () => {
   it("la ruta /cv está definida en ROUTES", () => {
-    expect(ROUTES.cv).toBe("/cv");
+    expect(ROUTES.cv).toBe("https://cv.azfe.dev/");
   });
 
   it("el fixture CompleteCV tiene la forma esperada por cv.astro", () => {

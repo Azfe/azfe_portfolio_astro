@@ -1,5 +1,6 @@
 ---
 import { SITE } from "@/config/site";
+import { ROUTES } from "@/config/constants";
 const year = new Date().getFullYear();
 ---
 
@@ -11,7 +12,7 @@ const year = new Date().getFullYear();
   <div class="footer-links">
     <a href="mailto:alexzapata1984@gmail.com">Email</a>
     <span class="footer-sep">·</span>
-    <a href="/cv">CV</a>
+    <a href={ROUTES.cv} target="_blank" rel="noopener noreferrer">CV</a>
     <span class="footer-sep">·</span>
     <a href="https://github.com/azfe" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
