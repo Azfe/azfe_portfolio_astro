@@ -51,18 +51,18 @@ describe("Home — rutas de navegación (ROUTES)", () => {
     expect(ROUTES.home).toBe("/");
   });
 
-  it("ROUTES.cv es '/cv'", () => {
-    expect(ROUTES.cv).toBe("/cv");
+  it("ROUTES.cv es la URL del visor de CV standalone", () => {
+    expect(ROUTES.cv).toBe("https://cv.azfe.dev/");
   });
 
   it("ROUTES.projects es '/projects'", () => {
     expect(ROUTES.projects).toBe("/projects");
   });
 
-  it("todas las rutas de navegación son strings que empiezan por '/'", () => {
+  it("todas las rutas de navegación son strings no vacíos", () => {
     for (const route of Object.values(ROUTES)) {
       expect(typeof route).toBe("string");
-      expect(route.startsWith("/")).toBe(true);
+      expect(route.length).toBeGreaterThan(0);
     }
   });
 });

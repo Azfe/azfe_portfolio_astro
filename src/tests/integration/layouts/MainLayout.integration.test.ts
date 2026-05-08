@@ -60,9 +60,10 @@ describe("MainLayout — navegación: unicidad y coherencia de rutas", () => {
     expect(uniqueRoutes.size).toBe(routes.length);
   });
 
-  it("todas las rutas empiezan por '/'", () => {
+  it("todas las rutas son strings no vacíos", () => {
     for (const route of Object.values(ROUTES)) {
-      expect(route.startsWith("/")).toBe(true);
+      expect(typeof route).toBe("string");
+      expect(route.length).toBeGreaterThan(0);
     }
   });
 
