@@ -20,6 +20,7 @@ import ProjectsSection from "@/components/home/ProjectsSection.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
 import { PAGE_SEO } from "@/config/seo";
 import { getCVComplete } from "@/services/api/cv.service";
+import { getContactInfo, getSocialNetworks } from "@/services/api/profile.service";
 import { fetchPageData } from "@/utils/error-handler";
 import type {
   WorkExperience,
@@ -56,14 +57,28 @@ if (cvResult.ok) {
 
 const name = cv?.profile.name ?? "Alex Zapata";
 const headline = cv?.profile.headline ?? "Software developer · Fullstack · UI designer";
-const email = cv?.contact_info?.email ?? "alexzapata1984@gmail.com";
-const github = cv?.contact_info?.github ?? "https://github.com/azfe";
-const linkedin = cv?.contact_info?.linkedin ?? "https://linkedin.com/in/alexzapata";
-const website = cv?.contact_info?.website ?? "https://azfe.dev";
-const xUrl =
-  cv?.social_networks?.find(
-    (n) => n.platform.toLowerCase() === "x" || n.platform.toLowerCase() === "twitter"
-  )?.url ?? "https://x.com/azfe_dev";
+
+let email: string | null = "azapatafe@gmail.com";
+let github: string | null = "https://github.com/azfe";
+let linkedin: string | null = "https://linkedin.com/in/alejandrozapataf";
+let website: string | null = "https://azfe.dev";
+let xUrl: string | null = null;
+
+try {
+  const [contact, socials] = await Promise.all([getContactInfo(), getSocialNetworks()]);
+  email = contact.email ?? email;
+  github = contact.github ?? github;
+  linkedin = contact.linkedin ?? linkedin;
+  website = contact.website ?? website;
+  xUrl =
+    socials.find((n) => n.platform.toLowerCase() === "x" || n.platform.toLowerCase() === "twitter")
+      ?.url ?? null;
+} catch {
+  email = "azapatafe@gmail.com";
+  github = "https://github.com/azfe";
+  linkedin = "https://linkedin.com/in/alejandrozapataf";
+  website = "https://azfe.dev";
+}
 
 const bio =
   cv?.profile.bio ??
