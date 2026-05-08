@@ -33,7 +33,7 @@ export const mockProfile: Profile = {
   updated_at: "2024-06-01T00:00:00",
   name: "Alex Zapata",
   headline: "Backend Developer · Python · Clean Architecture",
-  bio: "Desarrollador backend especializado en Python y arquitecturas limpias.",
+  bio: "Desarrollador fullstack con capacidad para diseñar y desarrollar aplicaciones web end‑to‑end. Combino un fuerte dominio del frontend con experiencia en backend y bases de datos.",
   location: "Barcelona, ES",
   avatar_url: null,
 };
